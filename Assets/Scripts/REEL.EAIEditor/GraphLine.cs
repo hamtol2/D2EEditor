@@ -87,7 +87,6 @@ namespace REEL.EAIEditor
         void SetLineLength()
         {
             float length = Util.GetDistanceBetween(linePoint.start, linePoint.end);
-            //lineImage.rectTransform.position = linePoint.start;
             lineImage.rectTransform.sizeDelta = new Vector2(length, lineHeight);
         }
     }
