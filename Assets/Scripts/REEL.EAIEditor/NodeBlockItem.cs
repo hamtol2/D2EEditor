@@ -7,14 +7,14 @@ using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 
 namespace REEL.EAIEditor
 {
-    public class LibraryItem : DragItem
+    public enum NodeType
     {
-        public enum LibraryItemType
-        {
-            Event, Hearing, Say, If, Switch
-        }
+        Event, Hearing, Say, If, Switch, Length
+    }
 
-        public LibraryItemType libraryItemType;
+    public class NodeBlockItem : DragItem
+    {
+        public NodeType nodeType;
         public GameObject itemButtonPrefab;
 
         public override void OnEndDrag(PointerEventData eventData)
@@ -28,12 +28,7 @@ namespace REEL.EAIEditor
             {
                 GameObject paneObj = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
                 GraphPane pane = paneObj.GetComponent<GraphPane>();
-                pane.AddLibraryItem(itemButtonPrefab, eventData.position);
-                //GameObject newButton = Instantiate(itemButtonPrefab);
-                //RectTransform rectTransform = newButton.GetComponent<RectTransform>();
-                //GameObject graphPane = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
-                //rectTransform.SetParent(graphPane.transform);
-                //rectTransform.position = eventData.position;
+                pane.AddNodeItem(itemButtonPrefab, eventData.position, nodeType);
             }
 
             SetToOrigin();

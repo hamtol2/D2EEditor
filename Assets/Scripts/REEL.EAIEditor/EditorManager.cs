@@ -27,9 +27,41 @@ namespace REEL.EAIEditor
         [SerializeField]
         private GraphicRaycaster uiRaycaster;
 
+        [SerializeField]
+        private GraphItem[] nodePrefabs;
+
+        private Dictionary<NodeType, GraphItem> prefabDictionary = null;
+
         public GraphicRaycaster UIRaycaster
         {
             get { return uiRaycaster; }
+        }
+
+        private void Awake()
+        {
+            InitPrefabDictionary();
+        }
+
+        public GraphItem GetNodePrefab(NodeType nodeType)
+        {
+            //if (prefabDictionary == null || prefabDictionary.Count == 0)
+            //    InitPrefabDictionary();
+
+            GraphItem retItem;
+            if (prefabDictionary.TryGetValue(nodeType, out retItem))
+                return retItem;
+
+            return null;
+        }
+
+        private void InitPrefabDictionary()
+        {
+            prefabDictionary = new Dictionary<NodeType, GraphItem>();
+
+            for (int ix = 0; ix < nodePrefabs.Length; ++ix)
+            {
+                prefabDictionary.Add(nodePrefabs[ix].nodeType, nodePrefabs[ix]);
+            }
         }
 
         public GameObject GetPaneObject(EPaneType paneType)

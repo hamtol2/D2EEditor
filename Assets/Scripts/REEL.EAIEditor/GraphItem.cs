@@ -8,6 +8,8 @@ namespace REEL.EAIEditor
 {
     public class GraphItem : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
     {
+        public NodeType nodeType;
+
         [SerializeField]
         private EditorManager.ETargetMenuType targetMenuType;
 

@@ -10,6 +10,9 @@ namespace REEL.EAIEditor
         public delegate void OnChanged();
         private event OnChanged onChanged;
 
+        public delegate void OnUpdate(PointerEventData eventData);
+        private event OnUpdate onUpdate;
+
         protected RectTransform refRectTransform;
         protected Vector3 originPosition;
 
@@ -31,12 +34,17 @@ namespace REEL.EAIEditor
             if (!canDrag) return;
             ChangePosition(eventData.position);
             ExecuteOnChanged();
+            ExecuteOnUpdate(eventData);
         }
 
         private void ExecuteOnChanged()
         {
-            if (onChanged != null)
-                onChanged();
+            if (onChanged != null) onChanged();
+        }
+
+        private void ExecuteOnUpdate(PointerEventData eventData)
+        {
+            if (onUpdate != null) onUpdate(eventData);
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
@@ -72,6 +80,16 @@ namespace REEL.EAIEditor
         public void UnsubscribeOnChanged(OnChanged onChanged)
         {
             this.onChanged -= onChanged;
+        }
+
+        public void SubscribeOnUpdate(OnUpdate onUpdate)
+        {
+            this.onUpdate += onUpdate;
+        }
+
+        public void UnsubscribeOnUpdate(OnUpdate onUpdate)
+        {
+            this.onUpdate -= onUpdate;
         }
     }
 }
