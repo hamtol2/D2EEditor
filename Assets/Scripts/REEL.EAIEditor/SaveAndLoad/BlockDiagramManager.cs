@@ -10,23 +10,51 @@ namespace REEL.EAIEditor
     public class BlockDiagramManager : Singleton<BlockDiagramManager>
     {
         public NodeBlockArray arrayData = new NodeBlockArray();
-        public string filePath = "/Scripts/REEL.EAIEditor/Data/Block.json";
+        public string filePath = "/Scripts/REEL.EAIEditor/Data/Block.d2eproject";
 
         private NodeBlock testData;
         private int blockId = 0;
 
+        //[SerializeField]
+        private GraphItem currentSelected;
+
         private void Awake()
         {
+            // Set file path.
             filePath = Application.dataPath + filePath;
-            //CreateDummyData();
+
+            //CreateDummyData();            // for test.
         }
 
-        public void AddBlock(NodeBlock block)
+        // Add Block to diagram manager.
+        public int AddBlock(NodeBlock block)
         {
             block.id = blockId++;
             arrayData.Add(block);
+
+            // return id.
+            return block.id;
         }
 
+        public void RemoveBlock(int blockID)
+        {
+            for (int ix = 0; ix < arrayData.Length; ++ix)
+            {
+                if (arrayData[ix].id.Equals(blockID))
+                {
+                    arrayData.RemoveAt(ix);
+                    break;
+                }
+            }
+        }
+
+        private void Start()
+        {
+            //SaveToFile();
+            //LoadFromFile();
+        }
+
+        // Create Dummy Data for test.
         private void CreateDummyData()
         {
             int index = 0;
@@ -43,27 +71,16 @@ namespace REEL.EAIEditor
             }
         }
 
-        private void Start()
-        {
-            //SaveToFile();
-            //LoadFromFile();
-        }
-
         public void LoadFromFile()
         {
             // Load json text and convert to block array.
-            NodeBlockArray blockData = LoadJsonData();
-
             // create blocks on to pane with block array.
-            CreateBlocks(blockData);
+            CreateBlocks(LoadJsonData());
         }
 
         private NodeBlockArray LoadJsonData()
         {
-            string text = File.ReadAllText(filePath);
-            //NodeBlockArray blockData = JsonUtility.FromJson<NodeBlockArray>(text);
-
-            return JsonUtility.FromJson<NodeBlockArray>(text);
+            return JsonUtility.FromJson<NodeBlockArray>(File.ReadAllText(filePath));
         }
 
         private void CreateBlocks(NodeBlockArray blockData)
@@ -82,6 +99,34 @@ namespace REEL.EAIEditor
         {
             string jsonString = JsonUtility.ToJson(arrayData);
             File.WriteAllText(filePath, jsonString);
+        }
+
+        public void SetSelectedGraphItem(GraphItem graphItem)
+        {
+            if (currentSelected != null && currentSelected != graphItem)
+                currentSelected.SetUnselected();
+
+            currentSelected = graphItem;
+            if (currentSelected) currentSelected.SetSelected();
+        }
+
+        public GraphItem GetCurrentSelectedNode
+        {
+            get { return currentSelected; }
+        }
+
+        public void DeleteSected()
+        {
+            if (!currentSelected) return;
+
+            // 배치된 블록 정보 삭제.
+            RemoveBlock(currentSelected.BlockID);
+
+            // 게임 오브젝트 삭제.
+            Destroy(currentSelected.gameObject);
+
+            // null로 초기화.
+            currentSelected = null;
         }
     }
 }

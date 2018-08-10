@@ -44,9 +44,6 @@ namespace REEL.EAIEditor
 
         public GraphItem GetNodePrefab(NodeType nodeType)
         {
-            //if (prefabDictionary == null || prefabDictionary.Count == 0)
-            //    InitPrefabDictionary();
-
             GraphItem retItem;
             if (prefabDictionary.TryGetValue(nodeType, out retItem))
                 return retItem;

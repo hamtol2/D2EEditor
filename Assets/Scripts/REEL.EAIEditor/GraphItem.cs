@@ -21,6 +21,13 @@ namespace REEL.EAIEditor
         [SerializeField]
         private object data;
 
+        // block placed id.
+        private int blockID = -1;
+
+        private Image image;
+        private Color normalColor;
+        private Color selectedColor = Color.yellow;
+
         protected void Awake()
         {
             Init();
@@ -29,6 +36,8 @@ namespace REEL.EAIEditor
         private void Init()
         {
             refRectTransform = GetComponent<RectTransform>();
+            image = GetComponent<Image>();
+            normalColor = image.color;
             targetPopup = EditorManager.Instance.GetTargetMenuObject(targetMenuType);
         }
 
@@ -39,12 +48,31 @@ namespace REEL.EAIEditor
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            // Set Selected Node Block.
+            BlockDiagramManager.Instance.SetSelectedGraphItem(this);
+
             if (IfMoved) return;
 
             if (eventData.clickCount == 2)
             {
                 if (targetPopup != null) targetPopup.ShowPopup(this);
             }
+        }
+
+        public void SetSelected()
+        {
+            image.color = selectedColor;
+        }
+
+        public void SetUnselected()
+        {
+            image.color = normalColor;
+        }
+
+        public int BlockID
+        {
+            get { return blockID; }
+            set { blockID = value; }
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)

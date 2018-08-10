@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace REEL.EAIEditor
 {
-    public class GraphPane : MonoBehaviour
+    public class GraphPane : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
         private Transform blockPane;
@@ -19,7 +20,13 @@ namespace REEL.EAIEditor
             // Add Block Information to Block Diagram Manager.
             NodeBlock newBlock = new NodeBlock() { nodeType = nodeType, position = itemPosition };
             newObj.GetComponent<DragItem>().SubscribeOnUpdate(newBlock.UpdatePosition);
-            BlockDiagramManager.Instance.AddBlock(newBlock);
+            int blockID = BlockDiagramManager.Instance.AddBlock(newBlock);
+            newObj.GetComponent<GraphItem>().BlockID = blockID;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            BlockDiagramManager.Instance.SetSelectedGraphItem(null);
         }
     }
 }
