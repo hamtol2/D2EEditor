@@ -44,13 +44,22 @@ namespace REEL.EAIEditor
         public void OnPointerDown(PointerEventData eventData)
         {
             originPosition = refRectTransform.position;
+
+            // Set Selected Node Block.
+            if (BlockDiagramManager.Instance.GetCurrentSelectedCount == 0 
+                || KeyInputManager.Instance.shouldMultiSelect)
+            {
+                BlockDiagramManager.Instance.SetSelectedGraphItem(this);
+            }
+
+            else if (BlockDiagramManager.Instance.GetCurrentSelectedCount > 0)
+            {
+                BlockDiagramManager.Instance.SetOneSelected(this);
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            // Set Selected Node Block.
-            BlockDiagramManager.Instance.SetSelectedGraphItem(this);
-
             if (IfMoved) return;
 
             if (eventData.clickCount == 2)

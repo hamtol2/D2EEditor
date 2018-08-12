@@ -16,12 +16,17 @@ namespace REEL.EAIEditor
         private int blockId = 0;
 
         //[SerializeField]
-        private GraphItem currentSelected;
+        //private GraphItem currentSelected;
+        [SerializeField]
+        private List<GraphItem> curSelectedList = new List<GraphItem>();
 
         private void Awake()
         {
             // Set file path.
             filePath = Application.dataPath + filePath;
+
+            // Test -> Open File Explorer.
+            //System.Diagnostics.Process.Start("explorer.exe", "d2eproject");
 
             //CreateDummyData();            // for test.
         }
@@ -101,32 +106,75 @@ namespace REEL.EAIEditor
             File.WriteAllText(filePath, jsonString);
         }
 
-        public void SetSelectedGraphItem(GraphItem graphItem)
+        public void SetAllUnselected()
         {
-            if (currentSelected != null && currentSelected != graphItem)
-                currentSelected.SetUnselected();
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                curSelectedList[ix].SetUnselected();
+            }
 
-            currentSelected = graphItem;
-            if (currentSelected) currentSelected.SetSelected();
+            curSelectedList = new List<GraphItem>();
         }
 
-        public GraphItem GetCurrentSelectedNode
+        public int SetUnSelected(GraphItem graphItem)
         {
-            get { return currentSelected; }
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                if (curSelectedList[ix].BlockID.Equals(graphItem.BlockID))
+                {
+                    curSelectedList[ix].SetUnselected();
+                    curSelectedList.RemoveAt(ix);
+                    return ix;
+                }
+            }
+
+            return -1;
+        }
+
+        public void SetOneSelected(GraphItem graphItem)
+        {
+            SetAllUnselected();
+
+            curSelectedList.Add(graphItem);
+            graphItem.SetSelected();
+        }
+
+        public void SetSelectedGraphItem(GraphItem graphItem)
+        {
+            int removeIndex = SetUnSelected(graphItem);
+
+            if (removeIndex == -1)
+            {
+                curSelectedList.Add(graphItem);
+                graphItem.SetSelected();
+            }
+        }
+
+        public List<GraphItem> GetCurrentSelectedList
+        {
+            get { return curSelectedList; }
+        }
+
+        public int GetCurrentSelectedCount
+        {
+            get { return curSelectedList.Count; }
         }
 
         public void DeleteSected()
         {
-            if (!currentSelected) return;
+            if (curSelectedList == null || curSelectedList.Count == 0) return;
 
-            // 배치된 블록 정보 삭제.
-            RemoveBlock(currentSelected.BlockID);
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                // 배치된 블록 정보 삭제.
+                RemoveBlock(curSelectedList[ix].BlockID);
 
-            // 게임 오브젝트 삭제.
-            Destroy(currentSelected.gameObject);
+                // 게임 오브젝트 삭제.
+                Destroy(curSelectedList[ix].gameObject);
+            }
 
             // null로 초기화.
-            currentSelected = null;
+            curSelectedList = new List<GraphItem>();
         }
     }
 }

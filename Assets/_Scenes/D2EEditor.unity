@@ -1670,6 +1670,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 68102600}
+  - component: {fileID: 68102603}
+  - component: {fileID: 68102602}
+  - component: {fileID: 68102601}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1686,13 +1689,63 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1702783852}
-  - {fileID: 978192251}
-  - {fileID: 1427796118}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68102601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68102599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbfadd7cf39cdd44870f31df36d48b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldMultiSelect: 0
+--- !u!114 &68102602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68102599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 425c2512ce3713441858d289b0c8aadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrayData:
+    nodeData: []
+  filePath: /Scripts/REEL.EAIEditor/Data/Block.d2eproject
+  curSelectedList: []
+--- !u!114 &68102603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68102599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0925d906826048bcba305439d13c50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paneObjects:
+  - {fileID: 1530865928}
+  targetMenuObjects:
+  - {fileID: 913094092}
+  - {fileID: 1646352569}
+  - {fileID: 1194498014}
+  - {fileID: 1039006374}
+  - {fileID: 117507280}
+  uiRaycaster: {fileID: 817776484}
+  nodePrefabs:
+  - {fileID: 114972811428612280, guid: a8ce4f5e400444a9dae065711efcc330, type: 2}
+  - {fileID: 114410359944791814, guid: 841ce3d6cc44a403c9e64e3262347acb, type: 2}
+  - {fileID: 114171384296041744, guid: 4bbee1e9566aac04aafa5f5c6d7dbcb5, type: 2}
+  - {fileID: 114568213499244134, guid: 2f18bc5bd9c6445f3b105a91842330ff, type: 2}
+  - {fileID: 114347832590178864, guid: 6ef0d77b8d011594eac8557b6a9f4a3d, type: 2}
 --- !u!1 &68538131
 GameObject:
   m_ObjectHideFlags: 0
@@ -13696,7 +13749,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 867219588}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13748,7 +13801,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 978192250}
+      - m_Target: {fileID: 68102602}
         m_MethodName: LoadFromFile
         m_Mode: 1
         m_Arguments:
@@ -15515,49 +15568,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967131036}
   m_CullTransparentMesh: 0
---- !u!1 &978192249
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 978192251}
-  - component: {fileID: 978192250}
-  m_Layer: 0
-  m_Name: DiagramManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &978192250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 978192249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425c2512ce3713441858d289b0c8aadb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrayData:
-    nodeData: []
-  filePath: /Scripts/REEL.EAIEditor/Data/Block.d2eproject
---- !u!4 &978192251
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 978192249}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 68102600}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980091742
 GameObject:
   m_ObjectHideFlags: 0
@@ -17369,7 +17379,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 978192250}
+      - m_Target: {fileID: 68102602}
         m_MethodName: SaveToFile
         m_Mode: 1
         m_Arguments:
@@ -21851,46 +21861,6 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -5}
   m_SizeDelta: {x: 90, y: 70}
   m_Pivot: {x: 0, y: 1}
---- !u!1 &1427796117
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1427796118}
-  - component: {fileID: 1427796119}
-  m_Layer: 0
-  m_Name: KeyInputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1427796118
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1427796117}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 68102600}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1427796119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1427796117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cbfadd7cf39cdd44870f31df36d48b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1442201918
 GameObject:
   m_ObjectHideFlags: 0
@@ -25488,61 +25458,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
---- !u!1 &1702783850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1702783852}
-  - component: {fileID: 1702783851}
-  m_Layer: 0
-  m_Name: Editor Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1702783851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1702783850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0925d906826048bcba305439d13c50d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paneObjects:
-  - {fileID: 1530865928}
-  targetMenuObjects:
-  - {fileID: 913094092}
-  - {fileID: 1646352569}
-  - {fileID: 1194498014}
-  - {fileID: 1039006374}
-  - {fileID: 117507280}
-  uiRaycaster: {fileID: 817776484}
-  nodePrefabs:
-  - {fileID: 114972811428612280, guid: a8ce4f5e400444a9dae065711efcc330, type: 2}
-  - {fileID: 114410359944791814, guid: 841ce3d6cc44a403c9e64e3262347acb, type: 2}
-  - {fileID: 114171384296041744, guid: 4bbee1e9566aac04aafa5f5c6d7dbcb5, type: 2}
-  - {fileID: 114568213499244134, guid: 2f18bc5bd9c6445f3b105a91842330ff, type: 2}
-  - {fileID: 114347832590178864, guid: 6ef0d77b8d011594eac8557b6a9f4a3d, type: 2}
---- !u!4 &1702783852
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1702783850}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 626.07, y: 324.3068, z: -1.3299408}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 68102600}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708873704
 GameObject:
   m_ObjectHideFlags: 0

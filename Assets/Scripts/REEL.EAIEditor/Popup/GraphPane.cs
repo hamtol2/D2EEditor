@@ -26,7 +26,7 @@ namespace REEL.EAIEditor
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            BlockDiagramManager.Instance.SetSelectedGraphItem(null);
+            BlockDiagramManager.Instance.SetAllUnselected();
         }
     }
 }
