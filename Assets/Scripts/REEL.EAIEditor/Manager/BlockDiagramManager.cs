@@ -10,7 +10,7 @@ namespace REEL.EAIEditor
     public class BlockDiagramManager : Singleton<BlockDiagramManager>
     {
         public NodeBlockArray arrayData = new NodeBlockArray();
-        public string filePath = "/Scripts/REEL.EAIEditor/Data/Block.d2eproject";
+        public string filePath = "/Data/Block.d2eproject";
 
         private NodeBlock testData;
         private int blockId = 0;
@@ -23,6 +23,7 @@ namespace REEL.EAIEditor
         private void Awake()
         {
             // Set file path.
+
             filePath = Application.dataPath + filePath;
 
             // Test -> Open File Explorer.
@@ -103,7 +104,25 @@ namespace REEL.EAIEditor
         public void SaveToFile()
         {
             string jsonString = JsonUtility.ToJson(arrayData);
+            if (!Directory.Exists(Application.dataPath + "/Data"))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/Data");
+            }
+
             File.WriteAllText(filePath, jsonString);
+        }
+
+        public void SetAllSelected()
+        {
+            curSelectedList = new List<GraphItem>();
+
+            Transform paneTransform = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane).GetComponent<Transform>();
+            GraphItem[] items = paneTransform.GetComponentsInChildren<GraphItem>();
+            for (int ix = 0; ix < items.Length; ++ix)
+            {
+                items[ix].SetSelected();
+                curSelectedList.Add(items[ix]);
+            }
         }
 
         public void SetAllUnselected()
@@ -173,7 +192,7 @@ namespace REEL.EAIEditor
                 Destroy(curSelectedList[ix].gameObject);
             }
 
-            // null로 초기화.
+            // 초기화.
             curSelectedList = new List<GraphItem>();
         }
     }

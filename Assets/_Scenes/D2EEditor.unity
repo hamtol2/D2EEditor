@@ -1718,7 +1718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrayData:
     nodeData: []
-  filePath: /Scripts/REEL.EAIEditor/Data/Block.d2eproject
+  filePath: /Data/Block.d2eproject
   curSelectedList: []
 --- !u!114 &68102603
 MonoBehaviour:
@@ -23878,7 +23878,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 132.5, y: -59.99994}
+  m_AnchoredPosition: {x: 132.5, y: -60}
   m_SizeDelta: {x: -265, y: -120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581808136
@@ -29219,7 +29219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -59.99994}
+  m_AnchoredPosition: {x: 0, y: -60}
   m_SizeDelta: {x: 270, y: -120}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1976477766

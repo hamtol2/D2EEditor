@@ -10,6 +10,19 @@ namespace REEL.EAIEditor
 
         void Update()
         {
+#if UNITY_EDITOR
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.A))
+            {
+                BlockDiagramManager.Instance.SetAllSelected();
+            }
+
+#else
+            if (shouldMultiSelect && Input.GetKeyDown(KeyCode.A))
+            {
+                BlockDiagramManager.Instance.SetAllSelected();
+            }
+#endif
+
             if (Input.GetKeyDown(KeyCode.Delete))
             {
                 BlockDiagramManager.Instance.DeleteSected();
