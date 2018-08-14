@@ -94,4 +94,52 @@ namespace REEL.EAIEditor
             RemoveAt(index);
         }
     }
+
+    [Serializable]
+    public class LineBlock
+    {
+        public int blockID;
+        public ExecutePoint.PointPosition pointPosition;
+    }
+
+    [Serializable]
+    public class LineBlockArray
+    {
+        public LineBlock[] lineData;
+
+        public int Length
+        {
+            get { return lineData.Length; }
+        }
+
+        public LineBlock this[int index]
+        {
+            get { return lineData[index]; }
+            set { lineData[index] = value; }
+        }
+
+        public void Add(LineBlock block)
+        {
+            if (lineData == null)
+            {
+                lineData = new LineBlock[1];
+                lineData[0] = block;
+                return;
+            }
+
+            LineBlock[] tempArray = new LineBlock[lineData.Length];
+            for (int ix = 0; ix < tempArray.Length; ++ix)
+            {
+                tempArray[ix] = lineData[ix];
+            }
+
+            lineData = new LineBlock[lineData.Length + 1];
+            for (int ix = 0; ix < tempArray.Length; ++ix)
+            {
+                lineData[ix] = tempArray[ix];
+            }
+
+            lineData[tempArray.Length] = block;
+        }
+    }
 }

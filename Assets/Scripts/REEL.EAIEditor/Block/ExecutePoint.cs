@@ -58,7 +58,7 @@ namespace REEL.EAIEditor
             {
                 if (SetLine(result, PointPosition.ExecutePoint_Right)) return;
             }
-            else
+            else if (pointPosition == PointPosition.ExecutePoint_Right)
             {
                 if (SetLine(result, PointPosition.ExecutePoint_Left)) return;
             }
