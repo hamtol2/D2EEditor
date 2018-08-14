@@ -43,6 +43,8 @@ namespace REEL.EAIEditor
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            originPosition = refRectTransform.position;
+
             // Set Selected Node Block.
             if (BlockDiagramManager.Instance.GetCurrentSelectedCount == 0 
                 || KeyInputManager.Instance.shouldMultiSelect)
@@ -64,7 +66,10 @@ namespace REEL.EAIEditor
                 BlockDiagramManager.Instance.SetOneSelected(this);
             }
 
-            if (IfMoved) return;
+            if (IfMoved)
+            {   
+                return;
+            }
 
             if (eventData.clickCount == 2)
             {

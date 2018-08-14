@@ -77,6 +77,22 @@ namespace REEL.EAIEditor
             }
         }
 
+        public void SetDragOffset(Vector3 pointerPosition)
+        {
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                curSelectedList[ix].GetComponent<DragItem>().SetDragOffset(pointerPosition);
+            }
+        }
+
+        public void BlockDrag(Vector3 pointerPosition)
+        {
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                curSelectedList[ix].GetComponent<DragItem>().ChangePosition(pointerPosition);
+            }
+        }
+
         public void LoadFromFile()
         {
             // Load json text and convert to block array.

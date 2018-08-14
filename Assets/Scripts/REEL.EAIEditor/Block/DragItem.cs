@@ -17,6 +17,7 @@ namespace REEL.EAIEditor
         protected Vector3 originPosition;
 
         private bool canDrag = true;
+        private Vector3 dragOffset;
 
         void Awake()
         {
@@ -27,14 +28,34 @@ namespace REEL.EAIEditor
         {
             if (!canDrag) return;
             originPosition = refRectTransform.position;
+
+            BlockDiagramManager.Instance.SetDragOffset(eventData.position);
+
+            //dragOffset = (Vector2)(refRectTransform.position) - eventData.position;
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
             if (!canDrag) return;
-            ChangePosition(eventData.position);
-            ExecuteOnChanged();
-            ExecuteOnUpdate(eventData);
+
+            // Multi Drag.
+            if (BlockDiagramManager.Instance.GetCurrentSelectedCount > 1)
+            {
+                BlockDiagramManager.Instance.BlockDrag(eventData.position);
+            }
+
+            // Single Drag.
+            else
+            {
+                ChangePosition(eventData.position);
+                ExecuteOnChanged();
+                ExecuteOnUpdate(eventData);
+            }
+        }
+
+        public void SetDragOffset(Vector3 pointerPosition)
+        {
+            dragOffset = refRectTransform.position - pointerPosition;
         }
 
         private void ExecuteOnChanged()
@@ -62,9 +83,13 @@ namespace REEL.EAIEditor
             refRectTransform.position = originPosition;
         }
 
-        protected void ChangePosition(Vector3 newPos)
+        //protected void ChangePosition(Vector3 newPos)
+        public void ChangePosition(Vector3 newPos)
         {
-            refRectTransform.position = newPos;
+            // Test.
+            refRectTransform.position = newPos + dragOffset;
+
+            //refRectTransform.position = newPos;
         }
 
         public void SetEnableDrag(bool enable)
