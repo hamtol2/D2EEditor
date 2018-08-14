@@ -8,7 +8,7 @@ namespace REEL.EAIEditor
     public class NodeBlock
     {
         public NodeType nodeType = NodeType.Event;
-        public int id = 0;
+        public int id = -1;
         public Vector2 position;
 
         public void UpdatePosition(PointerEventData eventData)

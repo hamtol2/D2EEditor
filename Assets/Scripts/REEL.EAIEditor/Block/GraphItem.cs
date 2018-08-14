@@ -52,7 +52,8 @@ namespace REEL.EAIEditor
                 BlockDiagramManager.Instance.SetSelectedGraphItem(this);
             }
 
-            //else if (BlockDiagramManager.Instance.GetCurrentSelectedCount > 0)
+            //else if (!KeyInputManager.Instance.shouldMultiSelect 
+            //    && BlockDiagramManager.Instance.GetCurrentSelectedCount > 0)
             //{
             //    BlockDiagramManager.Instance.SetOneSelected(this);
             //}
@@ -60,18 +61,19 @@ namespace REEL.EAIEditor
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (IfMoved)
+            {
+                return;
+            }
+
             if (!KeyInputManager.Instance.shouldMultiSelect
                 && BlockDiagramManager.Instance.GetCurrentSelectedCount > 0)
             {
                 BlockDiagramManager.Instance.SetOneSelected(this);
             }
 
-            if (IfMoved)
-            {   
-                return;
-            }
-
-            if (eventData.clickCount == 2)
+            if (!KeyInputManager.Instance.shouldMultiSelect 
+                && eventData.clickCount == 2)
             {
                 if (targetPopup != null) targetPopup.ShowPopup(this);
             }

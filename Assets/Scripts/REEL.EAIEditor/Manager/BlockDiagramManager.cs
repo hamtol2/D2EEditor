@@ -2,54 +2,48 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 
 namespace REEL.EAIEditor
 {
     public class BlockDiagramManager : Singleton<BlockDiagramManager>
     {
-        public NodeBlockArray arrayData = new NodeBlockArray();
         public string filePath = "/Data/Block.d2eproject";
 
         private NodeBlock testData;
         private int blockId = 0;
 
-        //[SerializeField]
-        //private GraphItem currentSelected;
+        [SerializeField]
+        private List<GraphItem> locatedItemList = new List<GraphItem>();
+
         [SerializeField]
         private List<GraphItem> curSelectedList = new List<GraphItem>();
 
         private void Awake()
         {
             // Set file path.
-
             filePath = Application.dataPath + filePath;
-
-            // Test -> Open File Explorer.
-            //System.Diagnostics.Process.Start("explorer.exe", "d2eproject");
-
-            //CreateDummyData();            // for test.
         }
 
-        // Add Block to diagram manager.
-        public int AddBlock(NodeBlock block)
+        public int AddBlock(GraphItem graphItem)
         {
-            block.id = blockId++;
-            arrayData.Add(block);
+            graphItem.BlockID = graphItem.BlockID == -1 ? blockId++ : graphItem.BlockID;
+            locatedItemList.Add(graphItem);
 
-            // return id.
-            return block.id;
+            return graphItem.BlockID;
         }
 
-        public void RemoveBlock(int blockID)
+        public void RemoveBlock(GraphItem graphItem)
         {
-            for (int ix = 0; ix < arrayData.Length; ++ix)
+            if (locatedItemList == null || locatedItemList.Count == 0) return;
+
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
-                if (arrayData[ix].id.Equals(blockID))
+                if (locatedItemList[ix].BlockID.Equals(graphItem.BlockID))
                 {
-                    arrayData.RemoveAt(ix);
-                    break;
+                    locatedItemList.RemoveAt(ix);
+                    Destroy(graphItem.gameObject);
                 }
             }
         }
@@ -60,23 +54,6 @@ namespace REEL.EAIEditor
             //LoadFromFile();
         }
 
-        // Create Dummy Data for test.
-        private void CreateDummyData()
-        {
-            int index = 0;
-            while (index < 5)
-            {
-                testData = new NodeBlock();
-                testData.nodeType = (NodeType)index;
-                testData.id = index;
-                testData.position = new Vector2(index * 30f, index * 40f);
-
-                arrayData.Add(testData);
-
-                ++index;
-            }
-        }
-
         public void SetDragOffset(Vector3 pointerPosition)
         {
             for (int ix = 0; ix < curSelectedList.Count; ++ix)
@@ -85,11 +62,11 @@ namespace REEL.EAIEditor
             }
         }
 
-        public void BlockDrag(Vector3 pointerPosition)
+        public void BlockDrag(PointerEventData eventData)
         {
             for (int ix = 0; ix < curSelectedList.Count; ++ix)
             {
-                curSelectedList[ix].GetComponent<DragItem>().ChangePosition(pointerPosition);
+                curSelectedList[ix].GetComponent<DragItem>().ChangePosition(eventData);
             }
         }
 
@@ -113,12 +90,25 @@ namespace REEL.EAIEditor
             for (int ix = 0; ix < blockData.Length; ++ix)
             {
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blockData[ix].nodeType);
-                pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType);
+                pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType, blockData[ix].id);
             }
         }
 
         public void SaveToFile()
         {
+            NodeBlockArray arrayData = new NodeBlockArray();
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                NodeBlock block = new NodeBlock()
+                {
+                    id = locatedItemList[ix].BlockID,
+                    nodeType = locatedItemList[ix].nodeType,
+                    position = locatedItemList[ix].GetComponent<RectTransform>().position
+                };
+
+                arrayData.Add(block);
+            }
+
             string jsonString = JsonUtility.ToJson(arrayData);
             if (!Directory.Exists(Application.dataPath + "/Data"))
             {
@@ -132,12 +122,10 @@ namespace REEL.EAIEditor
         {
             curSelectedList = new List<GraphItem>();
 
-            Transform paneTransform = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane).GetComponent<Transform>();
-            GraphItem[] items = paneTransform.GetComponentsInChildren<GraphItem>();
-            for (int ix = 0; ix < items.Length; ++ix)
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
-                items[ix].SetSelected();
-                curSelectedList.Add(items[ix]);
+                locatedItemList[ix].SetSelected();
+                curSelectedList.Add(locatedItemList[ix]);
             }
         }
 
@@ -169,9 +157,7 @@ namespace REEL.EAIEditor
         public void SetOneSelected(GraphItem graphItem)
         {
             SetAllUnselected();
-
-            curSelectedList.Add(graphItem);
-            graphItem.SetSelected();
+            SetSelectedGraphItem(graphItem);
         }
 
         public void SetSelectedGraphItem(GraphItem graphItem)
@@ -202,7 +188,7 @@ namespace REEL.EAIEditor
             for (int ix = 0; ix < curSelectedList.Count; ++ix)
             {
                 // 배치된 블록 정보 삭제.
-                RemoveBlock(curSelectedList[ix].BlockID);
+                RemoveBlock(curSelectedList[ix]);
 
                 // 게임 오브젝트 삭제.
                 Destroy(curSelectedList[ix].gameObject);
