@@ -62,8 +62,23 @@ namespace REEL.EAIEditor
             }
         }
 
-        public void BlockDrag(PointerEventData eventData)
+        //public void BlockDrag(PointerEventData eventData)
+        public void BlockDrag(PointerEventData eventData, GraphItem graphItem = null)
         {
+            // 드래드시 동작 현재 마우스 포인터가 위치한 블록 선택하기.
+            if (graphItem != null && curSelectedList.Count == 1)
+            {
+                if (curSelectedList[0].BlockID != graphItem.BlockID)
+                {
+                    curSelectedList[0].SetUnselected();
+
+                    graphItem.GetComponent<DragItem>().SetDragOffset(eventData.position);
+                    graphItem.SetSelected();
+
+                    curSelectedList[0] = graphItem;
+                }   
+            }
+
             for (int ix = 0; ix < curSelectedList.Count; ++ix)
             {
                 curSelectedList[ix].GetComponent<DragItem>().ChangePosition(eventData);

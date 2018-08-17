@@ -14,13 +14,21 @@ namespace REEL.Test
         private event eventDelegate pointerUpEvent;
         private event eventDelegate beginDragEvent;
 
-        private RectTransform rectTransform; 
+        private RectTransform rectTransform;
+
+        private float rectX;
+        private float rectY;
+        private float halfWidth;
+        private float halfHeight;
 
         void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            Debug.Log(rectTransform.position);
-            Debug.Log(rectTransform.rect);
+
+            rectX = rectTransform.position.x;
+            rectY = rectTransform.position.y;
+            halfWidth = rectTransform.rect.width * 0.5f;
+            halfHeight = rectTransform.rect.height * 0.5f;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -30,8 +38,8 @@ namespace REEL.Test
 
         public void OnDrag(PointerEventData eventData)
         {
-            float x = Mathf.Clamp(eventData.position.x, 0f, rectTransform.rect.width);
-            float y = Mathf.Clamp(eventData.position.y, 0f, rectTransform.rect.height);
+            float x = Mathf.Clamp(eventData.position.x, rectX - halfWidth, rectX + halfWidth);
+            float y = Mathf.Clamp(eventData.position.y, rectY - halfHeight, rectY + halfHeight);
             eventData.position = new Vector2(x, y);
 
             if (dragEvent != null) dragEvent(eventData);

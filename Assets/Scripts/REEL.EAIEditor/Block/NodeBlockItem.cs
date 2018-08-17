@@ -17,6 +17,23 @@ namespace REEL.EAIEditor
         public NodeType nodeType;
         public GameObject itemButtonPrefab;
 
+        public override void OnBeginDrag(PointerEventData eventData)
+        {
+            if (!canDrag) return;
+
+            BlockDiagramManager.Instance.SetAllUnselected();
+
+            originPosition = refRectTransform.position;
+            SetDragOffset(eventData.position);
+        }
+
+        public override void OnDrag(PointerEventData eventData)
+        {
+            if (!canDrag) return;
+
+            ChangePosition(eventData);
+        }
+
         public override void OnEndDrag(PointerEventData eventData)
         {
             base.OnEndDrag(eventData);

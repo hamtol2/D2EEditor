@@ -16,10 +16,10 @@ namespace REEL.EAIEditor
         protected RectTransform refRectTransform;
         protected Vector3 originPosition;
 
-        private bool canDrag = true;
+        protected bool canDrag = true;
         private Vector3 dragOffset;
 
-        void Awake()
+        protected virtual void Awake()
         {
             refRectTransform = GetComponent<RectTransform>();
         }
@@ -36,7 +36,7 @@ namespace REEL.EAIEditor
         {
             if (!canDrag) return;
 
-            BlockDiagramManager.Instance.BlockDrag(eventData);
+            BlockDiagramManager.Instance.BlockDrag(eventData, GetComponent<GraphItem>());
         }
 
         public void SetDragOffset(Vector3 pointerPosition)
@@ -72,10 +72,7 @@ namespace REEL.EAIEditor
         //protected void ChangePosition(Vector3 newPos)
         public void ChangePosition(PointerEventData eventData)
         {
-            // Test.
             refRectTransform.position = (Vector3)eventData.position + dragOffset;
-            
-            //refRectTransform.position = newPos;
 
             ExecuteOnChanged();
             ExecuteOnUpdate(eventData);
