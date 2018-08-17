@@ -116,5 +116,10 @@ namespace REEL.EAIEditor
         {
             get { return refRectTransform.position != originPosition; }
         }
+
+        public Rect GetRect
+        {
+            get { return refRectTransform.rect; }
+        }
     }
 }

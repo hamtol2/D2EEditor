@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace REEL.Test
+namespace REEL.EAIEditor
 {
     public class LineArea : MonoBehaviour
     {
@@ -52,6 +52,8 @@ namespace REEL.Test
             float height = data.position.y - dragArea.transform.position.y;
             rectTransform.pivot = new Vector2(width > 0f ? 0f : 1f, height > 0f ? 0f : 1f);
             rectTransform.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
+
+            BlockDiagramManager.Instance.SetSelectionWithDragArea(dragArea.rectTransform);
         }
 
         public  void OnPointerUp(PointerEventData data)

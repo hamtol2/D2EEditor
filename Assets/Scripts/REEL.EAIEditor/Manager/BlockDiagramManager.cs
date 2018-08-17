@@ -212,5 +212,41 @@ namespace REEL.EAIEditor
             // 초기화.
             curSelectedList = new List<GraphItem>();
         }
+
+        public void SetSelectionWithDragArea(RectTransform dragAreaRect)
+        {
+            if (locatedItemList.Count == 0) return;
+
+            float dragMinX = dragAreaRect.position.x - dragAreaRect.rect.width * 0.5f;
+            float dragMaxX = dragAreaRect.position.x + dragAreaRect.rect.width * 0.5f;
+            float dragMinY = dragAreaRect.position.y - dragAreaRect.rect.height * 0.5f;
+            float dragMaxY = dragAreaRect.position.y + dragAreaRect.rect.height * 0.5f;
+
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                //if (dragAreaRect.min.x < curSelectedList[ix].GetRect.max.x &&
+                //    dragAreaRect.max.x > curSelectedList[ix].GetRect.min.x && 
+                //    dragAreaRect.min.y > curSelectedList[ix].GetRect.max.y &&
+                //    dragAreaRect.max.y < curSelectedList[ix].GetRect.min.y)
+
+                Rect itemRect = locatedItemList[ix].GetRect;
+                float minx = locatedItemList[ix].GetComponent<RectTransform>().position.x;
+                float maxx = locatedItemList[ix].GetComponent<RectTransform>().position.x + itemRect.width;
+                float miny = locatedItemList[ix].GetComponent<RectTransform>().position.y;
+                float maxy = locatedItemList[ix].GetComponent<RectTransform>().position.y + itemRect.height;
+
+                Debug.Log("Area: " + dragMinX + " : " + dragMaxX + " : " + dragMinY + " : " + dragMaxY + " : " + dragAreaRect.rect.width + " : " + dragAreaRect.rect.height);
+                Debug.Log("Block: " + minx + " : " + maxx + " : " + miny + " : " + maxy);
+
+                //if (dragMinX < maxx && dragMaxX > minx && dragMinY > maxy && dragMaxY < miny)
+                if (dragMinX > maxx || dragMaxX < minx ||  dragMinY > maxy || dragMaxY < miny)
+                {
+                    locatedItemList[ix].SetUnselected();
+                    continue;
+                }
+
+                locatedItemList[ix].SetSelected();
+            }
+        }
     }
 }
