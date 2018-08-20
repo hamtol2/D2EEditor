@@ -25,7 +25,7 @@ namespace REEL.EAIEditor
 
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                BlockDiagramManager.Instance.DeleteSected();
+                BlockDiagramManager.Instance.DeleteSelected();
             }
 
             if (Input.GetKeyDown(KeyCode.LeftControl))

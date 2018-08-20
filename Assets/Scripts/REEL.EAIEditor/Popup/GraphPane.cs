@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace REEL.EAIEditor
 {
-    public class GraphPane : MonoBehaviour, IPointerClickHandler
+    public class GraphPane : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     {
         [SerializeField]
         private Transform blockPane;
@@ -22,6 +22,11 @@ namespace REEL.EAIEditor
         }
 
         public void OnPointerClick(PointerEventData eventData)
+        {
+            //BlockDiagramManager.Instance.SetAllUnselected();
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
         {
             BlockDiagramManager.Instance.SetAllUnselected();
         }

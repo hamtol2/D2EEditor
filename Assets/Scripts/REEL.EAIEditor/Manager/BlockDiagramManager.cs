@@ -169,6 +169,19 @@ namespace REEL.EAIEditor
             return -1;
         }
 
+        private bool CheckIfSelected(GraphItem graphItem)
+        {
+            for (int ix = 0; ix < curSelectedList.Count; ++ix)
+            {
+                if (curSelectedList[ix].BlockID.Equals(graphItem.BlockID))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void SetOneSelected(GraphItem graphItem)
         {
             SetAllUnselected();
@@ -186,6 +199,15 @@ namespace REEL.EAIEditor
             }
         }
 
+        public void SetSelectedByDrag(GraphItem graphItem)
+        {
+            if (!CheckIfSelected(graphItem))
+            {
+                curSelectedList.Add(graphItem);
+                graphItem.SetSelected();
+            }
+        }
+
         public List<GraphItem> GetCurrentSelectedList
         {
             get { return curSelectedList; }
@@ -196,7 +218,7 @@ namespace REEL.EAIEditor
             get { return curSelectedList.Count; }
         }
 
-        public void DeleteSected()
+        public void DeleteSelected()
         {
             if (curSelectedList == null || curSelectedList.Count == 0) return;
 
@@ -213,39 +235,27 @@ namespace REEL.EAIEditor
             curSelectedList = new List<GraphItem>();
         }
 
-        public void SetSelectionWithDragArea(RectTransform dragAreaRect)
+        public void SetSelectionWithDragArea(DragInfo dragInfo)
         {
             if (locatedItemList.Count == 0) return;
 
-            float dragMinX = dragAreaRect.position.x - dragAreaRect.rect.width * 0.5f;
-            float dragMaxX = dragAreaRect.position.x + dragAreaRect.rect.width * 0.5f;
-            float dragMinY = dragAreaRect.position.y - dragAreaRect.rect.height * 0.5f;
-            float dragMaxY = dragAreaRect.position.y + dragAreaRect.rect.height * 0.5f;
-
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
-                //if (dragAreaRect.min.x < curSelectedList[ix].GetRect.max.x &&
-                //    dragAreaRect.max.x > curSelectedList[ix].GetRect.min.x && 
-                //    dragAreaRect.min.y > curSelectedList[ix].GetRect.max.y &&
-                //    dragAreaRect.max.y < curSelectedList[ix].GetRect.min.y)
+                RectTransform itemRect = locatedItemList[ix].GetComponent<RectTransform>();
 
-                Rect itemRect = locatedItemList[ix].GetRect;
-                float minx = locatedItemList[ix].GetComponent<RectTransform>().position.x;
-                float maxx = locatedItemList[ix].GetComponent<RectTransform>().position.x + itemRect.width;
-                float miny = locatedItemList[ix].GetComponent<RectTransform>().position.y;
-                float maxy = locatedItemList[ix].GetComponent<RectTransform>().position.y + itemRect.height;
+                float itemHalfWidth = itemRect.sizeDelta.x * 0.5f;
+                float itemHalfHeight = itemRect.sizeDelta.y * 0.5f;
 
-                Debug.Log("Area: " + dragMinX + " : " + dragMaxX + " : " + dragMinY + " : " + dragMaxY + " : " + dragAreaRect.rect.width + " : " + dragAreaRect.rect.height);
-                Debug.Log("Block: " + minx + " : " + maxx + " : " + miny + " : " + maxy);
-
-                //if (dragMinX < maxx && dragMaxX > minx && dragMinY > maxy && dragMaxY < miny)
-                if (dragMinX > maxx || dragMaxX < minx ||  dragMinY > maxy || dragMaxY < miny)
+                if (dragInfo.topLeft.x > itemRect.position.x + itemHalfWidth ||
+                    dragInfo.topLeft.x + dragInfo.width < itemRect.position.x - itemHalfWidth ||
+                    dragInfo.topLeft.y < itemRect.position.y - itemHalfHeight ||
+                    dragInfo.topLeft.y - dragInfo.height > itemRect.position.y + itemHalfHeight)
                 {
-                    locatedItemList[ix].SetUnselected();
+                    SetUnSelected(locatedItemList[ix]);
                     continue;
                 }
 
-                locatedItemList[ix].SetSelected();
+                SetSelectedByDrag(locatedItemList[ix]);
             }
         }
     }
