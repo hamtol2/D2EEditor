@@ -131,13 +131,17 @@ namespace REEL.EAIEditor
             GameObject paneObj = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
             GraphPane pane = paneObj.GetComponent<GraphPane>();
 
+            int maxID = blockId;
+
             for (int ix = 0; ix < blockData.Length; ++ix)
             {
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blockData[ix].nodeType);
                 pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType, blockData[ix].id);
+                
+                if (blockData[ix].id >= maxID) maxID = blockData[ix].id + 1;
             }
 
-            if (blockId < locatedItemList.Count - 1) blockId = locatedItemList.Count;
+            blockId = maxID;
         }
 
         private void CreateLines(LineBlockArray lineData)
