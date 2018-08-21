@@ -9,11 +9,17 @@ namespace REEL.EAIEditor
     {
         public NodeType nodeType = NodeType.Event;
         public int id = -1;
+        public string name;
         public Vector2 position;
 
         public void UpdatePosition(PointerEventData eventData)
         {
             this.position = eventData.position;
+        }
+
+        public void SetName(string name)
+        {
+            this.name = name;
         }
     }
 
