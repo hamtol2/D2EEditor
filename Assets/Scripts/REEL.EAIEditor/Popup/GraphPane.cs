@@ -16,9 +16,11 @@ namespace REEL.EAIEditor
             rectTransform.SetParent(blockPane);
             rectTransform.position = itemPosition;
             rectTransform.localScale = Vector3.one;
+            GraphItem graphItem = newObj.GetComponent<GraphItem>();
+            graphItem.BlockID = nodeID;
 
             // Add Block Information to Block Diagram Manager.
-            BlockDiagramManager.Instance.AddBlock(newObj.GetComponent<GraphItem>());
+            BlockDiagramManager.Instance.AddBlock(graphItem);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -28,6 +30,8 @@ namespace REEL.EAIEditor
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (KeyInputManager.Instance.isShiftPressed) return;
+
             BlockDiagramManager.Instance.SetAllUnselected();
         }
     }

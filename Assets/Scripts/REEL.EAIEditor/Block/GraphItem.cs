@@ -22,7 +22,7 @@ namespace REEL.EAIEditor
         private object data;
 
         // block placed id.
-        private int blockID = -1;
+        [SerializeField] private int blockID = -1;
 
         private Image image;
         private Color normalColor;
@@ -120,6 +120,19 @@ namespace REEL.EAIEditor
         public Rect GetRect
         {
             get { return refRectTransform.rect; }
+        }
+
+        public ExecutePoint GetExecutePoint(ExecutePoint.PointPosition pointPosition)
+        {
+            int childCount = transform.childCount;
+            for (int ix = 0; ix < childCount; ++ix)
+            {
+                ExecutePoint executePoint = transform.GetChild(ix).GetComponent<ExecutePoint>();
+                if (executePoint != null && executePoint.GetPointPosition == pointPosition)
+                    return executePoint;
+            }
+
+            return null;
         }
     }
 }

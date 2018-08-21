@@ -1706,6 +1706,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldMultiSelect: 0
+  isShiftPressed: 0
+  isAltPressed: 0
 --- !u!114 &68102602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1717,9 +1719,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425c2512ce3713441858d289b0c8aadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: /Data/Block.d2eproject
+  itemFilePath: /Data/Block.json
+  lineFilePath: /Data/Line.json
+  blockId: 0
   locatedItemList: []
-  curSelectedList: []
+  curSelectedItemList: []
+  locatedLineList: []
+  curSelectedLineList: []
 --- !u!114 &68102603
 MonoBehaviour:
   m_ObjectHideFlags: 0

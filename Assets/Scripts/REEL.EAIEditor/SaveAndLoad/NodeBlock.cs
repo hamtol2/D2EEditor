@@ -20,7 +20,8 @@ namespace REEL.EAIEditor
     [Serializable]
     public class NodeBlockArray
     {
-        public NodeBlock[] nodeData;
+        [SerializeField]
+        private NodeBlock[] nodeData;
 
         public int Length
         {
@@ -96,16 +97,33 @@ namespace REEL.EAIEditor
     }
 
     [Serializable]
-    public class LineBlock
+    public class LineExecutePoint
     {
         public int blockID;
-        public ExecutePoint.PointPosition pointPosition;
+
+        public LineExecutePoint(int blockID)
+        {
+            this.blockID = blockID;
+        }
+    }
+
+    [Serializable]
+    public class LineBlock
+    {
+        public LineExecutePoint left;
+        public LineExecutePoint right;
+
+        public LineBlock(int leftBlockID, int rightBlockID)
+        {
+            left = new LineExecutePoint(leftBlockID);
+            right = new LineExecutePoint(rightBlockID);
+        }
     }
 
     [Serializable]
     public class LineBlockArray
     {
-        public LineBlock[] lineData;
+        [SerializeField] private LineBlock[] lineData;
 
         public int Length
         {

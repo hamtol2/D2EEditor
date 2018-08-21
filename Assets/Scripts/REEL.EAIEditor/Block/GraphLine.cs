@@ -22,6 +22,9 @@ namespace REEL.EAIEditor
         private ExecutePoint left;
         private ExecutePoint right;
 
+        private int leftBlockID;
+        private int rightBlockID;
+
         private LinePoint linePoint;
         private Image lineImage;
 
@@ -33,6 +36,7 @@ namespace REEL.EAIEditor
         private void Awake()
         {
             lineImage = GetComponent<Image>();
+            BlockDiagramManager.Instance.AddLine(this);
         }
 
         private void UpdateLine()
@@ -50,6 +54,9 @@ namespace REEL.EAIEditor
             this.left = left;
             this.right = right;
             isSet = true;
+
+            leftBlockID = left.GetTargetDragItem().GetComponent<GraphItem>().BlockID;
+            rightBlockID = right.GetTargetDragItem().GetComponent<GraphItem>().BlockID;
 
             // Subscribe dragitem's OnChanged event to update line.
             left.GetTargetDragItem().SubscribeOnChanged(UpdateLine);
@@ -69,6 +76,8 @@ namespace REEL.EAIEditor
                 right.GetTargetDragItem().UnsubscribeOnChanged(UpdateLine);
                 right.SetHasLine(false);
             }
+
+            BlockDiagramManager.Instance.RemoveLine(this);
         }
 
         public void SetLinePoint(LinePoint linePoint)
@@ -89,5 +98,8 @@ namespace REEL.EAIEditor
             float length = Util.GetDistanceBetween(linePoint.start, linePoint.end);
             lineImage.rectTransform.sizeDelta = new Vector2(length, lineHeight);
         }
+
+        public int LeftBlockID { get { return leftBlockID; } }
+        public int RightBlockID { get { return rightBlockID; } }
     }
 }

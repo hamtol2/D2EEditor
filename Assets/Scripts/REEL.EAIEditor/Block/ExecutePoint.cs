@@ -24,9 +24,6 @@ namespace REEL.EAIEditor
         private DragItem dragItem;
 
         [SerializeField]
-        protected bool isAltPressed = false;
-
-        [SerializeField]
         protected bool hasLine = false;
 
         protected virtual void Awake()
@@ -34,19 +31,6 @@ namespace REEL.EAIEditor
             dragItem = GetComponentInParent<DragItem>();
             refRectTransform = GetComponent<RectTransform>();
             linePoint = new GraphLine.LinePoint(Vector2.zero, Vector2.zero);
-        }
-
-        protected virtual void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
-            {
-                isAltPressed = true;
-            }
-
-            if (Input.GetKeyUp(KeyCode.LeftAlt))
-            {
-                isAltPressed = false;
-            }
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
@@ -67,18 +51,36 @@ namespace REEL.EAIEditor
                 Destroy(graphLine.gameObject);
         }
 
+        public void SetLineData(ExecutePoint rightExecutePoint)
+        {
+            if (graphLine == null)
+            {
+                graphLine = CreateLineGO().GetComponent<GraphLine>();
+            }
+
+            linePoint.start = SelfPosition;
+            linePoint.end = rightExecutePoint.GetComponent<RectTransform>().position;
+            graphLine.SetLinePoint(linePoint);
+            graphLine.SetExecutePoints(this, rightExecutePoint);
+
+            SetHasLine(true);
+            rightExecutePoint.SetHasLine(true);
+        }
+
         private bool SetLine(List<RaycastResult> result, PointPosition position)
         {
             GameObject targetLinePosition = IsOnExecutePoint(result, position);
             if (targetLinePosition && graphLine)
             {
-                linePoint.start = SelfPosition;
-                linePoint.end = targetLinePosition.transform.position;
-                graphLine.SetLinePoint(linePoint);
-                graphLine.SetExecutePoints(this, targetLinePosition.GetComponent<ExecutePoint>());
+                SetLineData(targetLinePosition.GetComponent<ExecutePoint>());
 
-                SetHasLine(true);
-                targetLinePosition.GetComponent<ExecutePoint>().SetHasLine(true);
+                //linePoint.start = SelfPosition;
+                //linePoint.end = targetLinePosition.transform.position;
+                //graphLine.SetLinePoint(linePoint);
+                //graphLine.SetExecutePoints(this, targetLinePosition.GetComponent<ExecutePoint>());
+
+                //SetHasLine(true);
+                //targetLinePosition.GetComponent<ExecutePoint>().SetHasLine(true);
 
                 return true;
             }
@@ -88,9 +90,10 @@ namespace REEL.EAIEditor
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if (isAltPressed && graphLine)
+            if (KeyInputManager.Instance.isAltPressed && graphLine)
             {
-                Destroy(graphLine.gameObject);
+                BlockDiagramManager.Instance.RemoveLine(graphLine);
+                //Destroy(graphLine.gameObject);
                 return;
             }
 
@@ -98,11 +101,19 @@ namespace REEL.EAIEditor
 
             // create and set graph line.
             if (HasDragItem) dragItem.SetEnableDrag(false);
+
+            GameObject newObj = CreateLineGO();
+            graphLine = newObj.GetComponent<GraphLine>();
+        }
+
+        private GameObject CreateLineGO()
+        {
             GameObject newObj = Instantiate(lineBasePrefab);
             newObj.transform.SetParent(transform);
             newObj.transform.localPosition = Vector3.zero;
             newObj.GetComponent<Image>().canvas.sortingLayerName = "GraphLine";
-            graphLine = newObj.GetComponent<GraphLine>();
+
+            return newObj;
         }
 
         public virtual void OnDrag(PointerEventData eventData)
@@ -147,5 +158,7 @@ namespace REEL.EAIEditor
 
             return null;
         }
+
+        public PointPosition GetPointPosition { get { return pointPosition; } }
     }
 }
