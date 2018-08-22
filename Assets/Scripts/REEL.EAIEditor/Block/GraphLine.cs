@@ -85,7 +85,7 @@ namespace REEL.EAIEditor
                 right.SetHasLine(false);
             }
 
-            BlockDiagramManager.Instance.RemoveLine(this);
+            if (BlockDiagramManager.Instance != null) BlockDiagramManager.Instance.RemoveLine(this);
         }
 
         public void SetLinePoint(LinePoint linePoint)

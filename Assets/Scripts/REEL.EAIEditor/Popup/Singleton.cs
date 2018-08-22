@@ -15,7 +15,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 _instance = FindObjectOfType(typeof(T)) as T;
                 if (!_instance)
                 {
-                    Debug.LogError("There's no active " + typeof(T) + "in this scene");
+                    Debug.LogWarning("There's no active " + typeof(T) + "in this scene");
+                    return null;
                 }
             }
 
