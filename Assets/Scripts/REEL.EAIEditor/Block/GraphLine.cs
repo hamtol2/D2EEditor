@@ -17,25 +17,33 @@ namespace REEL.EAIEditor
                 this.start = start;
                 this.end = end;
             }
+
+            public override string ToString()
+            {
+                return start.ToString() + ", " + end.ToString();
+            }
         }
 
         private ExecutePoint left;
         private ExecutePoint right;
 
-        private int leftBlockID;
-        private int rightBlockID;
+        private int leftBlockID = -1;
+        private int rightBlockID = -1;
 
         private LinePoint linePoint;
         private Image lineImage;
 
         private bool isSet = false;
 
-        [SerializeField]
-        private float lineHeight = 5f;
+        [SerializeField] private float lineHeight = 5f;
+
+        private Color normalColor;
+        [SerializeField] private Color selectedColor = Color.green;
 
         private void Awake()
         {
             lineImage = GetComponent<Image>();
+            normalColor = lineImage.color;
             BlockDiagramManager.Instance.AddLine(this);
         }
 
@@ -87,6 +95,16 @@ namespace REEL.EAIEditor
             SetLineLength();
         }
 
+        public void SetSelected()
+        {
+            lineImage.color = selectedColor;
+        }
+
+        public void SetUnselected()
+        {
+            lineImage.color = normalColor;
+        }
+
         void SetLineAngle()
         {
             float angle = Util.GetAngleBetween(linePoint.start, linePoint.end);
@@ -101,5 +119,6 @@ namespace REEL.EAIEditor
 
         public int LeftBlockID { get { return leftBlockID; } }
         public int RightBlockID { get { return rightBlockID; } }
+        public LinePoint GetLinePoint {  get { return linePoint; } }
     }
 }

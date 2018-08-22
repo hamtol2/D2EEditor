@@ -1674,6 +1674,7 @@ GameObject:
   - component: {fileID: 68102602}
   - component: {fileID: 68102601}
   - component: {fileID: 68102604}
+  - component: {fileID: 68102605}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1770,6 +1771,17 @@ MonoBehaviour:
     topLeft: {x: 0, y: 0}
     width: 0
     height: 0
+--- !u!114 &68102605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68102599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeaf22bd4d7bd8647a5ca99a783228d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &68538131
 GameObject:
   m_ObjectHideFlags: 0
@@ -22949,7 +22961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

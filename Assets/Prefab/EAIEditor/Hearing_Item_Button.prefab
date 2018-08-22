@@ -134,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeType: 1
   targetMenuType: 3
+  blockID: -1
+  selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
 --- !u!114 &114445885267533984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,7 +177,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114790321592105304
 MonoBehaviour:

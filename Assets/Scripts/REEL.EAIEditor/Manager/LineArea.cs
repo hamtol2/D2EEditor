@@ -84,8 +84,8 @@ namespace REEL.EAIEditor
             rectTransform.sizeDelta = new Vector2(dragInfo.width, dragInfo.height);
 
             //BlockDiagramManager.Instance.SetSelectionWithDragArea(dragArea.rectTransform);
-            //Debug.Log(dragInfo);
-            BlockDiagramManager.Instance.SetSelectionWithDragArea(dragInfo);
+            BlockDiagramManager.Instance.SetBlockSelectionWithDragArea(dragInfo);
+            BlockDiagramManager.Instance.SetLineSelectedWithDragArea(dragInfo);
         }
 
         public  void OnPointerUp(PointerEventData data)

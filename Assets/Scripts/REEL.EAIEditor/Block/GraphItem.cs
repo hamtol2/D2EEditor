@@ -26,7 +26,7 @@ namespace REEL.EAIEditor
 
         private Image image;
         private Color normalColor;
-        private Color selectedColor = Color.yellow;
+        [SerializeField] private Color selectedColor = Color.yellow;
 
         protected void Awake()
         {

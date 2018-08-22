@@ -47,7 +47,7 @@ namespace REEL.EAIEditor
 
             for (int ix = 0; ix < locatedLineList.Count; ++ix)
             {
-                if (locatedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID) 
+                if (locatedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID)
                     && locatedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
                 {
                     locatedLineList.RemoveAt(ix);
@@ -99,7 +99,7 @@ namespace REEL.EAIEditor
                     graphItem.SetSelected();
 
                     curSelectedItemList[0] = graphItem;
-                }   
+                }
             }
 
             for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
@@ -137,7 +137,7 @@ namespace REEL.EAIEditor
             {
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blockData[ix].nodeType);
                 pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType, blockData[ix].id);
-                
+
                 if (blockData[ix].id >= maxID) maxID = blockData[ix].id + 1;
             }
 
@@ -146,7 +146,7 @@ namespace REEL.EAIEditor
 
         private void CreateLines(LineBlockArray lineData)
         {
-            for (int ix = 0; ix < lineData.Length; ++ ix)
+            for (int ix = 0; ix < lineData.Length; ++ix)
             {
                 GraphItem leftItem = GetGraphItem(lineData[ix].left.blockID);
                 GraphItem rightItem = GetGraphItem(lineData[ix].right.blockID);
@@ -175,10 +175,8 @@ namespace REEL.EAIEditor
             return null;
         }
 
-        public void SaveToFile()
+        void SaveBlockData()
         {
-            // Save Block Data.
-            // ======================================================= //
             NodeBlockArray arrayData = new NodeBlockArray();
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
@@ -199,21 +197,28 @@ namespace REEL.EAIEditor
             }
 
             File.WriteAllText(itemFilePath, jsonString);
-            // ======================================================= //
+        }
 
-            // Save Line Data.
-            // ======================================================= //
+        void SaveLineData()
+        {
             LineBlockArray lineBlockArray = new LineBlockArray();
             for (int ix = 0; ix < locatedLineList.Count; ++ix)
             {
                 LineBlock line = new LineBlock(locatedLineList[ix].LeftBlockID, locatedLineList[ix].RightBlockID);
-
                 lineBlockArray.Add(line);
             }
 
-            jsonString = JsonUtility.ToJson(lineBlockArray);
+            string jsonString = JsonUtility.ToJson(lineBlockArray);
             File.WriteAllText(lineFilePath, jsonString);
-            // ======================================================= //
+        }
+
+        public void SaveToFile()
+        {
+            // Save Block Data.
+            SaveBlockData();
+
+            // Save Line Data.
+            SaveLineData();
         }
 
         public void SetAllSelected()
@@ -235,9 +240,16 @@ namespace REEL.EAIEditor
             }
 
             curSelectedItemList = new List<GraphItem>();
+
+            for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
+            {
+                curSelectedLineList[ix].SetUnselected();
+            }
+
+            curSelectedLineList = new List<GraphLine>();
         }
 
-        public int SetUnSelected(GraphItem graphItem)
+        public int SetBlockUnSelected(GraphItem graphItem)
         {
             for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
             {
@@ -252,11 +264,38 @@ namespace REEL.EAIEditor
             return -1;
         }
 
-        private bool CheckIfSelected(GraphItem graphItem)
+        public void SetLineUnSelected(GraphLine graphLine)
+        {
+            for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
+            {
+                if (curSelectedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID) &&
+                    curSelectedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
+                {
+                    curSelectedLineList[ix].SetUnselected();
+                    curSelectedLineList.RemoveAt(ix);
+                }
+            }
+        }
+
+        private bool CheckIfBlockSelected(GraphItem graphItem)
         {
             for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
             {
                 if (curSelectedItemList[ix].BlockID.Equals(graphItem.BlockID))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckIfLineSelected(GraphLine graphLine)
+        {
+            for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
+            {
+                if (curSelectedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID)
+                    && curSelectedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
                 {
                     return true;
                 }
@@ -273,7 +312,7 @@ namespace REEL.EAIEditor
 
         public void SetSelectedGraphItem(GraphItem graphItem)
         {
-            int removeIndex = SetUnSelected(graphItem);
+            int removeIndex = SetBlockUnSelected(graphItem);
 
             if (removeIndex == -1)
             {
@@ -282,12 +321,21 @@ namespace REEL.EAIEditor
             }
         }
 
-        public void SetSelectedByDrag(GraphItem graphItem)
+        public void SetBlockSelectedByDrag(GraphItem graphItem)
         {
-            if (!CheckIfSelected(graphItem))
+            if (!CheckIfBlockSelected(graphItem))
             {
                 curSelectedItemList.Add(graphItem);
                 graphItem.SetSelected();
+            }
+        }
+
+        public void SetLineSelectionByDrag(GraphLine graphLine)
+        {
+            if (!CheckIfLineSelected(graphLine))
+            {
+                curSelectedLineList.Add(graphLine);
+                graphLine.SetSelected();
             }
         }
 
@@ -303,22 +351,36 @@ namespace REEL.EAIEditor
 
         public void DeleteSelected()
         {
-            if (curSelectedItemList == null || curSelectedItemList.Count == 0) return;
-
-            for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
+            if (curSelectedItemList != null || curSelectedItemList.Count != 0)
             {
-                // 배치된 블록 정보 삭제.
-                RemoveBlock(curSelectedItemList[ix]);
+                for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
+                {
+                    // 배치된 블록 정보 삭제.
+                    RemoveBlock(curSelectedItemList[ix]);
 
-                // 게임 오브젝트 삭제.
-                Destroy(curSelectedItemList[ix].gameObject);
+                    // 게임 오브젝트 삭제.
+                    Destroy(curSelectedItemList[ix].gameObject);
+                }
+
+                // 초기화.
+                curSelectedItemList = new List<GraphItem>();
             }
 
-            // 초기화.
-            curSelectedItemList = new List<GraphItem>();
+            if (curSelectedLineList != null || curSelectedLineList.Count != 0)
+            {
+                for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
+                {
+                    RemoveLine(curSelectedLineList[ix]);
+
+                    Destroy(curSelectedLineList[ix].gameObject);
+                }
+
+                curSelectedLineList = new List<GraphLine>();
+            }
         }
 
-        public void SetSelectionWithDragArea(DragInfo dragInfo)
+        // 드래그로 블로 선택하기.
+        public void SetBlockSelectionWithDragArea(DragInfo dragInfo)
         {
             if (locatedItemList.Count == 0) return;
 
@@ -334,11 +396,49 @@ namespace REEL.EAIEditor
                     dragInfo.topLeft.y < itemRect.position.y - itemHalfHeight ||
                     dragInfo.topLeft.y - dragInfo.height > itemRect.position.y + itemHalfHeight)
                 {
-                    SetUnSelected(locatedItemList[ix]);
+                    SetBlockUnSelected(locatedItemList[ix]);
                     continue;
                 }
 
-                SetSelectedByDrag(locatedItemList[ix]);
+                SetBlockSelectedByDrag(locatedItemList[ix]);
+            }
+        }
+
+        // 드래그로 라인 선택하기.
+        public void SetLineSelectedWithDragArea(DragInfo dragInfo)
+        {
+            if (locatedLineList.Count == 0) return;
+
+            for (int ix = 0; ix < locatedLineList.Count; ++ix)
+            {
+                // 라인 정보 구하기.
+                GraphLine.LinePoint linePoint = locatedLineList[ix].GetLinePoint;
+
+                // 드래그 영역의 4개의 점 구하기.
+                Vector2 topLeft = dragInfo.topLeft;
+                Vector2 topRight = new Vector2(dragInfo.topLeft.x + dragInfo.width, dragInfo.topLeft.y);
+                Vector2 lowerLeft = new Vector2(dragInfo.topLeft.x, dragInfo.topLeft.y - dragInfo.height);
+                Vector2 lowerRight = new Vector2(dragInfo.topLeft.x + dragInfo.width, dragInfo.topLeft.y - dragInfo.height);
+
+                // 충돌 여부 확인.
+                bool top = Util.CheckLineIntersect(linePoint.start, linePoint.end, topLeft, topRight);
+                bool left = Util.CheckLineIntersect(linePoint.start, linePoint.end, topLeft, lowerLeft);
+                bool right = Util.CheckLineIntersect(linePoint.start, linePoint.end, topRight, lowerRight);
+                bool bottom = Util.CheckLineIntersect(linePoint.start, linePoint.end, lowerLeft, lowerRight);
+                bool isIncluded = Util.CheckLineIncluded(linePoint, dragInfo);
+
+                // 충돌.
+                if (top || left || right || bottom || isIncluded)
+                {
+                    //Debug.Log(ix + ", " + top + " : " + left + " : " + right + " : " + bottom + " : " + linePoint);
+
+                    SetLineSelectionByDrag(locatedLineList[ix]);
+                    continue;
+                }
+                else
+                {
+                    SetLineUnSelected(locatedLineList[ix]);
+                }
             }
         }
     }

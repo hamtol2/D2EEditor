@@ -548,7 +548,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114047415648481426
 MonoBehaviour:
@@ -645,7 +644,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114162314254765174
 MonoBehaviour:
@@ -781,7 +779,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114243841021764894
 MonoBehaviour:
@@ -850,6 +847,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeType: 4
   targetMenuType: 5
+  blockID: -1
+  selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
   switchBranchDatas: []
   currentBlockNumber: 2
   caseBlocks:
@@ -870,7 +869,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114396844736800580
 MonoBehaviour:
@@ -1161,7 +1159,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114738581239838834
 MonoBehaviour:
@@ -1204,7 +1201,6 @@ MonoBehaviour:
   pointPosition: 0
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114772265587552752
 MonoBehaviour:
@@ -1253,7 +1249,6 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
-  isAltPressed: 0
   hasLine: 0
 --- !u!114 &114808724120452596
 MonoBehaviour:
