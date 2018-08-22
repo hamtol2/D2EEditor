@@ -349,37 +349,44 @@ namespace REEL.EAIEditor
             get { return curSelectedItemList.Count; }
         }
 
-        public void DeleteSelected()
+        private void DeleteSelectedBlock()
         {
-            if (curSelectedItemList != null || curSelectedItemList.Count != 0)
+            if (curSelectedItemList == null || curSelectedItemList.Count == 0) return;
+
+            for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
             {
-                for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
-                {
-                    // 배치된 블록 정보 삭제.
-                    RemoveBlock(curSelectedItemList[ix]);
+                // 배치된 블록 정보 삭제.
+                RemoveBlock(curSelectedItemList[ix]);
 
-                    // 게임 오브젝트 삭제.
-                    Destroy(curSelectedItemList[ix].gameObject);
-                }
-
-                // 초기화.
-                curSelectedItemList = new List<GraphItem>();
+                // 게임 오브젝트 삭제.
+                Destroy(curSelectedItemList[ix].gameObject);
             }
 
-            if (curSelectedLineList != null || curSelectedLineList.Count != 0)
-            {
-                for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
-                {
-                    RemoveLine(curSelectedLineList[ix]);
-
-                    Destroy(curSelectedLineList[ix].gameObject);
-                }
-
-                curSelectedLineList = new List<GraphLine>();
-            }
+            // 초기화.
+            curSelectedItemList = new List<GraphItem>();
         }
 
-        // 드래그로 블로 선택하기.
+        private void DeleteSelectedLine()
+        {
+            if (curSelectedLineList == null || curSelectedLineList.Count == 0) return;
+
+            for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
+            {
+                RemoveLine(curSelectedLineList[ix]);
+
+                Destroy(curSelectedLineList[ix].gameObject);
+            }
+
+            curSelectedLineList = new List<GraphLine>();
+        }
+
+        public void DeleteSelected()
+        {
+            DeleteSelectedBlock();
+            DeleteSelectedLine();
+        }
+
+        // 드래그로 블록 선택하기.
         public void SetBlockSelectionWithDragArea(DragInfo dragInfo)
         {
             if (locatedItemList.Count == 0) return;
@@ -425,13 +432,13 @@ namespace REEL.EAIEditor
                 bool left = Util.CheckLineIntersect(linePoint.start, linePoint.end, topLeft, lowerLeft);
                 bool right = Util.CheckLineIntersect(linePoint.start, linePoint.end, topRight, lowerRight);
                 bool bottom = Util.CheckLineIntersect(linePoint.start, linePoint.end, lowerLeft, lowerRight);
+
+                // 라인이 드래그 영역에 포함되는지 여부 확인.
                 bool isIncluded = Util.CheckLineIncluded(linePoint, dragInfo);
 
                 // 충돌.
                 if (top || left || right || bottom || isIncluded)
                 {
-                    //Debug.Log(ix + ", " + top + " : " + left + " : " + right + " : " + bottom + " : " + linePoint);
-
                     SetLineSelectionByDrag(locatedLineList[ix]);
                     continue;
                 }
