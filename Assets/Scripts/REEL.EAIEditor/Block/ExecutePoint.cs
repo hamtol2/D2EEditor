@@ -12,19 +12,18 @@ namespace REEL.EAIEditor
             ExecutePoint_Left, ExecutePoint_Right
         }
 
-        [SerializeField]
-        protected PointPosition pointPosition = PointPosition.ExecutePoint_Left;
+        [SerializeField] protected PointPosition pointPosition = PointPosition.ExecutePoint_Left;
+        [SerializeField] protected GameObject lineBasePrefab = null;
+        [SerializeField] protected GameObject executePointRoot;
 
-        [SerializeField]
-        protected GameObject lineBasePrefab = null;
         protected GraphLine graphLine;
         protected GraphLine.LinePoint linePoint;
         protected RectTransform refRectTransform;
 
         private DragItem dragItem;
 
-        [SerializeField]
-        protected bool hasLine = false;
+        [SerializeField] protected bool hasLine = false;
+        [SerializeField] private int executePointID = -1;
 
         protected virtual void Awake()
         {
@@ -73,15 +72,6 @@ namespace REEL.EAIEditor
             if (targetLinePosition && graphLine)
             {
                 SetLineData(targetLinePosition.GetComponent<ExecutePoint>());
-
-                //linePoint.start = SelfPosition;
-                //linePoint.end = targetLinePosition.transform.position;
-                //graphLine.SetLinePoint(linePoint);
-                //graphLine.SetExecutePoints(this, targetLinePosition.GetComponent<ExecutePoint>());
-
-                //SetHasLine(true);
-                //targetLinePosition.GetComponent<ExecutePoint>().SetHasLine(true);
-
                 return true;
             }
 
@@ -93,7 +83,6 @@ namespace REEL.EAIEditor
             if (KeyInputManager.Instance.isAltPressed && graphLine)
             {
                 BlockDiagramManager.Instance.RemoveLine(graphLine);
-                //Destroy(graphLine.gameObject);
                 return;
             }
 
@@ -128,15 +117,11 @@ namespace REEL.EAIEditor
             }
         }
 
-        protected bool HasDragItem
-        {
-            get { return dragItem != null; }
-        }
+        protected bool HasDragItem { get { return dragItem != null; } }
+        protected Vector2 SelfPosition { get { return refRectTransform.position; } }
 
-        protected Vector2 SelfPosition
-        {
-            get { return refRectTransform.position; }
-        }
+        public PointPosition GetPointPosition { get { return pointPosition; } }
+        public int GetExecutePointID { get { return executePointID; } }
 
         public DragItem GetTargetDragItem()
         {
@@ -146,6 +131,19 @@ namespace REEL.EAIEditor
         public void SetHasLine(bool hasLine)
         {
             this.hasLine = hasLine;
+        }
+
+        public void SetExecutePointEnabled(bool isEnable)
+        {
+            
+            if (executePointRoot == null)
+            {
+                gameObject.SetActive(isEnable);
+            }   
+            else
+            {
+                executePointRoot.SetActive(isEnable);
+            }   
         }
 
         protected GameObject IsOnExecutePoint(List<RaycastResult> rayResults, PointPosition point)
@@ -158,7 +156,5 @@ namespace REEL.EAIEditor
 
             return null;
         }
-
-        public PointPosition GetPointPosition { get { return pointPosition; } }
     }
 }

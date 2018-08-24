@@ -379,7 +379,9 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
+  executePointRoot: {fileID: 1176776933764994}
   hasLine: 0
+  executePointID: 1
   outputType: 1
 --- !u!114 &114613808993254996
 MonoBehaviour:
@@ -509,7 +511,9 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
+  executePointRoot: {fileID: 1990835971613568}
   hasLine: 0
+  executePointID: 2
   outputType: 0
 --- !u!114 &114851606335995572
 MonoBehaviour:
@@ -585,7 +589,9 @@ MonoBehaviour:
   pointPosition: 0
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
+  executePointRoot: {fileID: 0}
   hasLine: 0
+  executePointID: 0
 --- !u!114 &114996070748539560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -833,7 +839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 718.9199, y: -205}
+  m_AnchoredPosition: {x: 718.9199, y: -344.40002}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224849391826939552

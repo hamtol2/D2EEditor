@@ -178,6 +178,7 @@ MonoBehaviour:
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
   hasLine: 0
+  executePointID: 1
 --- !u!114 &114790321592105304
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -105,11 +105,18 @@ namespace REEL.EAIEditor
     [Serializable]
     public class LineExecutePoint
     {
-        public int blockID;
+        public int blockID = -1;
+        public int executePointID = -1;
 
         public LineExecutePoint(int blockID)
         {
             this.blockID = blockID;
+        }
+
+        public LineExecutePoint(int blockID, int executePointID)
+        {
+            this.blockID = blockID;
+            this.executePointID = executePointID;
         }
     }
 
@@ -122,6 +129,12 @@ namespace REEL.EAIEditor
         public LineBlock(int leftBlockID, int rightBlockID)
         {
             left = new LineExecutePoint(leftBlockID);
+            right = new LineExecutePoint(rightBlockID);
+        }
+
+        public LineBlock(int leftBlockID, int leftExecutePointID, int rightBlockID)
+        {
+            left = new LineExecutePoint(leftBlockID, leftExecutePointID);
             right = new LineExecutePoint(rightBlockID);
         }
     }

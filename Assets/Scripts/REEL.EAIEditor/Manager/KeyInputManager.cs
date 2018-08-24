@@ -30,6 +30,18 @@ namespace REEL.EAIEditor
 
             if (Input.GetKeyDown(KeyCode.LeftAlt)) isAltPressed = true;
             if (Input.GetKeyUp(KeyCode.LeftAlt)) isAltPressed = false;
+
+            // Ctrl + C.
+            if (shouldMultiSelect && Input.GetKeyDown(KeyCode.C))
+            {
+
+            }
+
+            // Ctrl + V.
+            if (shouldMultiSelect && Input.GetKeyDown(KeyCode.V))
+            {
+
+            }
         }
     }
 }

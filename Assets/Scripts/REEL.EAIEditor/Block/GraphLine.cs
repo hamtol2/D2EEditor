@@ -24,11 +24,23 @@ namespace REEL.EAIEditor
             }
         }
 
+        public struct ExecutePointInfo
+        {
+            public int blockID;
+            public int executePointID;
+
+            public ExecutePointInfo(int blockID, int executePointID)
+            {
+                this.blockID = blockID;
+                this.executePointID = executePointID;
+            }
+        }
+
         private ExecutePoint left;
         private ExecutePoint right;
 
-        private int leftBlockID = -1;
-        private int rightBlockID = -1;
+        private ExecutePointInfo leftExecutePointInfo;
+        private ExecutePointInfo rightExecutePointInfo;
 
         private LinePoint linePoint;
         private Image lineImage;
@@ -63,8 +75,15 @@ namespace REEL.EAIEditor
             this.right = right;
             isSet = true;
 
-            leftBlockID = left.GetTargetDragItem().GetComponent<GraphItem>().BlockID;
-            rightBlockID = right.GetTargetDragItem().GetComponent<GraphItem>().BlockID;
+            leftExecutePointInfo = new ExecutePointInfo(
+                left.GetTargetDragItem().GetComponent<GraphItem>().BlockID,
+                left.GetExecutePointID
+            );
+
+            rightExecutePointInfo = new ExecutePointInfo(
+                right.GetTargetDragItem().GetComponent<GraphItem>().BlockID,
+                right.GetExecutePointID
+            );
 
             // Subscribe dragitem's OnChanged event to update line.
             left.GetTargetDragItem().SubscribeOnChanged(UpdateLine);
@@ -117,8 +136,9 @@ namespace REEL.EAIEditor
             lineImage.rectTransform.sizeDelta = new Vector2(length, lineHeight);
         }
 
-        public int LeftBlockID { get { return leftBlockID; } }
-        public int RightBlockID { get { return rightBlockID; } }
+        public ExecutePointInfo GetLeftExecutePointInfo { get { return leftExecutePointInfo; } }
+        public ExecutePointInfo GetRightExecutePointInfo { get { return rightExecutePointInfo; } }
+
         public LinePoint GetLinePoint {  get { return linePoint; } }
     }
 }

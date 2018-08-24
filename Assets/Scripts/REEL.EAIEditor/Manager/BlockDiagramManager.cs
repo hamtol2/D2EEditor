@@ -12,7 +12,7 @@ namespace REEL.EAIEditor
         public string itemFilePath = "/Data/Block.json";
         public string lineFilePath = "/Data/Line.json";
 
-        [SerializeField] private int blockId = 0;
+        [SerializeField] private int blockId = 1;
 
         // Block and Line List.
         [SerializeField] private List<GraphItem> locatedItemList = new List<GraphItem>();
@@ -47,8 +47,8 @@ namespace REEL.EAIEditor
 
             for (int ix = 0; ix < locatedLineList.Count; ++ix)
             {
-                if (locatedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID)
-                    && locatedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
+                if (locatedLineList[ix].GetLeftExecutePointInfo.blockID.Equals(graphLine.GetLeftExecutePointInfo.blockID)
+                    && locatedLineList[ix].GetRightExecutePointInfo.blockID.Equals(graphLine.GetRightExecutePointInfo.blockID))
                 {
                     locatedLineList.RemoveAt(ix);
                     Destroy(graphLine.gameObject);
@@ -154,7 +154,7 @@ namespace REEL.EAIEditor
                 ExecutePoint leftPoint = null;
                 ExecutePoint rightPoint = null;
 
-                if (leftItem != null) leftPoint = leftItem.GetExecutePoint(ExecutePoint.PointPosition.ExecutePoint_Right);
+                if (leftItem != null) leftPoint = leftItem.GetExecutePoint(ExecutePoint.PointPosition.ExecutePoint_Right, lineData[ix].left.executePointID);
                 if (rightItem != null) rightPoint = rightItem.GetExecutePoint(ExecutePoint.PointPosition.ExecutePoint_Left);
 
                 if (leftItem != null && rightItem != null && leftPoint != null && rightPoint != null)
@@ -183,7 +183,7 @@ namespace REEL.EAIEditor
                 NodeBlock block = new NodeBlock()
                 {
                     id = locatedItemList[ix].BlockID,
-                    nodeType = locatedItemList[ix].nodeType,
+                    nodeType = locatedItemList[ix].GetNodeType,
                     position = locatedItemList[ix].GetComponent<RectTransform>().position
                 };
 
@@ -204,7 +204,11 @@ namespace REEL.EAIEditor
             LineBlockArray lineBlockArray = new LineBlockArray();
             for (int ix = 0; ix < locatedLineList.Count; ++ix)
             {
-                LineBlock line = new LineBlock(locatedLineList[ix].LeftBlockID, locatedLineList[ix].RightBlockID);
+                int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
+                int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
+                int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
+
+                LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
                 lineBlockArray.Add(line);
             }
 
@@ -268,8 +272,8 @@ namespace REEL.EAIEditor
         {
             for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
             {
-                if (curSelectedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID) &&
-                    curSelectedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
+                if (curSelectedLineList[ix].GetLeftExecutePointInfo.blockID.Equals(graphLine.GetLeftExecutePointInfo.blockID) &&
+                    curSelectedLineList[ix].GetRightExecutePointInfo.blockID.Equals(graphLine.GetRightExecutePointInfo.blockID))
                 {
                     curSelectedLineList[ix].SetUnselected();
                     curSelectedLineList.RemoveAt(ix);
@@ -294,8 +298,8 @@ namespace REEL.EAIEditor
         {
             for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
             {
-                if (curSelectedLineList[ix].LeftBlockID.Equals(graphLine.LeftBlockID)
-                    && curSelectedLineList[ix].RightBlockID.Equals(graphLine.RightBlockID))
+                if (curSelectedLineList[ix].GetLeftExecutePointInfo.blockID.Equals(graphLine.GetLeftExecutePointInfo.blockID)
+                    && curSelectedLineList[ix].GetRightExecutePointInfo.blockID.Equals(graphLine.GetRightExecutePointInfo.blockID))
                 {
                     return true;
                 }
@@ -339,15 +343,8 @@ namespace REEL.EAIEditor
             }
         }
 
-        public List<GraphItem> GetCurrentSelectedList
-        {
-            get { return curSelectedItemList; }
-        }
-
-        public int GetCurrentSelectedCount
-        {
-            get { return curSelectedItemList.Count; }
-        }
+        public List<GraphItem> GetCurrentSelectedList { get { return curSelectedItemList; } }
+        public int GetCurrentSelectedCount { get { return curSelectedItemList.Count; } }
 
         private void DeleteSelectedBlock()
         {

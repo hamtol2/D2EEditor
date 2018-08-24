@@ -8,10 +8,9 @@ namespace REEL.EAIEditor
 {
     public class GraphItem : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
     {
-        public NodeType nodeType;
+        [SerializeField] private NodeType nodeType;
 
-        [SerializeField]
-        private EditorManager.ETargetMenuType targetMenuType;
+        [SerializeField] private EditorManager.ETargetMenuType targetMenuType;
 
         private RectTransform refRectTransform;
         private Vector3 originPosition;
@@ -112,15 +111,9 @@ namespace REEL.EAIEditor
             return this.data;
         }
 
-        bool IfMoved
-        {
-            get { return refRectTransform.position != originPosition; }
-        }
-
-        public Rect GetRect
-        {
-            get { return refRectTransform.rect; }
-        }
+        bool IfMoved { get { return refRectTransform.position != originPosition; } }
+        public Rect GetRect { get { return refRectTransform.rect; } }
+        public NodeType GetNodeType {  get { return nodeType; } }
 
         public ExecutePoint GetExecutePoint(ExecutePoint.PointPosition pointPosition)
         {
@@ -130,6 +123,27 @@ namespace REEL.EAIEditor
                 ExecutePoint executePoint = transform.GetChild(ix).GetComponent<ExecutePoint>();
                 if (executePoint != null && executePoint.GetPointPosition == pointPosition)
                     return executePoint;
+            }
+
+            return null;
+        }
+
+        public ExecutePoint GetExecutePoint(ExecutePoint.PointPosition pointPosition, int executePointID)
+        {
+            int childCount = transform.childCount;
+            for (int ix = 0; ix < childCount; ++ix)
+            {
+                ExecutePoint[] executePoints = transform.GetChild(ix).GetComponentsInChildren<ExecutePoint>(true);
+
+                for (int jx = 0; jx < executePoints.Length; ++jx)
+                {
+                    ExecutePoint current = executePoints[jx];
+                    if (current != null &&  current.GetPointPosition == pointPosition && current.GetExecutePointID.Equals(executePointID))
+                    {
+                        current.SetExecutePointEnabled(true);
+                        return current;
+                    }
+                }
             }
 
             return null;

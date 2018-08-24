@@ -18,24 +18,14 @@ namespace REEL.EAIEditor
             Event, Hearing, SayTextBox, HearingTextBox, IFBranch, SwitchBranch, Length
         }
 
-        [SerializeField]
-        private GameObject[] paneObjects;
-
-        [SerializeField]
-        private MenuPopup[] targetMenuObjects;
-
-        [SerializeField]
-        private GraphicRaycaster uiRaycaster;
-
-        [SerializeField]
-        private GraphItem[] nodePrefabs;
+        [SerializeField] private GameObject[] paneObjects;
+        [SerializeField] private MenuPopup[] targetMenuObjects;
+        [SerializeField] private GraphicRaycaster uiRaycaster;
+        [SerializeField] private GraphItem[] nodePrefabs;
 
         private Dictionary<NodeType, GraphItem> prefabDictionary = null;
 
-        public GraphicRaycaster UIRaycaster
-        {
-            get { return uiRaycaster; }
-        }
+        public GraphicRaycaster UIRaycaster { get { return uiRaycaster; } }
 
         private void Awake()
         {
@@ -57,7 +47,7 @@ namespace REEL.EAIEditor
 
             for (int ix = 0; ix < nodePrefabs.Length; ++ix)
             {
-                prefabDictionary.Add(nodePrefabs[ix].nodeType, nodePrefabs[ix]);
+                prefabDictionary.Add(nodePrefabs[ix].GetNodeType, nodePrefabs[ix]);
             }
         }
 
