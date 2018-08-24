@@ -343,8 +343,11 @@ namespace REEL.EAIEditor
             }
         }
 
-        public List<GraphItem> GetCurrentSelectedList { get { return curSelectedItemList; } }
-        public int GetCurrentSelectedCount { get { return curSelectedItemList.Count; } }
+        public List<GraphItem> GetCurrentSelectedBlockList { get { return curSelectedItemList; } }
+        public int GetCurrentSelectedBlockCount { get { return curSelectedItemList.Count; } }
+
+        public List<GraphLine> GetCurrentSelectedLineList { get { return curSelectedLineList; } }
+        public int GetCurrentSelectedLineCount {  get { return curSelectedLineList.Count; } }
 
         private void DeleteSelectedBlock()
         {

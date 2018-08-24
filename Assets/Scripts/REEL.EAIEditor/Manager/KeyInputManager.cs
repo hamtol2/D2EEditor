@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace REEL.EAIEditor
 {
+    using ClipBoardContent = ClipBoardManager.ClipBoardContent;
+    using ClipboardType = ClipBoardManager.ClipBoardContent.ClipboardType;
+
     public class KeyInputManager : Singleton<KeyInputManager>
     {
         public bool shouldMultiSelect = false;
@@ -32,15 +35,35 @@ namespace REEL.EAIEditor
             if (Input.GetKeyUp(KeyCode.LeftAlt)) isAltPressed = false;
 
             // Ctrl + C.
-            if (shouldMultiSelect && Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
+#if UNITY_EDITOR
+                if (isShiftPressed)
+#else
+                if (shouldMultiSelect)
+#endif
+                {
+                    Debug.Log("Clipboad Copy");
 
+                    List<GraphItem> selectedBlock = BlockDiagramManager.Instance.GetCurrentSelectedBlockList;
+                    List<GraphLine> selectedLine = BlockDiagramManager.Instance.GetCurrentSelectedLineList;
+                    
+                    ClipBoardContent newContent = new ClipBoardContent(ClipboardType.Copy, selectedBlock, selectedLine);
+                    ClipBoardManager.Instance.PushContent(newContent);
+                }
             }
 
             // Ctrl + V.
-            if (shouldMultiSelect && Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.V))
             {
-
+#if UNITY_EDITOR
+                if (isShiftPressed)
+#else
+                if (shouldMultiSelect)
+#endif
+                {
+                    Debug.Log("Clipboad Paste");
+                }
             }
         }
     }

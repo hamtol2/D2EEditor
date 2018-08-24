@@ -45,7 +45,7 @@ namespace REEL.EAIEditor
             originPosition = refRectTransform.position;
 
             // Set Selected Node Block.
-            if (BlockDiagramManager.Instance.GetCurrentSelectedCount == 0 
+            if (BlockDiagramManager.Instance.GetCurrentSelectedBlockCount == 0 
                 || KeyInputManager.Instance.shouldMultiSelect)
             {
                 BlockDiagramManager.Instance.SetSelectedGraphItem(this);
@@ -66,7 +66,7 @@ namespace REEL.EAIEditor
             }
 
             if (!KeyInputManager.Instance.shouldMultiSelect
-                && BlockDiagramManager.Instance.GetCurrentSelectedCount > 0)
+                && BlockDiagramManager.Instance.GetCurrentSelectedBlockCount > 0)
             {
                 BlockDiagramManager.Instance.SetOneSelected(this);
             }
