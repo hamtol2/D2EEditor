@@ -272,6 +272,8 @@ namespace REEL.EAIEditor
 
         public void SaveToFile()
         {
+            if (locatedItemList.Count == 0) return;
+
             // Save Block Data.
             SaveBlockData();
 
