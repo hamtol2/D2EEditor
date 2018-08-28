@@ -40,22 +40,22 @@ namespace REEL.EAIEditor
             }
         }
 
-        public List<ClipBoardContent> clipBoardContents = new List<ClipBoardContent>();
-        //public Stack<ClipBoardContent> clipBoardContents = new Stack<ClipBoardContent>();
+        //public List<ClipBoardContent> clipBoardContents = new List<ClipBoardContent>();
+        public Stack<ClipBoardContent> clipBoardContents = new Stack<ClipBoardContent>();
 
         public void PushContent(ClipBoardContent newContent)
         {
-            clipBoardContents.Add(newContent);
-            //clipBoardContents.Push(newContent);
+            //clipBoardContents.Add(newContent);
+            clipBoardContents.Push(newContent);
         }
 
         public ClipBoardContent PopContent()
         {
-            ClipBoardContent content = clipBoardContents[clipBoardContents.Count - 1];
-            clipBoardContents.RemoveAt(clipBoardContents.Count - 1);
+            //ClipBoardContent content = clipBoardContents[clipBoardContents.Count - 1];
+            //clipBoardContents.RemoveAt(clipBoardContents.Count - 1);
 
-            return content;
-            //return clipBoardContents.Pop();
+            //return content;
+            return clipBoardContents.Pop();
         }
     }
 }

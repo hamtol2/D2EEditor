@@ -65,6 +65,19 @@ namespace REEL.EAIEditor
                     BlockDiagramManager.Instance.DuplicateLines(content.lines);
                 }
             }
+
+            // Ctrl + Z.
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+#if UNITY_EDITOR
+                if (isShiftPressed)
+#else
+                if (shouldMultiSelect)
+#endif
+                {
+
+                }
+            }
         }
     }
 }

@@ -21,6 +21,9 @@ namespace REEL.EAIEditor
         [SerializeField] private List<GraphLine> locatedLineList = new List<GraphLine>();
         [SerializeField] private List<GraphLine> curSelectedLineList = new List<GraphLine>();
 
+        // 블록 복제할 때 복제 전 블록 ID - 복제 후 블록 ID 쌍 저장용 딕셔너리.
+        private Dictionary<int, int> changedIDTable;
+
         private void Awake()
         {
             // Set file path.
@@ -164,8 +167,6 @@ namespace REEL.EAIEditor
             }
         }
 
-        Dictionary<int, int> changedIDTable;
-
         // Copy/Paste를 통해 블록 복제할 때 사용하는 메소드.
         public void DuplicateBlocks(List<GraphItem> blocks)
         {
@@ -280,17 +281,26 @@ namespace REEL.EAIEditor
 
         public void SetAllSelected()
         {
+            // 블록 선택.
             curSelectedItemList = new List<GraphItem>();
-
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
                 locatedItemList[ix].SetSelected();
                 curSelectedItemList.Add(locatedItemList[ix]);
             }
+
+            // 라인 선택.
+            curSelectedLineList = new List<GraphLine>();
+            for (int ix = 0; ix < locatedLineList.Count; ++ix)
+            {
+                locatedLineList[ix].SetSelected();
+                curSelectedLineList.Add(locatedLineList[ix]);
+            }
         }
 
         public void SetAllUnselected()
         {
+            // 블록 선택 해제.
             for (int ix = 0; ix < curSelectedItemList.Count; ++ix)
             {
                 curSelectedItemList[ix].SetUnselected();
@@ -298,6 +308,7 @@ namespace REEL.EAIEditor
 
             curSelectedItemList = new List<GraphItem>();
 
+            // 라인 선택 해제.
             for (int ix = 0; ix < curSelectedLineList.Count; ++ix)
             {
                 curSelectedLineList[ix].SetUnselected();
