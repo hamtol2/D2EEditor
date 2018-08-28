@@ -51,7 +51,10 @@ namespace REEL.EAIEditor
 
         public ClipBoardContent PopContent()
         {
-            return clipBoardContents[clipBoardContents.Count - 1];
+            ClipBoardContent content = clipBoardContents[clipBoardContents.Count - 1];
+            clipBoardContents.RemoveAt(clipBoardContents.Count - 1);
+
+            return content;
             //return clipBoardContents.Pop();
         }
     }

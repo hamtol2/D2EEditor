@@ -43,8 +43,6 @@ namespace REEL.EAIEditor
                 if (shouldMultiSelect)
 #endif
                 {
-                    Debug.Log("Clipboad Copy");
-
                     List<GraphItem> selectedBlock = BlockDiagramManager.Instance.GetCurrentSelectedBlockList;
                     List<GraphLine> selectedLine = BlockDiagramManager.Instance.GetCurrentSelectedLineList;
                     
@@ -62,7 +60,9 @@ namespace REEL.EAIEditor
                 if (shouldMultiSelect)
 #endif
                 {
-                    Debug.Log("Clipboad Paste");
+                    ClipBoardContent content = ClipBoardManager.Instance.PopContent();
+                    BlockDiagramManager.Instance.DuplicateBlocks(content.blocks);
+                    BlockDiagramManager.Instance.DuplicateLines(content.lines);
                 }
             }
         }

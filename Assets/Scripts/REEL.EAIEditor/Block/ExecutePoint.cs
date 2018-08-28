@@ -50,7 +50,7 @@ namespace REEL.EAIEditor
                 Destroy(graphLine.gameObject);
         }
 
-        public void SetLineData(ExecutePoint rightExecutePoint)
+        public GraphLine SetLineData(ExecutePoint rightExecutePoint)
         {
             if (graphLine == null)
             {
@@ -64,6 +64,8 @@ namespace REEL.EAIEditor
 
             SetHasLine(true);
             rightExecutePoint.SetHasLine(true);
+
+            return graphLine;
         }
 
         private bool SetLine(List<RaycastResult> result, PointPosition position)
@@ -132,6 +134,8 @@ namespace REEL.EAIEditor
         {
             this.hasLine = hasLine;
         }
+
+        public bool GetHasLineState {  get { return hasLine; } }
 
         public void SetExecutePointEnabled(bool isEnable)
         {

@@ -164,6 +164,59 @@ namespace REEL.EAIEditor
             }
         }
 
+        Dictionary<int, int> changedIDTable;
+
+        // Copy/Paste를 통해 블록 복제할 때 사용하는 메소드.
+        public void DuplicateBlocks(List<GraphItem> blocks)
+        {
+            GameObject paneObj = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
+            GraphPane pane = paneObj.GetComponent<GraphPane>();
+
+            // 모든 블록 선택 해제.
+            SetAllUnselected();
+
+            // 변경 이전의 ID와 변경된 ID 저장용 딕셔너리 초기화.
+            changedIDTable = new Dictionary<int, int>();
+
+            for (int ix = 0; ix < blocks.Count; ++ix)
+            {
+                GraphItem prefab = EditorManager.Instance.GetNodePrefab(blocks[ix].GetNodeType);
+                Vector3 blockPos = blocks[ix].GetComponent<RectTransform>().position;
+                blockPos += new Vector3(25f, -25f, 0f);
+                pane.AddNodeItem(prefab.gameObject, blockPos, blocks[ix].GetNodeType, blockId++);
+
+                // 추가된 블록 선택.
+                SetSelectedGraphItem(locatedItemList[locatedItemList.Count - 1]);
+
+                // 변경전 ID 값 - 변경된 ID 값 기록.
+                changedIDTable.Add(blocks[ix].BlockID, blockId - 1);
+            }
+        }
+
+        // Copy/Paste를 통해 라인 복제할 때 사용하는 메소드.
+        public void DuplicateLines(List<GraphLine> lines)
+        {
+            for (int ix = 0; ix < lines.Count; ++ix)
+            {
+                int leftID = changedIDTable[lines[ix].GetLeftExecutePointInfo.blockID];
+                int rightID = changedIDTable[lines[ix].GetRightExecutePointInfo.blockID];
+                GraphItem leftItem = GetGraphItem(leftID);
+                GraphItem rightItem = GetGraphItem(rightID);
+
+                ExecutePoint leftPoint = null;
+                ExecutePoint rightPoint = null;
+
+                if (leftItem != null) leftPoint = leftItem.GetExecutePoint(ExecutePoint.PointPosition.ExecutePoint_Right, lines[ix].GetLeftExecutePointInfo.executePointID);
+                if (rightItem != null) rightPoint = rightItem.GetExecutePoint(ExecutePoint.PointPosition.ExecutePoint_Left);
+
+                if (leftItem != null && rightItem != null && leftPoint != null && rightPoint != null)
+                {
+                    GraphLine newLine = leftPoint.SetLineData(rightPoint);
+                    if (newLine) newLine.SetSelected();
+                }
+            }
+        }
+
         private GraphItem GetGraphItem(int blockID)
         {
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
