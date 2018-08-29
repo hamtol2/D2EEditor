@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/D2EEditor.unity
+    path: Assets/_Scenes/D2EEditor_Login.unity
+    guid: 5ed4bb571e75336409357b2c18571d2a
+  - enabled: 1
+    path: Assets/_Scenes/D2EEditor_Editor.unity
     guid: 90e576644ad904b899a7355a07c8d62c
   m_configObjects: {}

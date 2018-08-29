@@ -29118,7 +29118,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Express Bot Editor
+  m_Text: <color=#14AFE3>E</color>xpress Bot <color=#969799><size=30>Editor</size></color>
 --- !u!222 &1874634470
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32347,7 +32347,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD658\uC601\uD569\uB2C8\uB2E4 <color=#0894C7>RonnieJ</color> \uB2D8"
+  m_Text: "\uD658\uC601\uD569\uB2C8\uB2E4! <color=#0894C7>RonnieJ</color> \uB2D8"
 --- !u!222 &2067861942
 CanvasRenderer:
   m_ObjectHideFlags: 0
