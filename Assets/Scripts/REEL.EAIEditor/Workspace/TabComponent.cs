@@ -63,6 +63,8 @@ namespace REEL.EAIEditor
             if (projectNameText) projectNameText.text = tabName;
         }
 
+        public string GetTabName {  get { return tabName; } }
+
         public Vector2 GetTabSize()
         {
             return tabImage.GetComponent<RectTransform>().sizeDelta;

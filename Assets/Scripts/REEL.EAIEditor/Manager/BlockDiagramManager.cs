@@ -9,6 +9,7 @@ namespace REEL.EAIEditor
 {
     public class BlockDiagramManager : Singleton<BlockDiagramManager>
     {
+        public string projectFilePath = "/Data/Project.json";
         public string itemFilePath = "/Data/Block.json";
         public string lineFilePath = "/Data/Line.json";
 
@@ -29,6 +30,7 @@ namespace REEL.EAIEditor
             // Set file path.
             itemFilePath = Application.dataPath + itemFilePath;
             lineFilePath = Application.dataPath + lineFilePath;
+            projectFilePath = Application.dataPath + projectFilePath;
         }
 
         public int AddBlock(GraphItem graphItem)
@@ -115,8 +117,19 @@ namespace REEL.EAIEditor
         {
             // Load json text and convert to block array.
             // create blocks on to pane with block array.
-            CreateBlocks(LoadItemDataFromJson());
-            CreateLines(LoadLineDataFromJson());
+            ProjectFormat project = LoadProjectDataFromJson("Test1");
+            CreateBlocks(project.blockArray);
+            CreateLines(project.lineArray);
+
+            //CreateBlocks(LoadItemDataFromJson());
+            //CreateLines(LoadLineDataFromJson());
+        }
+
+        private ProjectFormat LoadProjectDataFromJson(string projectName = "")
+        {
+            projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
+            projectFilePath = Application.dataPath + "/Data/" + projectName + ".json";
+            return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
         }
 
         private NodeBlockArray LoadItemDataFromJson()
@@ -229,6 +242,45 @@ namespace REEL.EAIEditor
             return null;
         }
 
+        void SaveProjectData(string projectName = "")
+        {
+            ProjectFormat project = new ProjectFormat();
+            project.projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
+
+            project.blockArray = new NodeBlockArray();
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                NodeBlock block = new NodeBlock()
+                {
+                    id = locatedItemList[ix].BlockID,
+                    nodeType = locatedItemList[ix].GetNodeType,
+                    position = locatedItemList[ix].GetComponent<RectTransform>().position
+                };
+
+                project.BlockAdd(block);
+            }
+
+            project.lineArray = new LineBlockArray();
+            for (int ix = 0; ix < locatedLineList.Count; ++ix)
+            {
+                int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
+                int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
+                int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
+
+                LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
+                project.LineAdd(line);
+            }
+
+            string jsonString = JsonUtility.ToJson(project);
+            if (!Directory.Exists(Application.dataPath + "/Data"))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/Data");
+            }
+            
+            projectFilePath = Application.dataPath + "/Data/" + project.projectName + ".json";
+            File.WriteAllText(projectFilePath, jsonString);
+        }
+
         void SaveBlockData()
         {
             NodeBlockArray arrayData = new NodeBlockArray();
@@ -270,15 +322,18 @@ namespace REEL.EAIEditor
             File.WriteAllText(lineFilePath, jsonString);
         }
 
-        public void SaveToFile()
+        public void SaveToFile(string projectName = "")
         {
             if (locatedItemList.Count == 0) return;
 
+            // Save Project Data.
+            SaveProjectData(projectName);
+
             // Save Block Data.
-            SaveBlockData();
+            //SaveBlockData();
 
             // Save Line Data.
-            SaveLineData();
+            //SaveLineData();
         }
 
         public void SetAllSelected()
