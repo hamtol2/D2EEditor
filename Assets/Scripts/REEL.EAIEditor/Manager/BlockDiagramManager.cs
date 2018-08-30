@@ -115,14 +115,14 @@ namespace REEL.EAIEditor
 
         public void LoadFromFile()
         {
-            // Load json text and convert to block array.
-            // create blocks on to pane with block array.
+            // Load json text and convert to project format.
             ProjectFormat project = LoadProjectDataFromJson("Test1");
-            CreateBlocks(project.blockArray);
-            CreateLines(project.lineArray);
 
-            //CreateBlocks(LoadItemDataFromJson());
-            //CreateLines(LoadLineDataFromJson());
+            // create blocks with project format.
+            CreateBlocks(project.blockArray);
+
+            // create lines with project format.
+            CreateLines(project.lineArray);
         }
 
         private ProjectFormat LoadProjectDataFromJson(string projectName = "")
@@ -130,16 +130,6 @@ namespace REEL.EAIEditor
             projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
             projectFilePath = Application.dataPath + "/Data/" + projectName + ".json";
             return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
-        }
-
-        private NodeBlockArray LoadItemDataFromJson()
-        {
-            return JsonUtility.FromJson<NodeBlockArray>(File.ReadAllText(itemFilePath));
-        }
-
-        private LineBlockArray LoadLineDataFromJson()
-        {
-            return JsonUtility.FromJson<LineBlockArray>(File.ReadAllText(lineFilePath));
         }
 
         private void CreateBlocks(NodeBlockArray blockData)
@@ -281,59 +271,12 @@ namespace REEL.EAIEditor
             File.WriteAllText(projectFilePath, jsonString);
         }
 
-        void SaveBlockData()
-        {
-            NodeBlockArray arrayData = new NodeBlockArray();
-            for (int ix = 0; ix < locatedItemList.Count; ++ix)
-            {
-                NodeBlock block = new NodeBlock()
-                {
-                    id = locatedItemList[ix].BlockID,
-                    nodeType = locatedItemList[ix].GetNodeType,
-                    position = locatedItemList[ix].GetComponent<RectTransform>().position
-                };
-
-                arrayData.Add(block);
-            }
-
-            string jsonString = JsonUtility.ToJson(arrayData);
-            if (!Directory.Exists(Application.dataPath + "/Data"))
-            {
-                Directory.CreateDirectory(Application.dataPath + "/Data");
-            }
-
-            File.WriteAllText(itemFilePath, jsonString);
-        }
-
-        void SaveLineData()
-        {
-            LineBlockArray lineBlockArray = new LineBlockArray();
-            for (int ix = 0; ix < locatedLineList.Count; ++ix)
-            {
-                int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
-                int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
-                int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
-
-                LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
-                lineBlockArray.Add(line);
-            }
-
-            string jsonString = JsonUtility.ToJson(lineBlockArray);
-            File.WriteAllText(lineFilePath, jsonString);
-        }
-
         public void SaveToFile(string projectName = "")
         {
             if (locatedItemList.Count == 0) return;
 
             // Save Project Data.
             SaveProjectData(projectName);
-
-            // Save Block Data.
-            //SaveBlockData();
-
-            // Save Line Data.
-            //SaveLineData();
         }
 
         public void SetAllSelected()

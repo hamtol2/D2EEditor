@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace REEL.EAIEditor
 {
@@ -11,11 +10,6 @@ namespace REEL.EAIEditor
         public int id = -1;
         public string name;
         public Vector2 position;
-
-        public void UpdatePosition(PointerEventData eventData)
-        {
-            this.position = eventData.position;
-        }
 
         public void SetName(string name)
         {
@@ -99,84 +93,6 @@ namespace REEL.EAIEditor
             }
 
             RemoveAt(index);
-        }
-    }
-
-    [Serializable]
-    public class LineExecutePoint
-    {
-        public int blockID = -1;
-        public int executePointID = -1;
-
-        public LineExecutePoint(int blockID)
-        {
-            this.blockID = blockID;
-        }
-
-        public LineExecutePoint(int blockID, int executePointID)
-        {
-            this.blockID = blockID;
-            this.executePointID = executePointID;
-        }
-    }
-
-    [Serializable]
-    public class LineBlock
-    {
-        public LineExecutePoint left;
-        public LineExecutePoint right;
-
-        public LineBlock(int leftBlockID, int rightBlockID)
-        {
-            left = new LineExecutePoint(leftBlockID);
-            right = new LineExecutePoint(rightBlockID);
-        }
-
-        public LineBlock(int leftBlockID, int leftExecutePointID, int rightBlockID)
-        {
-            left = new LineExecutePoint(leftBlockID, leftExecutePointID);
-            right = new LineExecutePoint(rightBlockID);
-        }
-    }
-
-    [Serializable]
-    public class LineBlockArray
-    {
-        [SerializeField] private LineBlock[] lineData;
-
-        public int Length
-        {
-            get { return lineData.Length; }
-        }
-
-        public LineBlock this[int index]
-        {
-            get { return lineData[index]; }
-            set { lineData[index] = value; }
-        }
-
-        public void Add(LineBlock block)
-        {
-            if (lineData == null)
-            {
-                lineData = new LineBlock[1];
-                lineData[0] = block;
-                return;
-            }
-
-            LineBlock[] tempArray = new LineBlock[lineData.Length];
-            for (int ix = 0; ix < tempArray.Length; ++ix)
-            {
-                tempArray[ix] = lineData[ix];
-            }
-
-            lineData = new LineBlock[lineData.Length + 1];
-            for (int ix = 0; ix < tempArray.Length; ++ix)
-            {
-                lineData[ix] = tempArray[ix];
-            }
-
-            lineData[tempArray.Length] = block;
         }
     }
 }

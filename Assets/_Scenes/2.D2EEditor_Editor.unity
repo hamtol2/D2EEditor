@@ -6811,7 +6811,7 @@ GameObject:
   - component: {fileID: 327354810}
   - component: {fileID: 327354811}
   m_Layer: 5
-  m_Name: File Explorer
+  m_Name: Create Or Load Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26979,7 +26979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1585417514}
   m_Layer: 5
-  m_Name: Open Menu
+  m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

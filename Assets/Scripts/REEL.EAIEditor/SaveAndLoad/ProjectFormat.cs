@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace REEL.EAIEditor
+﻿namespace REEL.EAIEditor
 {
     [System.Serializable]
     public class ProjectFormat
