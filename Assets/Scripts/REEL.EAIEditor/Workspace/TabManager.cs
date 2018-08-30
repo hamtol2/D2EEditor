@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace REEL.Test
+namespace REEL.EAIEditor
 {
 	public class TabManager : MonoBehaviour
 	{
@@ -13,10 +13,11 @@ namespace REEL.Test
 
         [SerializeField] private int selectedTabIndex = -1;
         [SerializeField] private int maxTabCount = 8;
+        [SerializeField] private string tabItemName = "tab";
 
         public void AddTab()
         {
-            if (currentTabs.Count >= 8) return;
+            if (currentTabs.Count >= maxTabCount) return;
 
             currentTabs.Add(CreateNewTab());
             RearrangeTabsPosition();
@@ -28,7 +29,9 @@ namespace REEL.Test
             if (foundTab != null)
             {
                 currentTabs.RemoveAt(foundTab.GetTabID);
-                Destroy(foundTab.gameObject);
+                foundTab.ReturnToPool(tabItemName, transform);
+                //ObjectPool.Instance.PushToPool(tabItemName, foundTab.gameObject, transform);
+                //Destroy(foundTab.gameObject);
             }
 
             RearrangeTabsPosition();
@@ -61,10 +64,15 @@ namespace REEL.Test
 
         private TabComponent CreateNewTab()
         {
-            GameObject newTabObj = Instantiate(tabPrefab) as GameObject;
-            newTabObj.transform.SetParent(transform);
+            GameObject newTabObj = ObjectPool.Instance.PopFromPool(tabItemName, transform);
             newTabObj.transform.position = Vector3.zero;
             newTabObj.transform.localScale = Vector3.one;
+            newTabObj.SetActive(true);
+
+            //GameObject newTabObj = Instantiate(tabPrefab) as GameObject;
+            //newTabObj.transform.SetParent(transform);
+            //newTabObj.transform.position = Vector3.zero;
+            //newTabObj.transform.localScale = Vector3.one;
 
             TabComponent newTab = newTabObj.GetComponent<TabComponent>();
             newTab.SetManager(this);

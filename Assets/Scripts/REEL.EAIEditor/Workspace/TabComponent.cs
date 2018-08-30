@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace REEL.Test
+namespace REEL.EAIEditor
 {
 	public class TabComponent : MonoBehaviour
 	{
@@ -15,6 +15,7 @@ namespace REEL.Test
 
         [SerializeField] private TabManager tabManager;
         [SerializeField] private bool isSelected = false;
+        [SerializeField] private string tabName = string.Empty;
 
         private void Awake()
         {
@@ -43,6 +44,19 @@ namespace REEL.Test
             else tabImage.sprite = unselectedSprite;
 
             this.isSelected = isSelected;
+        }
+
+        public void ReturnToPool(string itemName, Transform parent = null)
+        {
+            ChangeState(false);
+            tabID = -1;
+            ObjectPool.Instance.PushToPool(itemName, gameObject);
+        }
+
+        // 탭 이름(프로젝트 이름) 설정.
+        public void SetTabName(string tabName)
+        {
+            this.tabName = tabName;
         }
 
         public Vector2 GetTabSize()
