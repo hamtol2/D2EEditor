@@ -9,6 +9,7 @@ namespace REEL.EAIEditor
 	{
         [SerializeField] private Sprite selectedSprite;
         [SerializeField] private Sprite unselectedSprite;
+        [SerializeField] private Text projectNameText;
 
         [SerializeField] private int tabID = -1;
         private Image tabImage;
@@ -20,6 +21,7 @@ namespace REEL.EAIEditor
         private void Awake()
         {
             tabImage = GetComponent<Image>();
+            projectNameText = GetComponentInChildren<Text>(true);
             ChangeState(false);
         }
 
@@ -49,7 +51,8 @@ namespace REEL.EAIEditor
         public void ReturnToPool(string itemName, Transform parent = null)
         {
             ChangeState(false);
-            tabID = -1;
+            SetTabName(string.Empty);
+            SetTabID(-1);
             ObjectPool.Instance.PushToPool(itemName, gameObject);
         }
 
@@ -57,6 +60,7 @@ namespace REEL.EAIEditor
         public void SetTabName(string tabName)
         {
             this.tabName = tabName;
+            if (projectNameText) projectNameText.text = tabName;
         }
 
         public Vector2 GetTabSize()

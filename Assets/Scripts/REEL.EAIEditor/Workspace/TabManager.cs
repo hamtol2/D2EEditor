@@ -17,7 +17,7 @@ namespace REEL.EAIEditor
 
         public void AddTab()
         {
-            if (currentTabs.Count >= maxTabCount) return;
+            if (!CanAddTab) return;
 
             currentTabs.Add(CreateNewTab());
             RearrangeTabsPosition();
@@ -29,9 +29,9 @@ namespace REEL.EAIEditor
             if (foundTab != null)
             {
                 currentTabs.RemoveAt(foundTab.GetTabID);
+
+                // Retun to object pool.
                 foundTab.ReturnToPool(tabItemName, transform);
-                //ObjectPool.Instance.PushToPool(tabItemName, foundTab.gameObject, transform);
-                //Destroy(foundTab.gameObject);
             }
 
             RearrangeTabsPosition();
@@ -64,17 +64,14 @@ namespace REEL.EAIEditor
 
         private TabComponent CreateNewTab()
         {
+            // Get Object from object pool.
             GameObject newTabObj = ObjectPool.Instance.PopFromPool(tabItemName, transform);
             newTabObj.transform.position = Vector3.zero;
             newTabObj.transform.localScale = Vector3.one;
             newTabObj.SetActive(true);
 
-            //GameObject newTabObj = Instantiate(tabPrefab) as GameObject;
-            //newTabObj.transform.SetParent(transform);
-            //newTabObj.transform.position = Vector3.zero;
-            //newTabObj.transform.localScale = Vector3.one;
-
             TabComponent newTab = newTabObj.GetComponent<TabComponent>();
+            newTab.SetTabName("Test" + (currentTabs.Count + 1).ToString());
             newTab.SetManager(this);
 
             return newTab;
@@ -108,5 +105,7 @@ namespace REEL.EAIEditor
 
             if (currentTabs.Count == 1 || !anyTabSelected) ChangeTabState(0);
         }
+
+        public bool CanAddTab { get { return currentTabs.Count < maxTabCount; } }
 	}
 }

@@ -177,6 +177,7 @@ MonoBehaviour:
   pointPosition: 1
   lineBasePrefab: {fileID: 1391689942829484, guid: 3f8bfd6066e0e4f38acc16f9f12b26aa,
     type: 2}
+  executePointRoot: {fileID: 0}
   hasLine: 0
   executePointID: 1
 --- !u!114 &114790321592105304
@@ -239,7 +240,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 004020176b5d4424eac96c3cb39e9898, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9476a330ffad9b4e8142030d0c3339d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
