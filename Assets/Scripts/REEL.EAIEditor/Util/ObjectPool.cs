@@ -12,7 +12,7 @@ namespace REEL.EAIEditor
         {
             for (int ix = 0; ix < objectPool.Count; ++ix)
             {
-                objectPool[ix].Initialize(transform);
+                objectPool[ix].Initialize(objectPool[ix].parentTransform);
             }
         }
 

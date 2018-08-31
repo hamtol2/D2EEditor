@@ -9,6 +9,7 @@ namespace REEL.EAIEditor
 	{
         public string poolItemName = string.Empty;
         [SerializeField] private GameObject prefab = null;
+        public Transform parentTransform;
         public int poolCount = 0;
 
         [SerializeField] private Stack<GameObject> poolList = new Stack<GameObject>();
@@ -32,7 +33,10 @@ namespace REEL.EAIEditor
         {
             if (poolList.Count == 0) poolList.Push(CreateItem(parent));
 
-            return poolList.Pop();
+            GameObject item = poolList.Pop();
+            item.transform.SetParent(parent);
+
+            return item;
         }
 
         private GameObject CreateItem(Transform parent = null)

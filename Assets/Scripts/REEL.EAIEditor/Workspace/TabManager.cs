@@ -52,11 +52,14 @@ namespace REEL.EAIEditor
             currentTabs[selectedTabIndex].ChangeState(true);
         }
 
-        public void SaveProject()
+        public void SaveProject(string projectName)
         {
             if (selectedTabIndex == -1) return;
 
-            BlockDiagramManager.Instance.SaveToFile(currentTabs[selectedTabIndex].GetTabName);
+            projectName = string.IsNullOrEmpty(projectName) ? currentTabs[selectedTabIndex].GetTabName : projectName;
+            BlockDiagramManager.Instance.SaveToFile(projectName);
+
+            //BlockDiagramManager.Instance.SaveToFile(currentTabs[selectedTabIndex].GetTabName);
         }
 
         private TabComponent GetTab(int tabID)
