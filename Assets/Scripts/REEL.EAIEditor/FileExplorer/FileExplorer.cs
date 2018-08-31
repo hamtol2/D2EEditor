@@ -24,8 +24,20 @@ namespace REEL.EAIEditor
             dataPath = Application.dataPath + "/Data";
         }
 
-        public void OnSaveClicked()
+        public void OpenSaveWindow()
         {
+            saveWindow.SetActive(true);
+            loadWindow.SetActive(false);
+        }
+
+        public void OpenLoadWindow()
+        {
+            loadWindow.SetActive(true);
+            saveWindow.SetActive(false);
+        }
+
+        public void OnSaveClicked()
+        {   
             tabManager.SaveProject(fileNameInput.text);
         }
 

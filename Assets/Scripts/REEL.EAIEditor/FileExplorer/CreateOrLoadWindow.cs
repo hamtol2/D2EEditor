@@ -9,12 +9,12 @@ namespace REEL.EAIEditor
 	{
         [SerializeField] private TabManager tabManager;
         [SerializeField] private GameObject newAndLoadWindow;
-        [SerializeField] private GameObject fileExplorerWindow;
+        [SerializeField] private FileExplorer fileExplorerWindow;
 
         public void OnCloseClicked()
         {
-            newAndLoadWindow.SetActive(true);
-            fileExplorerWindow.SetActive(false);
+            newAndLoadWindow.SetActive(false);
+            fileExplorerWindow.gameObject.SetActive(false);
 
             gameObject.SetActive(false);
         }
@@ -24,18 +24,27 @@ namespace REEL.EAIEditor
             if (!tabManager.CanAddTab) return;
 
             gameObject.SetActive(true);
+            newAndLoadWindow.SetActive(true);
+        }
+
+        public void OpenSaveWindow()
+        {
+            gameObject.SetActive(true);
+            fileExplorerWindow.gameObject.SetActive(true);
+            fileExplorerWindow.OpenSaveWindow();
+        }
+
+        public void OpenLoadWindow()
+        {
+            gameObject.SetActive(true);
+            fileExplorerWindow.gameObject.SetActive(true);
+            fileExplorerWindow.OpenLoadWindow();
         }
 
         public void OnLoadClicked()
         {
-            //foreach (string file in Directory.GetFiles(Application.dataPath + "/Data", "*.json"))
-            //{
-            //    string[] test = file.Split(new char[] { '/', '\\' });
-            //    Debug.Log(test[test.Length - 1]);
-            //}
-
             newAndLoadWindow.SetActive(false);
-            fileExplorerWindow.SetActive(true);
+            fileExplorerWindow.gameObject.SetActive(true);
         }
 	}
 }
