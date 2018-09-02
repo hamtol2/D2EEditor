@@ -7681,7 +7681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileListItemName: FileListItem
   saveWindow: {fileID: 1150584093}
-  loadWindow: {fileID: 1346313044}
+  loadWindow: {fileID: 1346313048}
   fileListContent: {fileID: 1483415300}
   fileNameInput: {fileID: 1208646546}
   tabManager: {fileID: 1712488844}
@@ -12124,6 +12124,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 327354811}
+        m_MethodName: OnCloseClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &606647600
@@ -12578,8 +12589,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 771531608}
+  m_Children: []
   m_Father: {fileID: 303902253}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13279,7 +13289,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1712488844}
         m_MethodName: AddTab
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15198,135 +15208,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 763901114}
   m_CullTransparentMesh: 0
---- !u!1001 &771531607
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 645453084}
-    m_Modifications:
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 390
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 780
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-        type: 2}
-      propertyPath: m_Pivot.y
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6e584b6cf10f490499b33965ac379ae6, type: 2}
-  m_IsPrefabAsset: 0
---- !u!224 &771531608 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224113236533657436, guid: 6e584b6cf10f490499b33965ac379ae6,
-    type: 2}
-  m_PrefabInternal: {fileID: 771531607}
---- !u!1 &771531609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1913527360534544, guid: 6e584b6cf10f490499b33965ac379ae6,
-    type: 2}
-  m_PrefabInternal: {fileID: 771531607}
---- !u!114 &771531610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 771531609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!1 &773278097
 GameObject:
   m_ObjectHideFlags: 0
@@ -26575,9 +26456,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileListItemName: FileListItem
+  fileExplorer: {fileID: 357000835}
   fileListContent: {fileID: 645453084}
+  tabManager: {fileID: 1712488844}
   dataPath: 
   selectedProjectFileName: 
+  fileList: []
+  inputField: {fileID: 815328246}
 --- !u!1 &1352586261
 GameObject:
   m_ObjectHideFlags: 0
@@ -33294,8 +33179,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 357000835}
-        m_MethodName: SaveProject
+      - m_Target: {fileID: 1346313048}
+        m_MethodName: OnLoadClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 327354811}
+        m_MethodName: OnCloseClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38847,6 +38743,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1346313048}
+        m_MethodName: OnLoadClosed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 357000835}
         m_MethodName: OnCancelClicked
         m_Mode: 1
