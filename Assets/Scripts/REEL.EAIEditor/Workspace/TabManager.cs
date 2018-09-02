@@ -15,11 +15,19 @@ namespace REEL.EAIEditor
         [SerializeField] private int maxTabCount = 8;
         [SerializeField] private string tabItemName = "tab";
 
-        public void AddTab()
+        //public void AddTab()
+        //{
+        //    if (!CanAddTab) return;
+
+        //    currentTabs.Add(CreateNewTab());
+        //    RearrangeTabsPosition();
+        //}
+
+        public void AddTab(string tabName)
         {
             if (!CanAddTab) return;
 
-            currentTabs.Add(CreateNewTab());
+            currentTabs.Add(CreateNewTab(tabName));
             RearrangeTabsPosition();
         }
 
@@ -72,7 +80,26 @@ namespace REEL.EAIEditor
             return null;
         }
 
-        private TabComponent CreateNewTab()
+        //private TabComponent CreateNewTab()
+        //{
+        //    // Get Object from object pool.
+        //    TabComponent newTab = CreateTabComponent();
+        //    newTab.SetTabName("Test" + (currentTabs.Count + 1).ToString());
+        //    newTab.SetManager(this);
+
+        //    return newTab;
+        //}
+
+        private TabComponent CreateNewTab(string tabName)
+        {
+            TabComponent newTab = CreateTabComponent();
+            newTab.SetTabName(string.IsNullOrEmpty(tabName) ? "Test" + (currentTabs.Count + 1).ToString() : tabName);
+            newTab.SetManager(this);
+
+            return newTab;
+        }
+
+        private TabComponent CreateTabComponent()
         {
             // Get Object from object pool.
             GameObject newTabObj = ObjectPool.Instance.PopFromPool(tabItemName, transform);
@@ -80,11 +107,7 @@ namespace REEL.EAIEditor
             newTabObj.transform.localScale = Vector3.one;
             newTabObj.SetActive(true);
 
-            TabComponent newTab = newTabObj.GetComponent<TabComponent>();
-            newTab.SetTabName("Test" + (currentTabs.Count + 1).ToString());
-            newTab.SetManager(this);
-
-            return newTab;
+            return newTabObj.GetComponent<TabComponent>();
         }
 
         private void RearrangeTabsPosition()

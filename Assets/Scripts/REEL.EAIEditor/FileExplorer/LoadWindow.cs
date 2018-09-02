@@ -7,26 +7,16 @@ using UnityEngine.UI;
 
 namespace REEL.EAIEditor
 {
-    public class LoadWindow : MonoBehaviour
+    public class LoadWindow : FileWindow
     {
-        [SerializeField] private string fileListItemName = "FileListItem";
-        [SerializeField] private RectTransform fileListContent;
-        [SerializeField] private string dataPath;
+        [SerializeField] protected InputField inputField;
 
-        [SerializeField] private string selectedProjectFileName = string.Empty;
+        public InputField GetInputField {  get { return inputField; } }
 
-        private void Awake()
+        public void LoadFileList()
         {
-            dataPath = Application.dataPath + "/Data";
-        }
+            ResetList();
 
-        public void SetSelectedProjectFileName(Text fileNameText)
-        {
-            selectedProjectFileName = fileNameText.text;
-        }
-
-        private void OnEnable()
-        {
             string[] files = Directory.GetFiles(dataPath, "*.json");
 
             for (int ix = 0; ix < files.Length; ++ix)
@@ -35,16 +25,35 @@ namespace REEL.EAIEditor
                 GameObject item = ObjectPool.Instance.PopFromPool(fileListItemName, fileListContent);
                 item.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
                 item.SetActive(true);
-                
+
                 string[] info = files[ix].Split(new char[] { '/', '\\' });
                 string fileName = info[info.Length - 1];
                 fileName = fileName.Split(new char[] { '.' })[0];
 
                 FileListItem list = item.GetComponent<FileListItem>();
                 list.SetFileName(fileName);
+                list.SetFileWindow(this);
+                list.SetInputField(inputField);
 
-                EventTrigger trigger = list.GetComponent<EventTrigger>();                
+                fileList.Add(list);
+
+                EventTrigger trigger = list.GetComponent<EventTrigger>();
             }
+        }
+
+        public void OnLoadClosed()
+        {
+            inputField.text = string.Empty;
+            ResetList();
+            fileExplorer.OnCancelClicked();
+        }
+
+        public void OnLoadClicked()
+        {
+            if (string.IsNullOrEmpty(inputField.text)) return;
+
+            tabManager.AddTab(selectedProjectFileName);
+            BlockDiagramManager.Instance.LoadFromFile(selectedProjectFileName);
         }
     }
 }

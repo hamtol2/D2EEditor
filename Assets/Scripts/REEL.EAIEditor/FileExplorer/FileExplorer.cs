@@ -10,7 +10,7 @@ namespace REEL.EAIEditor
 	{
         [SerializeField] private string fileListItemName = "FileListItem";
         [SerializeField] private GameObject saveWindow;
-        [SerializeField] private GameObject loadWindow;
+        [SerializeField] private LoadWindow loadWindow;
 
         [SerializeField] private RectTransform fileListContent;
         [SerializeField] private InputField fileNameInput;
@@ -27,12 +27,13 @@ namespace REEL.EAIEditor
         public void OpenSaveWindow()
         {
             saveWindow.SetActive(true);
-            loadWindow.SetActive(false);
+            loadWindow.gameObject.SetActive(false);
         }
 
         public void OpenLoadWindow()
         {
-            loadWindow.SetActive(true);
+            loadWindow.gameObject.SetActive(true);
+            loadWindow.LoadFileList();
             saveWindow.SetActive(false);
         }
 
@@ -45,6 +46,8 @@ namespace REEL.EAIEditor
         {
             window.OnCloseClicked();
         }
+
+        public CreateOrLoadWindow GetCreateOrLoadWindow { get { return window; } }
 
         //public void OnEnable()
         //{

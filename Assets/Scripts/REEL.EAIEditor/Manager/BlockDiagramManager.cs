@@ -113,10 +113,12 @@ namespace REEL.EAIEditor
             }
         }
 
-        public void LoadFromFile()
+        //public void LoadFromFile()
+        public void LoadFromFile(string fileName)
         {
             // Load json text and convert to project format.
-            ProjectFormat project = LoadProjectDataFromJson("Test1");
+            //ProjectFormat project = LoadProjectDataFromJson("Test1");
+            ProjectFormat project = LoadProjectDataFromJson(fileName);
 
             // create blocks with project format.
             CreateBlocks(project.blockArray);
