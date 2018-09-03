@@ -1028,7 +1028,7 @@ MonoBehaviour:
   requestIP: /api/v1/login
   idField: {fileID: 778145112}
   pwField: {fileID: 1983251727}
-  keepLoginStatusToggle: {fileID: 0}
+  keepLoginStatusToggle: {fileID: 1199524906}
 --- !u!1 &1160019355
 GameObject:
   m_ObjectHideFlags: 0
