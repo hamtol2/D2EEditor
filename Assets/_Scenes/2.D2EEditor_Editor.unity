@@ -7680,7 +7680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileListItemName: FileListItem
-  saveWindow: {fileID: 1150584093}
+  saveWindow: {fileID: 1150584097}
   loadWindow: {fileID: 1346313048}
   fileListContent: {fileID: 1483415300}
   fileNameInput: {fileID: 1208646546}
@@ -22719,6 +22719,7 @@ GameObject:
   - component: {fileID: 1150584094}
   - component: {fileID: 1150584096}
   - component: {fileID: 1150584095}
+  - component: {fileID: 1150584097}
   m_Layer: 5
   m_Name: Save Window BG
   m_TagString: Untagged
@@ -22781,6 +22782,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1150584093}
   m_CullTransparentMesh: 0
+--- !u!114 &1150584097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150584093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7d19d2fe74e11459b2328e24977bc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileListItemName: FileListItem
+  fileExplorer: {fileID: 357000835}
+  fileListContent: {fileID: 1483415300}
+  tabManager: {fileID: 1712488844}
+  dataPath: 
+  selectedProjectFileName: 
+  fileList: []
+  inputField: {fileID: 1208646546}
 --- !u!1 &1151799170
 GameObject:
   m_ObjectHideFlags: 0

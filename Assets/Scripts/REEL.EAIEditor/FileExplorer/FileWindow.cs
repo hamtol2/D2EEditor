@@ -14,8 +14,10 @@ namespace REEL.EAIEditor
         [SerializeField] protected string dataPath;
 
         [SerializeField] protected string selectedProjectFileName = string.Empty;
-
         [SerializeField] protected List<FileListItem> fileList = new List<FileListItem>();
+        [SerializeField] protected InputField inputField;
+
+        public InputField GetInputField { get { return inputField; } }
 
         protected virtual void Awake()
         {
@@ -37,6 +39,7 @@ namespace REEL.EAIEditor
             }
 
             fileList = new List<FileListItem>();
+            inputField.text = string.Empty;
         }
 
         protected virtual void ReturnObject(string objName, GameObject listObj, Transform parent)

@@ -9,10 +9,6 @@ namespace REEL.EAIEditor
 {
     public class LoadWindow : FileWindow
     {
-        [SerializeField] protected InputField inputField;
-
-        public InputField GetInputField {  get { return inputField; } }
-
         public void LoadFileList()
         {
             ResetList();

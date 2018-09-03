@@ -9,7 +9,7 @@ namespace REEL.EAIEditor
 	public class FileExplorer : MonoBehaviour
 	{
         [SerializeField] private string fileListItemName = "FileListItem";
-        [SerializeField] private GameObject saveWindow;
+        [SerializeField] private SaveWindow saveWindow;
         [SerializeField] private LoadWindow loadWindow;
 
         [SerializeField] private RectTransform fileListContent;
@@ -26,7 +26,8 @@ namespace REEL.EAIEditor
 
         public void OpenSaveWindow()
         {
-            saveWindow.SetActive(true);
+            saveWindow.gameObject.SetActive(true);
+            saveWindow.LoadFileList();
             loadWindow.gameObject.SetActive(false);
         }
 
@@ -34,7 +35,7 @@ namespace REEL.EAIEditor
         {
             loadWindow.gameObject.SetActive(true);
             loadWindow.LoadFileList();
-            saveWindow.SetActive(false);
+            saveWindow.gameObject.SetActive(false);
         }
 
         public void OnSaveClicked()
