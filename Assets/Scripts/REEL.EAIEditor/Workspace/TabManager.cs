@@ -6,7 +6,7 @@ namespace REEL.EAIEditor
 {
 	public class TabManager : MonoBehaviour
 	{
-        [SerializeField] public List<TabComponent> currentTabs = new List<TabComponent>();
+        [SerializeField] public List<TabUI> currentTabs = new List<TabUI>();
         [SerializeField] private GameObject tabPrefab;
         [SerializeField] private float tabOffset = 15f;
         [SerializeField] private RectTransform newTabComponent;
@@ -31,9 +31,9 @@ namespace REEL.EAIEditor
             RearrangeTabsPosition();
         }
 
-        public void RemoveTab(TabComponent tab)
+        public void RemoveTab(TabUI tab)
         {
-            TabComponent foundTab = GetTab(tab.GetTabID);
+            TabUI foundTab = GetTab(tab.GetTabID);
             if (foundTab != null)
             {
                 currentTabs.RemoveAt(foundTab.GetTabID);
@@ -70,7 +70,7 @@ namespace REEL.EAIEditor
             //BlockDiagramManager.Instance.SaveToFile(currentTabs[selectedTabIndex].GetTabName);
         }
 
-        private TabComponent GetTab(int tabID)
+        private TabUI GetTab(int tabID)
         {
             for (int ix = 0; ix < currentTabs.Count; ++ix)
             {
@@ -90,16 +90,16 @@ namespace REEL.EAIEditor
         //    return newTab;
         //}
 
-        private TabComponent CreateNewTab(string tabName)
+        private TabUI CreateNewTab(string tabName)
         {
-            TabComponent newTab = CreateTabComponent();
+            TabUI newTab = CreateTabComponent();
             newTab.SetTabName(string.IsNullOrEmpty(tabName) ? "Test" + (currentTabs.Count + 1).ToString() : tabName);
             newTab.SetManager(this);
 
             return newTab;
         }
 
-        private TabComponent CreateTabComponent()
+        private TabUI CreateTabComponent()
         {
             // Get Object from object pool.
             GameObject newTabObj = ObjectPool.Instance.PopFromPool(tabItemName, transform);
@@ -107,7 +107,7 @@ namespace REEL.EAIEditor
             newTabObj.transform.localScale = Vector3.one;
             newTabObj.SetActive(true);
 
-            return newTabObj.GetComponent<TabComponent>();
+            return newTabObj.GetComponent<TabUI>();
         }
 
         private void RearrangeTabsPosition()

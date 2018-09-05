@@ -1,4 +1,5 @@
-﻿namespace REEL.EAIEditor
+﻿// Project File Format.
+namespace REEL.EAIEditor
 {
     [System.Serializable]
     public class ProjectFormat

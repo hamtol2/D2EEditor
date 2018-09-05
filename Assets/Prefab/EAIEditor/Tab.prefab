@@ -57,7 +57,9 @@ GameObject:
   - component: {fileID: 222592053504304380}
   - component: {fileID: 114247094203699410}
   - component: {fileID: 114691532018094200}
+  - component: {fileID: 114696275457785028}
   - component: {fileID: 114790779177789628}
+  - component: {fileID: 114774562323711908}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -204,6 +206,39 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114696275457785028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881182182371044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9314cb5c1474dec47a903182e3a781a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabUI: {fileID: 114790779177789628}
+  tabData: {fileID: 114774562323711908}
+--- !u!114 &114774562323711908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1881182182371044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee79e2eef33da554db46d49514d83822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  project:
+    projectData:
+      fileName: 
+      fileExtension: json
+      blockId: 1
+      locatedItemList: []
+      curSelectedItemList: []
+      locatedLineList: []
+      curSelectedLineList: []
 --- !u!114 &114790779177789628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedSprite: {fileID: 21300000, guid: 744082275ad87d943a16074f235bb4fd, type: 3}
   unselectedSprite: {fileID: 21300000, guid: 0cb8679011cbd224181979871988d1e1, type: 3}
+  projectNameText: {fileID: 0}
   tabID: -1
   tabManager: {fileID: 0}
   isSelected: 0
