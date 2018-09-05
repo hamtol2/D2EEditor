@@ -9,13 +9,13 @@ namespace REEL.EAIEditor
 	public class FileExplorer : MonoBehaviour
 	{
         [SerializeField] private string fileListItemName = "FileListItem";
-        [SerializeField] private SaveWindow saveWindow;
-        [SerializeField] private LoadWindow loadWindow;
+        [SerializeField] private SaveWindow saveWindow = null;
+        [SerializeField] private LoadWindow loadWindow = null;
 
         [SerializeField] private RectTransform fileListContent;
-        [SerializeField] private InputField fileNameInput;
-        [SerializeField] private TabManager tabManager;
-        [SerializeField] private CreateOrLoadWindow window;
+        [SerializeField] private InputField fileNameInput = null;
+        [SerializeField] private TabManager tabManager = null;
+        [SerializeField] private CreateOrLoadWindow window = null;
 
         [SerializeField] private string dataPath;
 

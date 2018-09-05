@@ -8,9 +8,9 @@ namespace REEL.EAIEditor
 {
     public class GraphItem : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
     {
-        [SerializeField] private NodeType nodeType;
+        [SerializeField] private NodeType nodeType = NodeType.Event;
 
-        [SerializeField] private EditorManager.ETargetMenuType targetMenuType;
+        [SerializeField] private EditorManager.ETargetMenuType targetMenuType = EditorManager.ETargetMenuType.Event;
 
         private RectTransform refRectTransform;
         private Vector3 originPosition;
@@ -45,10 +45,10 @@ namespace REEL.EAIEditor
             originPosition = refRectTransform.position;
 
             // Set Selected Node Block.
-            if (BlockDiagramManager.Instance.GetCurrentSelectedBlockCount == 0 
+            if (WorkspaceManager.Instance.GetCurrentSelectedBlockCount == 0 
                 || KeyInputManager.Instance.shouldMultiSelect)
             {
-                BlockDiagramManager.Instance.SetSelectedGraphItem(this);
+                WorkspaceManager.Instance.SetSelectedGraphItem(this);
             }
 
             //else if (!KeyInputManager.Instance.shouldMultiSelect 
@@ -66,9 +66,9 @@ namespace REEL.EAIEditor
             }
 
             if (!KeyInputManager.Instance.shouldMultiSelect
-                && BlockDiagramManager.Instance.GetCurrentSelectedBlockCount > 0)
+                && WorkspaceManager.Instance.GetCurrentSelectedBlockCount > 0)
             {
-                BlockDiagramManager.Instance.SetOneSelected(this);
+                WorkspaceManager.Instance.SetOneSelected(this);
             }
 
             if (!KeyInputManager.Instance.shouldMultiSelect 

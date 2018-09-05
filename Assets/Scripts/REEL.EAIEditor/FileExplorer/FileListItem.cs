@@ -7,8 +7,8 @@ namespace REEL.EAIEditor
 {
     public class FileListItem : MonoBehaviour
     {
-        [SerializeField] private Text fileNameText;
-        [SerializeField] private Text typeNameText;
+        [SerializeField] private Text fileNameText = null;
+        [SerializeField] private Text typeNameText = null;
 
         private InputField inputField;
         private FileWindow fileWindow;

@@ -21,7 +21,7 @@ namespace REEL.EAIEditor
         {
             if (!canDrag) return;
 
-            BlockDiagramManager.Instance.SetAllUnselected();
+            WorkspaceManager.Instance.SetAllUnselected();
 
             originPosition = refRectTransform.position;
             SetDragOffset(eventData.position);

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace REEL.EAIEditor
 {
-	public class WorkspaceTabManager : Singleton<WorkspaceTabManager>
-	{
+    public class WorkspaceTabManager : Singleton<WorkspaceTabManager>
+    {
         public List<Workspace> workspaces;
 
         public void AddWorkspace(Workspace workspace)
@@ -17,5 +17,5 @@ namespace REEL.EAIEditor
         {
             workspaces.Remove(workspace);
         }
-	}
+    }
 }

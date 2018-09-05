@@ -10,7 +10,7 @@ namespace REEL.EAIEditor
         private float blockHeight = 85f;
 
         [SerializeField]
-        private BranchConditionComponent[] switchBlocks;
+        private BranchConditionComponent[] switchBlocks = null;
 
         private RectTransform refRectTransform;
 

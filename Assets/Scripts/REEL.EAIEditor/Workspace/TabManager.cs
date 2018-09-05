@@ -6,34 +6,39 @@ namespace REEL.EAIEditor
 {
 	public class TabManager : MonoBehaviour
 	{
-        [SerializeField] public List<TabUI> currentTabs = new List<TabUI>();
-        [SerializeField] private GameObject tabPrefab;
+        public enum TabAddType { New, Load }
+
+        [SerializeField] public List<TabComponent> currentTabs = new List<TabComponent>();
+        [SerializeField] private GameObject tabPrefab = null;
         [SerializeField] private float tabOffset = 15f;
-        [SerializeField] private RectTransform newTabComponent;
+        [SerializeField] private RectTransform newTabComponent = null;
 
         [SerializeField] private int selectedTabIndex = -1;
         [SerializeField] private int maxTabCount = 8;
         [SerializeField] private string tabItemName = "tab";
 
-        //public void AddTab()
-        //{
-        //    if (!CanAddTab) return;
+        public void CreateTab(string tabName)
+        {
+            AddTab(tabName, TabAddType.New);
+        }
 
-        //    currentTabs.Add(CreateNewTab());
-        //    RearrangeTabsPosition();
-        //}
-
-        public void AddTab(string tabName)
+        public void AddTab(string tabName, TabAddType addType)
         {
             if (!CanAddTab) return;
 
-            currentTabs.Add(CreateNewTab(tabName));
+            switch (addType)
+            {
+                case TabAddType.New: currentTabs.Add(CreateNewTab(tabName)); break;
+                case TabAddType.Load: currentTabs.Add(LoadTab(tabName)); break;
+                default: break;
+            }
+            
             RearrangeTabsPosition();
         }
 
-        public void RemoveTab(TabUI tab)
+        public void RemoveTab(TabComponent tab)
         {
-            TabUI foundTab = GetTab(tab.GetTabID);
+            TabComponent foundTab = GetTab(tab.GetTabID);
             if (foundTab != null)
             {
                 currentTabs.RemoveAt(foundTab.GetTabID);
@@ -49,7 +54,7 @@ namespace REEL.EAIEditor
         {
             for (int ix = 0; ix < currentTabs.Count; ++ix)
             {
-                currentTabs[ix].ChangeState(false);
+                currentTabs[ix].GetTabUI.ChangeState(false);
             }
         }
 
@@ -57,20 +62,18 @@ namespace REEL.EAIEditor
         {
             SetAllTabUnselected();
             selectedTabIndex = tabID;
-            currentTabs[selectedTabIndex].ChangeState(true);
+            currentTabs[selectedTabIndex].GetTabUI.ChangeState(true);
         }
 
         public void SaveProject(string projectName)
         {
             if (selectedTabIndex == -1) return;
 
-            projectName = string.IsNullOrEmpty(projectName) ? currentTabs[selectedTabIndex].GetTabName : projectName;
-            BlockDiagramManager.Instance.SaveToFile(projectName);
-
-            //BlockDiagramManager.Instance.SaveToFile(currentTabs[selectedTabIndex].GetTabName);
+            projectName = string.IsNullOrEmpty(projectName) ? currentTabs[selectedTabIndex].GetTabUI.GetTabName : projectName;
+            WorkspaceManager.Instance.SaveToFile(projectName);
         }
 
-        private TabUI GetTab(int tabID)
+        private TabComponent GetTab(int tabID)
         {
             for (int ix = 0; ix < currentTabs.Count; ++ix)
             {
@@ -80,26 +83,36 @@ namespace REEL.EAIEditor
             return null;
         }
 
-        //private TabComponent CreateNewTab()
-        //{
-        //    // Get Object from object pool.
-        //    TabComponent newTab = CreateTabComponent();
-        //    newTab.SetTabName("Test" + (currentTabs.Count + 1).ToString());
-        //    newTab.SetManager(this);
-
-        //    return newTab;
-        //}
-
-        private TabUI CreateNewTab(string tabName)
+        private TabComponent LoadTab(string tabName)
         {
-            TabUI newTab = CreateTabComponent();
-            newTab.SetTabName(string.IsNullOrEmpty(tabName) ? "Test" + (currentTabs.Count + 1).ToString() : tabName);
+            TabComponent newTab = GetTabComponentFromOjbectPool();
+
+            newTab.GetTabUI.SetTabName(tabName);
+            newTab.SetManager(this);
+
+            newTab.GetTabData.LoadProject(tabName);
+
+            // Test..
+            ProjectFormat project = newTab.GetTabData.GetProjectData.GetProjectFormat;
+            WorkspaceManager.Instance.LoadFromProjectFormat(project);
+
+            return newTab;
+        }
+
+        private TabComponent CreateNewTab(string tabName)
+        {
+            TabComponent newTab = GetTabComponentFromOjbectPool();
+
+            bool isTabNameNull = string.IsNullOrEmpty(tabName);
+
+            // Set TabUI.
+            newTab.GetTabUI.SetTabName(isTabNameNull ? "Test" + (currentTabs.Count + 1).ToString() : tabName);
             newTab.SetManager(this);
 
             return newTab;
         }
 
-        private TabUI CreateTabComponent()
+        private TabComponent GetTabComponentFromOjbectPool()
         {
             // Get Object from object pool.
             GameObject newTabObj = ObjectPool.Instance.PopFromPool(tabItemName, transform);
@@ -107,7 +120,7 @@ namespace REEL.EAIEditor
             newTabObj.transform.localScale = Vector3.one;
             newTabObj.SetActive(true);
 
-            return newTabObj.GetComponent<TabUI>();
+            return newTabObj.GetComponent<TabComponent>();
         }
 
         private void RearrangeTabsPosition()
@@ -122,19 +135,19 @@ namespace REEL.EAIEditor
             Vector2 newPos = Vector2.zero;
             for (int ix = 0; ix < currentTabs.Count; ++ix)
             {   
-                newPos.x = ix * currentTabs[ix].GetTabSize().x + (ix == 0? 0 : ix) * tabOffset;
+                newPos.x = ix * currentTabs[ix].GetTabUI.GetTabSize().x + (ix == 0? 0 : ix) * tabOffset;
                 newPos.y = 0f;
                 currentTabs[ix].GetComponent<RectTransform>().anchoredPosition = newPos;
                 currentTabs[ix].SetTabID(ix);
 
-                if (currentTabs[ix].GetSelectedState)
+                if (currentTabs[ix].GetTabUI.GetSelectedState)
                 {
                     anyTabSelected = true;
                     selectedTabIndex = ix;
                 }
             }
 
-            newTabComponent.anchoredPosition = new Vector2(newPos.x + currentTabs[0].GetTabSize().x + tabOffset, 0f);
+            newTabComponent.anchoredPosition = new Vector2(newPos.x + currentTabs[0].GetTabUI.GetTabSize().x + tabOffset, 0f);
 
             if (currentTabs.Count == 1 || !anyTabSelected) ChangeTabState(0);
         }

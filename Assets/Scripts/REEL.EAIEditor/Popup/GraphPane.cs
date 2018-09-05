@@ -6,7 +6,7 @@ namespace REEL.EAIEditor
     public class GraphPane : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     {
         [SerializeField]
-        private Transform blockPane;
+        private Transform blockPane = null;
 
         public void AddNodeItem(GameObject itemPrefab, Vector3 itemPosition, NodeType nodeType, int nodeID = -1)
         {
@@ -20,7 +20,7 @@ namespace REEL.EAIEditor
             graphItem.BlockID = nodeID;
 
             // Add Block Information to Block Diagram Manager.
-            BlockDiagramManager.Instance.AddBlock(graphItem);
+            WorkspaceManager.Instance.AddBlock(graphItem);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -32,7 +32,7 @@ namespace REEL.EAIEditor
         {
             if (KeyInputManager.Instance.isShiftPressed) return;
 
-            BlockDiagramManager.Instance.SetAllUnselected();
+            WorkspaceManager.Instance.SetAllUnselected();
         }
     }
 }

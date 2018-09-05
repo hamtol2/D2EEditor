@@ -8,7 +8,7 @@ namespace REEL.EAIEditor
     public class IFBranchPopup : Popup
     {
         [SerializeField]
-        private BranchConditionComponent branchData; 
+        private BranchConditionComponent branchData = null; 
 
         [SerializeField]
         private IFBranchItem targetIfItem;

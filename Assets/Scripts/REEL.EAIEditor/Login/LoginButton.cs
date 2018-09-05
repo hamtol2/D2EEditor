@@ -10,9 +10,9 @@ namespace REEL.EAIEditor
 	{
         [SerializeField] private string sceneName = "D2EEditor_Editor";
         [SerializeField] private string requestIP = "";
-        [SerializeField] private InputField idField;
-        [SerializeField] private InputField pwField;
-        [SerializeField] private Toggle keepLoginStatusToggle;
+        [SerializeField] private InputField idField = null;
+        [SerializeField] private InputField pwField = null;
+        [SerializeField] private Toggle keepLoginStatusToggle = null;
 
 		public void OnLoginButtonCliced()
         {

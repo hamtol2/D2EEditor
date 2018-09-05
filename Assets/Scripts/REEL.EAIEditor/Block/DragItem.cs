@@ -29,14 +29,14 @@ namespace REEL.EAIEditor
             if (!canDrag) return;
             originPosition = refRectTransform.position;
 
-            BlockDiagramManager.Instance.SetDragOffset(eventData.position);
+            WorkspaceManager.Instance.SetDragOffset(eventData.position);
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
             if (!canDrag) return;
 
-            BlockDiagramManager.Instance.BlockDrag(eventData, GetComponent<GraphItem>());
+            WorkspaceManager.Instance.BlockDrag(eventData, GetComponent<GraphItem>());
         }
 
         public void SetDragOffset(Vector3 pointerPosition)

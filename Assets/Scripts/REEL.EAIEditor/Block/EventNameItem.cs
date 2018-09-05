@@ -6,14 +6,14 @@ namespace REEL.EAIEditor
     public class EventNameItem : MonoBehaviour
     {
         [SerializeField]
-        private Image eventNameBG;
+        private Image eventNameBG = null;
 
         [SerializeField]
-        private Text eventNameText;
+        private Text eventNameText = null;
 
-        private RectTransform _rectTransform;
+        private RectTransform _rectTransform = null;
 
-        private EventPopup targetEventPopup;
+        private EventPopup targetEventPopup = null;
 
         private Color selectedColor = Color.black;
 

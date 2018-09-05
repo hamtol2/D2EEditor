@@ -16,14 +16,14 @@ namespace REEL.EAIEditor
         void Update()
         {
 #if UNITY_EDITOR
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.A)) BlockDiagramManager.Instance.SetAllSelected();
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.A)) WorkspaceManager.Instance.SetAllSelected();
 
 #else
             if (shouldMultiSelect && Input.GetKeyDown(KeyCode.A)) BlockDiagramManager.Instance.SetAllSelected();
 #endif
 
-            if (Input.GetKeyDown(KeyCode.Delete)) BlockDiagramManager.Instance.DeleteSelected();
-            if (Input.GetKeyDown(KeyCode.Escape)) BlockDiagramManager.Instance.SetAllUnselected();
+            if (Input.GetKeyDown(KeyCode.Delete)) WorkspaceManager.Instance.DeleteSelected();
+            if (Input.GetKeyDown(KeyCode.Escape)) WorkspaceManager.Instance.SetAllUnselected();
 
             if (Input.GetKeyDown(KeyCode.LeftControl)) shouldMultiSelect = true;
             if (Input.GetKeyUp(KeyCode.LeftControl)) shouldMultiSelect = false;
@@ -43,8 +43,8 @@ namespace REEL.EAIEditor
                 if (shouldMultiSelect)
 #endif
                 {
-                    List<GraphItem> selectedBlock = BlockDiagramManager.Instance.GetCurrentSelectedBlockList;
-                    List<GraphLine> selectedLine = BlockDiagramManager.Instance.GetCurrentSelectedLineList;
+                    List<GraphItem> selectedBlock = WorkspaceManager.Instance.GetCurrentSelectedBlockList;
+                    List<GraphLine> selectedLine = WorkspaceManager.Instance.GetCurrentSelectedLineList;
                     
                     ClipBoardContent newContent = new ClipBoardContent(ClipboardType.Copy, selectedBlock, selectedLine);
                     ClipBoardManager.Instance.PushContent(newContent);
@@ -61,8 +61,8 @@ namespace REEL.EAIEditor
 #endif
                 {
                     ClipBoardContent content = ClipBoardManager.Instance.PopContent();
-                    BlockDiagramManager.Instance.DuplicateBlocks(content.blocks);
-                    BlockDiagramManager.Instance.DuplicateLines(content.lines);
+                    WorkspaceManager.Instance.DuplicateBlocks(content.blocks);
+                    WorkspaceManager.Instance.DuplicateLines(content.lines);
                 }
             }
 

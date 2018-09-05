@@ -84,7 +84,7 @@ namespace REEL.EAIEditor
         {
             if (KeyInputManager.Instance.isAltPressed && graphLine)
             {
-                BlockDiagramManager.Instance.RemoveLine(graphLine);
+                WorkspaceManager.Instance.RemoveLine(graphLine);
                 return;
             }
 

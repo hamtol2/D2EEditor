@@ -56,7 +56,7 @@ namespace REEL.EAIEditor
         {
             lineImage = GetComponent<Image>();
             normalColor = lineImage.color;
-            BlockDiagramManager.Instance.AddLine(this);
+            WorkspaceManager.Instance.AddLine(this);
         }
 
         private void UpdateLine()
@@ -104,7 +104,7 @@ namespace REEL.EAIEditor
                 right.SetHasLine(false);
             }
 
-            if (BlockDiagramManager.Instance != null) BlockDiagramManager.Instance.RemoveLine(this);
+            if (WorkspaceManager.Instance != null) WorkspaceManager.Instance.RemoveLine(this);
         }
 
         public void SetLinePoint(LinePoint linePoint)

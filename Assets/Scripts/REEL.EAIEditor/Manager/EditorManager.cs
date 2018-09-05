@@ -18,10 +18,10 @@ namespace REEL.EAIEditor
             Event, Hearing, SayTextBox, HearingTextBox, IFBranch, SwitchBranch, Length
         }
 
-        [SerializeField] private GameObject[] paneObjects;
-        [SerializeField] private MenuPopup[] targetMenuObjects;
-        [SerializeField] private GraphicRaycaster uiRaycaster;
-        [SerializeField] private GraphItem[] nodePrefabs;
+        [SerializeField] private GameObject[] paneObjects = null;
+        [SerializeField] private MenuPopup[] targetMenuObjects = null;
+        [SerializeField] private GraphicRaycaster uiRaycaster = null;
+        [SerializeField] private GraphItem[] nodePrefabs = null;
 
         private Dictionary<NodeType, GraphItem> prefabDictionary = null;
 

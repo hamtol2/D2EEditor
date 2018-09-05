@@ -6,9 +6,9 @@ namespace REEL.EAIEditor
     public class BranchConditionComponent : MonoBehaviour
     {
         [SerializeField]
-        private Dropdown lParamDropdown;
+        private Dropdown lParamDropdown = null;
         [SerializeField]
-        private Dropdown rParamDropdown;
+        private Dropdown rParamDropdown = null;
 
         [SerializeField]
         public InputField leftInputField;

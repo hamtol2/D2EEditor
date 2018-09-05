@@ -8,7 +8,7 @@ namespace REEL.EAIEditor
     public class TextBoxPopup : Popup
     {
         [SerializeField]
-        private InputField inputField;
+        private InputField inputField = null;
 
         public override void OnOKClicked()
         {

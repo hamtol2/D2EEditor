@@ -7,9 +7,9 @@ namespace REEL.EAIEditor
 {
 	public class CreateOrLoadWindow : MonoBehaviour
 	{
-        [SerializeField] private TabManager tabManager;
-        [SerializeField] private GameObject newAndLoadWindow;
-        [SerializeField] private FileExplorer fileExplorerWindow;
+        [SerializeField] private TabManager tabManager = null;
+        [SerializeField] private GameObject newAndLoadWindow = null;
+        [SerializeField] private FileExplorer fileExplorerWindow = null;
 
         public void OnCloseClicked()
         {

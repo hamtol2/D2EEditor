@@ -13,7 +13,7 @@ namespace REEL.EAIEditor
         private int currentBlockNumber = 2;
 
         [SerializeField]
-        private GameObject[] caseBlocks;
+        private GameObject[] caseBlocks = null;
 
         public void SetBlockData(int blockCount, BranchConditionComponent[] switchBlocks)
         {

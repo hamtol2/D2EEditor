@@ -193,7 +193,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114790779177789628}
+      - m_Target: {fileID: 114696275457785028}
         m_MethodName: OnTabClicked
         m_Mode: 1
         m_Arguments:
@@ -219,6 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tabUI: {fileID: 114790779177789628}
   tabData: {fileID: 114774562323711908}
+  tabManager: {fileID: 0}
+  tabID: -1
 --- !u!114 &114774562323711908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -252,9 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedSprite: {fileID: 21300000, guid: 744082275ad87d943a16074f235bb4fd, type: 3}
   unselectedSprite: {fileID: 21300000, guid: 0cb8679011cbd224181979871988d1e1, type: 3}
-  projectNameText: {fileID: 0}
-  tabID: -1
-  tabManager: {fileID: 0}
+  projectNameText: {fileID: 114152624777272278}
   isSelected: 0
   tabName: 
 --- !u!114 &114813967944189700
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114790779177789628}
+      - m_Target: {fileID: 114696275457785028}
         m_MethodName: CloseTab
         m_Mode: 1
         m_Arguments:

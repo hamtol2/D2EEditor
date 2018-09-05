@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 namespace REEL.EAIEditor
 {
+    using TabAddType = TabManager.TabAddType;
+
     public class LoadWindow : FileWindow
     {
         public void LoadFileList()
@@ -48,8 +50,8 @@ namespace REEL.EAIEditor
         {
             if (string.IsNullOrEmpty(inputField.text)) return;
 
-            tabManager.AddTab(selectedProjectFileName);
-            BlockDiagramManager.Instance.LoadFromFile(selectedProjectFileName);
+            tabManager.AddTab(selectedProjectFileName, TabAddType.Load);
+            //WorkspaceManager.Instance.LoadFromFile(selectedProjectFileName);
         }
     }
 }

@@ -7,7 +7,8 @@ using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 
 namespace REEL.EAIEditor
 {
-    public class BlockDiagramManager : Singleton<BlockDiagramManager>
+    // 현재 배치된 블록 및 라인 관리. (로직 관리)
+    public class WorkspaceManager : Singleton<WorkspaceManager>
     {
         public string projectFilePath = "/Data/Project.json";
         public string itemFilePath = "/Data/Block.json";
@@ -79,8 +80,7 @@ namespace REEL.EAIEditor
 
         private void Start()
         {
-            //SaveToFile();
-            //LoadFromFile();
+
         }
 
         public void SetDragOffset(Vector3 pointerPosition)
@@ -111,6 +111,12 @@ namespace REEL.EAIEditor
             {
                 curSelectedItemList[ix].GetComponent<DragItem>().ChangePosition(eventData);
             }
+        }
+
+        public void LoadFromProjectFormat(ProjectFormat project)
+        {
+            CreateBlocks(project.blockArray);
+            CreateLines(project.lineArray);
         }
 
         //public void LoadFromFile()

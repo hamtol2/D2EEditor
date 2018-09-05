@@ -21,19 +21,19 @@ namespace REEL.EAIEditor
         }
 
         [SerializeField]
-        private TextAsset eventListJson;
+        private TextAsset eventListJson = null;
 
         [SerializeField]
-        private RectTransform content;
+        private RectTransform content = null;
 
         [SerializeField]
-        private RectTransform topListPane;
+        private RectTransform topListPane = null;
 
         [SerializeField]
-        private Text categoryTextPrefab;
+        private Text categoryTextPrefab = null;
 
         [SerializeField]
-        private EventNameItem eventNamePrefab;
+        private EventNameItem eventNamePrefab = null;
 
         private float blockHeight = -25f;
         private float leftMargin = 30f;

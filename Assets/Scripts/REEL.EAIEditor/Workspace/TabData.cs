@@ -8,6 +8,11 @@ namespace REEL.EAIEditor
     {
         [SerializeField] private Project project;
 
+        public void CreateNewProject(string projectName)
+        {
+            project = new Project();
+        }
+
         public void LoadProject(string fileName)
         {
             project = new Project();
@@ -15,5 +20,6 @@ namespace REEL.EAIEditor
         }
 
         public Project GetProject { get { return project; } }
+        public ProjectData GetProjectData { get { return project.GetProjectData; } }
     }
 }

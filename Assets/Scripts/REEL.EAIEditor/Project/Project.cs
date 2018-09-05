@@ -6,8 +6,8 @@ using UnityEngine;
 namespace REEL.EAIEditor
 {
     [System.Serializable]
-	public class Project
-	{
+    public class Project
+    {
         [SerializeField] private ProjectData projectData;
 
         private string dataPath = string.Empty;
@@ -22,5 +22,7 @@ namespace REEL.EAIEditor
         {
 
         }
-	}
+
+        public ProjectData GetProjectData { get { return projectData; } }
+    }
 }
