@@ -11,10 +11,6 @@ namespace REEL.EAIEditor
     public class WorkspaceManager : Singleton<WorkspaceManager>
     {
         [SerializeField] private TabManager tabManager;
-        public string projectFilePath = "/Data/Project.json";
-        public string itemFilePath = "/Data/Block.json";
-        public string lineFilePath = "/Data/Line.json";
-
         [SerializeField] private int blockId = 1;
 
         // Block and Line List.
@@ -29,10 +25,7 @@ namespace REEL.EAIEditor
 
         private void Awake()
         {
-            // Set file path.
-            itemFilePath = Application.dataPath + itemFilePath;
-            lineFilePath = Application.dataPath + lineFilePath;
-            projectFilePath = Application.dataPath + projectFilePath;
+            
         }
 
         public int AddBlock(GraphItem graphItem)
@@ -119,27 +112,6 @@ namespace REEL.EAIEditor
             CreateBlocks(project.blockArray);
             CreateLines(project.lineArray);
         }
-
-        //public void LoadFromFile()
-        //public void LoadFromFile(string fileName)
-        //{
-        //    // Load json text and convert to project format.
-        //    //ProjectFormat project = LoadProjectDataFromJson("Test1");
-        //    ProjectFormat project = LoadProjectDataFromJson(fileName);
-
-        //    // create blocks with project format.
-        //    CreateBlocks(project.blockArray);
-
-        //    // create lines with project format.
-        //    CreateLines(project.lineArray);
-        //}
-
-        //private ProjectFormat LoadProjectDataFromJson(string projectName = "")
-        //{
-        //    projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
-        //    projectFilePath = Application.dataPath + "/Data/" + projectName + ".json";
-        //    return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
-        //}
 
         private void CreateBlocks(NodeBlockArray blockData)
         {
@@ -276,53 +248,6 @@ namespace REEL.EAIEditor
 
             return project;
         }
-
-        //void SaveProjectData(string projectName = "")
-        //{
-        //    ProjectFormat project = new ProjectFormat();
-        //    project.projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
-
-        //    project.blockArray = new NodeBlockArray();
-        //    for (int ix = 0; ix < locatedItemList.Count; ++ix)
-        //    {
-        //        NodeBlock block = new NodeBlock()
-        //        {
-        //            id = locatedItemList[ix].BlockID,
-        //            nodeType = locatedItemList[ix].GetNodeType,
-        //            position = locatedItemList[ix].GetComponent<RectTransform>().position
-        //        };
-
-        //        project.BlockAdd(block);
-        //    }
-
-        //    project.lineArray = new LineBlockArray();
-        //    for (int ix = 0; ix < locatedLineList.Count; ++ix)
-        //    {
-        //        int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
-        //        int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
-        //        int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
-
-        //        LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
-        //        project.LineAdd(line);
-        //    }
-
-        //    //string jsonString = JsonUtility.ToJson(project);
-        //    //if (!Directory.Exists(Application.dataPath + "/Data"))
-        //    //{
-        //    //    Directory.CreateDirectory(Application.dataPath + "/Data");
-        //    //}
-
-        //    //projectFilePath = Application.dataPath + "/Data/" + project.projectName + ".json";
-        //    //File.WriteAllText(projectFilePath, jsonString);
-        //}
-
-        //public void SaveToFile(string projectName = "")
-        //{
-        //    if (locatedItemList.Count == 0) return;
-
-        //    // Save Project Data.
-        //    SaveProjectData(projectName);
-        //}
 
         public void SetAllSelected()
         {
