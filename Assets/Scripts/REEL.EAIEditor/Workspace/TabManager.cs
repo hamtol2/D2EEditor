@@ -52,7 +52,7 @@ namespace REEL.EAIEditor
                 foundTab.ReturnToPool(tabItemName, transform);
             }
 
-            RearrangeTabsPosition();
+            RearrangeTabsPosition(true);
         }
 
         private void SetAllTabUnselected()
@@ -65,17 +65,15 @@ namespace REEL.EAIEditor
             WorkspaceManager.Instance.SetAllUnselected();
         }
 
-        public void ChangeTabState(int tabID)
+        public void ChangeTabState(int tabID, bool hasRemoved = false)
         {
-            if (prevSelectedTabIndex.Equals(tabID)) return;
+            if (!hasRemoved && prevSelectedTabIndex.Equals(tabID)) return;
 
-            if (selectedTabIndex != -1)
+            if (prevSelectedTabIndex != -1 && prevSelectedTabIndex < currentTabs.Count)
             {
                 currentTabs[prevSelectedTabIndex].GetTabData.SaveState();
                 SetAllTabUnselected();
             }
-            
-            //SetAllTabUnselected();
 
             selectedTabIndex = tabID;
             currentTabs[selectedTabIndex].ChangeState(true);
@@ -117,10 +115,6 @@ namespace REEL.EAIEditor
 
             newTab.GetTabData.LoadProject(tabName);
 
-            // Test..
-            //ProjectFormat project = newTab.GetTabData.GetProjectData.GetProjectFormat;
-            //WorkspaceManager.Instance.LoadFromProjectFormat(project);
-
             return newTab;
         }
 
@@ -150,7 +144,7 @@ namespace REEL.EAIEditor
             return newTabObj.GetComponent<TabComponent>();
         }
 
-        private void RearrangeTabsPosition()
+        private void RearrangeTabsPosition(bool hasRemoved = false)
         {
             if (currentTabs.Count == 0)
             {
@@ -177,7 +171,7 @@ namespace REEL.EAIEditor
 
             newTabComponent.anchoredPosition = new Vector2(newPos.x + currentTabs[0].GetTabUI.GetTabSize().x + tabOffset, 0f);
 
-            if (currentTabs.Count == 1 || !anyTabSelected) ChangeTabState(0);
+            if (currentTabs.Count == 1 || !anyTabSelected) ChangeTabState(0, hasRemoved);
         }
 
         // Properties.
