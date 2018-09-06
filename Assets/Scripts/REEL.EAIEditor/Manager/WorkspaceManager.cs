@@ -121,25 +121,25 @@ namespace REEL.EAIEditor
         }
 
         //public void LoadFromFile()
-        public void LoadFromFile(string fileName)
-        {
-            // Load json text and convert to project format.
-            //ProjectFormat project = LoadProjectDataFromJson("Test1");
-            ProjectFormat project = LoadProjectDataFromJson(fileName);
+        //public void LoadFromFile(string fileName)
+        //{
+        //    // Load json text and convert to project format.
+        //    //ProjectFormat project = LoadProjectDataFromJson("Test1");
+        //    ProjectFormat project = LoadProjectDataFromJson(fileName);
 
-            // create blocks with project format.
-            CreateBlocks(project.blockArray);
+        //    // create blocks with project format.
+        //    CreateBlocks(project.blockArray);
 
-            // create lines with project format.
-            CreateLines(project.lineArray);
-        }
+        //    // create lines with project format.
+        //    CreateLines(project.lineArray);
+        //}
 
-        private ProjectFormat LoadProjectDataFromJson(string projectName = "")
-        {
-            projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
-            projectFilePath = Application.dataPath + "/Data/" + projectName + ".json";
-            return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
-        }
+        //private ProjectFormat LoadProjectDataFromJson(string projectName = "")
+        //{
+        //    projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
+        //    projectFilePath = Application.dataPath + "/Data/" + projectName + ".json";
+        //    return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
+        //}
 
         private void CreateBlocks(NodeBlockArray blockData)
         {
@@ -179,7 +179,6 @@ namespace REEL.EAIEditor
                 if (leftItem != null && rightItem != null && leftPoint != null && rightPoint != null)
                 {
                     GraphLine newLine = leftPoint.SetLineData(rightPoint);
-                    locatedLineList.Add(newLine);
                 }
             }
         }

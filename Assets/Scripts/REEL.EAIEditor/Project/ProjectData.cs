@@ -47,8 +47,7 @@ namespace REEL.EAIEditor
 
         public void UpdateProjectState(ProjectFormat format)
         {
-            Debug.Log(format.projectName + ", " + format.blockArray.Length);
-            //project = format;
+            project = format;
         }
 
         public void SaveToFile(ProjectFormat format)

@@ -71,7 +71,7 @@ namespace REEL.EAIEditor
 
             if (selectedTabIndex != -1)
             {
-                currentTabs[selectedTabIndex].GetTabData.SaveState();
+                currentTabs[prevSelectedTabIndex].GetTabData.SaveState();
                 SetAllTabUnselected();
             }
             
@@ -118,8 +118,8 @@ namespace REEL.EAIEditor
             newTab.GetTabData.LoadProject(tabName);
 
             // Test..
-            ProjectFormat project = newTab.GetTabData.GetProjectData.GetProjectFormat;
-            WorkspaceManager.Instance.LoadFromProjectFormat(project);
+            //ProjectFormat project = newTab.GetTabData.GetProjectData.GetProjectFormat;
+            //WorkspaceManager.Instance.LoadFromProjectFormat(project);
 
             return newTab;
         }
