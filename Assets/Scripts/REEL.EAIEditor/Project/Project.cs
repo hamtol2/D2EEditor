@@ -12,15 +12,25 @@ namespace REEL.EAIEditor
 
         private string dataPath = string.Empty;
 
+        public Project()
+        {
+            projectData = new ProjectData();
+        }
+
+        public Project(string projectName)
+        {
+            projectData = new ProjectData(projectName);
+        }
+
         public void LoadProject(string fileName)
         {
             projectData = new ProjectData();
             projectData.LoadFromFile(fileName);
         }
 
-        public void SaveProject(string fileName)
+        public void SaveProject(ProjectFormat format)
         {
-
+            projectData.SaveToFile(format);
         }
 
         public ProjectData GetProjectData { get { return projectData; } }

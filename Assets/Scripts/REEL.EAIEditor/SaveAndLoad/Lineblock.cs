@@ -6,8 +6,8 @@ namespace REEL.EAIEditor
     [Serializable]
     public class LineExecutePoint
     {
-        public int blockID = -1;
-        public int executePointID = -1;
+        public int blockID = 0;
+        public int executePointID = 0;
 
         public LineExecutePoint(int blockID)
         {
@@ -47,7 +47,7 @@ namespace REEL.EAIEditor
 
         public int Length
         {
-            get { return lineData.Length; }
+            get { return lineData == null ? -1 : lineData.Length; }
         }
 
         public LineBlock this[int index]

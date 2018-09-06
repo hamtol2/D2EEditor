@@ -10,6 +10,7 @@ namespace REEL.EAIEditor
     // 현재 배치된 블록 및 라인 관리. (로직 관리)
     public class WorkspaceManager : Singleton<WorkspaceManager>
     {
+        [SerializeField] private TabManager tabManager;
         public string projectFilePath = "/Data/Project.json";
         public string itemFilePath = "/Data/Block.json";
         public string lineFilePath = "/Data/Line.json";
@@ -36,7 +37,7 @@ namespace REEL.EAIEditor
 
         public int AddBlock(GraphItem graphItem)
         {
-            graphItem.BlockID = graphItem.BlockID == -1 ? blockId++ : graphItem.BlockID;
+            graphItem.BlockID = graphItem.BlockID == 0 ? blockId++ : graphItem.BlockID;
             locatedItemList.Add(graphItem);
 
             return graphItem.BlockID;
@@ -147,6 +148,8 @@ namespace REEL.EAIEditor
 
             int maxID = blockId;
 
+            if (blockData.Length == -1) return;
+
             for (int ix = 0; ix < blockData.Length; ++ix)
             {
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blockData[ix].nodeType);
@@ -160,6 +163,8 @@ namespace REEL.EAIEditor
 
         private void CreateLines(LineBlockArray lineData)
         {
+            if (lineData.Length == -1) return;
+
             for (int ix = 0; ix < lineData.Length; ++ix)
             {
                 GraphItem leftItem = GetGraphItem(lineData[ix].left.blockID);
@@ -173,7 +178,8 @@ namespace REEL.EAIEditor
 
                 if (leftItem != null && rightItem != null && leftPoint != null && rightPoint != null)
                 {
-                    leftPoint.SetLineData(rightPoint);
+                    GraphLine newLine = leftPoint.SetLineData(rightPoint);
+                    locatedLineList.Add(newLine);
                 }
             }
         }
@@ -240,10 +246,10 @@ namespace REEL.EAIEditor
             return null;
         }
 
-        void SaveProjectData(string projectName = "")
+        public ProjectFormat GetSaveFormat(string projectName = "")
         {
             ProjectFormat project = new ProjectFormat();
-            project.projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
+            project.projectName = projectName;
 
             project.blockArray = new NodeBlockArray();
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
@@ -269,23 +275,55 @@ namespace REEL.EAIEditor
                 project.LineAdd(line);
             }
 
-            string jsonString = JsonUtility.ToJson(project);
-            if (!Directory.Exists(Application.dataPath + "/Data"))
-            {
-                Directory.CreateDirectory(Application.dataPath + "/Data");
-            }
-            
-            projectFilePath = Application.dataPath + "/Data/" + project.projectName + ".json";
-            File.WriteAllText(projectFilePath, jsonString);
+            return project;
         }
 
-        public void SaveToFile(string projectName = "")
-        {
-            if (locatedItemList.Count == 0) return;
+        //void SaveProjectData(string projectName = "")
+        //{
+        //    ProjectFormat project = new ProjectFormat();
+        //    project.projectName = (string.IsNullOrEmpty(projectName) ? "Project" : projectName);
 
-            // Save Project Data.
-            SaveProjectData(projectName);
-        }
+        //    project.blockArray = new NodeBlockArray();
+        //    for (int ix = 0; ix < locatedItemList.Count; ++ix)
+        //    {
+        //        NodeBlock block = new NodeBlock()
+        //        {
+        //            id = locatedItemList[ix].BlockID,
+        //            nodeType = locatedItemList[ix].GetNodeType,
+        //            position = locatedItemList[ix].GetComponent<RectTransform>().position
+        //        };
+
+        //        project.BlockAdd(block);
+        //    }
+
+        //    project.lineArray = new LineBlockArray();
+        //    for (int ix = 0; ix < locatedLineList.Count; ++ix)
+        //    {
+        //        int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
+        //        int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
+        //        int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
+
+        //        LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
+        //        project.LineAdd(line);
+        //    }
+
+        //    //string jsonString = JsonUtility.ToJson(project);
+        //    //if (!Directory.Exists(Application.dataPath + "/Data"))
+        //    //{
+        //    //    Directory.CreateDirectory(Application.dataPath + "/Data");
+        //    //}
+
+        //    //projectFilePath = Application.dataPath + "/Data/" + project.projectName + ".json";
+        //    //File.WriteAllText(projectFilePath, jsonString);
+        //}
+
+        //public void SaveToFile(string projectName = "")
+        //{
+        //    if (locatedItemList.Count == 0) return;
+
+        //    // Save Project Data.
+        //    SaveProjectData(projectName);
+        //}
 
         public void SetAllSelected()
         {
@@ -337,7 +375,7 @@ namespace REEL.EAIEditor
                 }
             }
 
-            return -1;
+            return 0;
         }
 
         public void SetLineUnSelected(GraphLine graphLine)
@@ -390,7 +428,7 @@ namespace REEL.EAIEditor
         {
             int removeIndex = SetBlockUnSelected(graphItem);
 
-            if (removeIndex == -1)
+            if (removeIndex == 0)
             {
                 curSelectedItemList.Add(graphItem);
                 graphItem.SetSelected();
@@ -419,7 +457,7 @@ namespace REEL.EAIEditor
         public int GetCurrentSelectedBlockCount { get { return curSelectedItemList.Count; } }
 
         public List<GraphLine> GetCurrentSelectedLineList { get { return curSelectedLineList; } }
-        public int GetCurrentSelectedLineCount {  get { return curSelectedLineList.Count; } }
+        public int GetCurrentSelectedLineCount { get { return curSelectedLineList.Count; } }
 
         private void DeleteSelectedBlock()
         {
@@ -456,6 +494,36 @@ namespace REEL.EAIEditor
         {
             DeleteSelectedBlock();
             DeleteSelectedLine();
+        }
+
+        public void ReleaseAllLogic()
+        {
+            DeleteAllLoactedBlocks();
+            DeleteAllLocatedLines();
+        }
+
+        private void DeleteAllLoactedBlocks()
+        {
+            if (locatedItemList.Count == 0) return;
+
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                Destroy(locatedItemList[ix].gameObject);
+            }
+
+            locatedItemList = new List<GraphItem>();
+        }
+
+        private void DeleteAllLocatedLines()
+        {
+            if (locatedLineList.Count == 0) return;
+
+            for (int ix = 0; ix < locatedLineList.Count; ++ix)
+            {
+                Destroy(locatedLineList[ix].gameObject);
+            }
+
+            locatedLineList = new List<GraphLine>();
         }
 
         // 드래그로 블록 선택하기.

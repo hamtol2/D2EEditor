@@ -10,13 +10,47 @@ namespace REEL.EAIEditor
 
         public void CreateNewProject(string projectName)
         {
-            project = new Project();
+            project = new Project(projectName);
         }
 
         public void LoadProject(string fileName)
         {
             project = new Project();
             project.LoadProject(fileName);
+        }
+
+        public void SaveProject(ProjectFormat format)
+        {
+            project.SaveProject(format);
+        }
+
+        public void SaveState()
+        {
+            if (!IsValid)
+            {
+                //Debug.Log("SaveState null");
+                return;
+            }
+
+            GetProjectData.UpdateProjectState(WorkspaceManager.Instance.GetSaveFormat(GetProjectData.GetProjectFormat.projectName));
+        }
+
+        public void ChangeState(bool isSelected)
+        {
+            if (isSelected && IsValid)
+            {
+                WorkspaceManager.Instance.LoadFromProjectFormat(GetProjectData.GetProjectFormat);
+            }
+            else if (!isSelected)
+            {
+                //SaveState();
+                WorkspaceManager.Instance.ReleaseAllLogic();
+            }
+        }
+
+        public bool IsValid
+        {
+            get { return GetProjectData != null && GetProjectData.GetProjectFormat != null; }
         }
 
         public Project GetProject { get { return project; } }

@@ -25,7 +25,7 @@ namespace REEL.EAIEditor
 
         public int Length
         {
-            get { return nodeData.Length; }
+            get { return nodeData == null ? -1 : nodeData.Length; }
         }
 
         public NodeBlock this[int index]

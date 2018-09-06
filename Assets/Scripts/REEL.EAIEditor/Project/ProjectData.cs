@@ -9,12 +9,22 @@ namespace REEL.EAIEditor
     using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 
     [System.Serializable]
-	public class ProjectData
-	{
+    public class ProjectData
+    {
         [SerializeField] private string fileName;                       // project file name.
         [SerializeField] private string fileExtension = "json";         // development version format.
 
         [SerializeField] private ProjectFormat project;
+
+        public ProjectData()
+        {
+
+        }
+
+        public ProjectData(string projectName)
+        {
+            fileName = projectName;
+        }
 
         private string SetProjectPath(string fileName)
         {
@@ -35,13 +45,36 @@ namespace REEL.EAIEditor
             project = LoadProjectDataFromJson(fileName);
         }
 
+        public void UpdateProjectState(ProjectFormat format)
+        {
+            Debug.Log(format.projectName + ", " + format.blockArray.Length);
+            //project = format;
+        }
+
+        public void SaveToFile(ProjectFormat format)
+        {
+            if (!Directory.Exists(Application.dataPath + "/Data"))
+                Directory.CreateDirectory(Application.dataPath + "/Data");
+
+            string projectPath = SetProjectPath(format.projectName);
+            string jsonString = JsonUtility.ToJson(format);
+            File.WriteAllText(projectPath, jsonString);
+        }
+
         private ProjectFormat LoadProjectDataFromJson(string projectName = "")
         {
-            fileName = (string.IsNullOrEmpty(projectName) ? "Test" : projectName);
+            fileName = projectName;
             string projectFilePath = SetProjectPath(fileName);
             return JsonUtility.FromJson<ProjectFormat>(File.ReadAllText(projectFilePath));
         }
 
-        public ProjectFormat GetProjectFormat { get { return project; } }
+        public ProjectFormat GetProjectFormat
+        {
+            get
+            {
+                //if (project == null) { project = new ProjectFormat(); }
+                return project;
+            }
+        }
     }
 }

@@ -1979,6 +1979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425c2512ce3713441858d289b0c8aadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tabManager: {fileID: 1712488844}
   projectFilePath: /Data/Project.json
   itemFilePath: /Data/Block.json
   lineFilePath: /Data/Line.json
@@ -31715,6 +31716,7 @@ MonoBehaviour:
   tabOffset: 10
   newTabComponent: {fileID: 1254330127}
   selectedTabIndex: -1
+  prevSelectedTabIndex: -1
   maxTabCount: 5
   tabItemName: tab
 --- !u!1 &1721327784

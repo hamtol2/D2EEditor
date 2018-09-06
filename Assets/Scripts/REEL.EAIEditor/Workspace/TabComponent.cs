@@ -8,7 +8,7 @@ namespace REEL.EAIEditor
         [SerializeField] private TabData tabData;
 
         [SerializeField] private TabManager tabManager;
-        [SerializeField] private int tabID = -1;
+        [SerializeField] private int tabID = 0;
 
         private void Awake()
         {
@@ -34,25 +34,34 @@ namespace REEL.EAIEditor
 
         public void OnTabClicked()
         {
-            if (tabManager) tabManager.ChangeTabState(tabID);
+            if (tabManager)
+            {
+                tabManager.ChangeTabState(tabID);
+            }
+        }
+
+        public void ChangeState(bool isSelected)
+        {
+            tabUI.ChangeState(isSelected);
+            tabData.ChangeState(isSelected);
         }
 
         public void ReturnToPool(string itemName, Transform parent = null)
         {
             GetTabUI.ChangeState(false);
             GetTabUI.SetTabName(string.Empty);
-            SetTabID(-1);
+            tabID = 0;
             ObjectPool.Instance.PushToPool(itemName, gameObject);
         }
 
         // Getter Properties.
         public TabUI GetTabUI { get { return tabUI; } }
         public TabData GetTabData { get { return tabData; } }
-        public int GetTabID { get { return tabID; } }
 
-        public void SetTabID(int id)
+        public int TabID
         {
-            tabID = id;
+            get { return tabID; }
+            set { if (value != -1) tabID = value; }
         }
     }
 }

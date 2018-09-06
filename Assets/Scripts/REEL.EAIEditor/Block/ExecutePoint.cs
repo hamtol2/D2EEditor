@@ -23,7 +23,7 @@ namespace REEL.EAIEditor
         private DragItem dragItem;
 
         [SerializeField] protected bool hasLine = false;
-        [SerializeField] private int executePointID = -1;
+        [SerializeField] private int executePointID = 0;
 
         protected virtual void Awake()
         {
