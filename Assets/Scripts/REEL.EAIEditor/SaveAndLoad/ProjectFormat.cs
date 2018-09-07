@@ -1,4 +1,6 @@
 ﻿// Project File Format.
+using System.Xml.Serialization;
+
 namespace REEL.EAIEditor
 {
     [System.Serializable]

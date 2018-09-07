@@ -1980,9 +1980,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tabManager: {fileID: 1712488844}
-  projectFilePath: /Data/Project.json
-  itemFilePath: /Data/Block.json
-  lineFilePath: /Data/Line.json
   blockId: 1
   locatedItemList: []
   curSelectedItemList: []

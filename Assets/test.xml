@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XMLProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xml>
+    <node xsi:type="XMLStart" type="START" id="0">
+      <title>Start</title>
+      <next>1</next>
+      <value />
+      <position>
+        <x>3.14</x>
+        <y>0.56</y>
+      </position>
+    </node>
+    <node xsi:type="XMLSTT" type="STT" id="1">
+      <title>영화 추천 요청</title>
+      <next>2</next>
+      <value>오늘 영화 뭐 볼까?</value>
+    </node>
+  </xml>
+</XMLProject>

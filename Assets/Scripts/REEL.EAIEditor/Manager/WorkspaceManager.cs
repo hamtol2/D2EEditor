@@ -246,6 +246,8 @@ namespace REEL.EAIEditor
                 project.LineAdd(line);
             }
 
+            //Debug.Log("1: " + locatedLineList.Count + ", 2: " + project.lineArray.Length);
+
             return project;
         }
 
