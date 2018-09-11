@@ -130,6 +130,9 @@ namespace REEL.EAIEditor
             newTab.GetTabData.CreateNewProject(projectName);
             newTab.SetManager(this);
 
+            // Test. Add Entry Block.
+            WorkspaceManager.Instance.AddEntryNode();
+
             return newTab;
         }
 

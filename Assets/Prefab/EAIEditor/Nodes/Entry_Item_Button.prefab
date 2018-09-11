@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 222036085955710968}
   - component: {fileID: 114584346474635964}
   - component: {fileID: 114031565297565680}
-  - component: {fileID: 114231529116557680}
-  - component: {fileID: 114022657267900362}
+  - component: {fileID: 114878419070330776}
+  - component: {fileID: 114387710774681772}
   m_Layer: 5
-  m_Name: SpeechRecognition_Item_Button
+  m_Name: Entry_Item_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,21 +83,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114022657267900362
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114544318149060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c77a8ebdb33b4a4dbe351934ba421fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeType: 11
-  targetMenuType: 2
-  blockID: -1
-  selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
 --- !u!114 &114031565297565680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +106,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
+    m_ColorMultiplier: 2.69
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
@@ -139,17 +124,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114231529116557680
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114544318149060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55f181070a2a34b34ac3438f8e68e4e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114260908363472318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,8 +144,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b898b59bf6e59fd4c97993fe71469211, type: 3}
-    m_FontSize: 12
+    m_Font: {fileID: 12800000, guid: cd4cf85e967da1d44b33788a88b9cfe2, type: 3}
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -182,7 +156,22 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SpeechRec
+  m_Text: Event
+--- !u!114 &114387710774681772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114544318149060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160e0fdc850bca14ca68b6eef68f50be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeType: 0
+  targetMenuType: 0
+  blockID: -1
+  selectedColor: {r: 0.06274509, g: 0.8039216, b: 0.18196124, a: 1}
 --- !u!114 &114444538503690454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,7 +262,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 111491766e3a41e4f9ea37b4a757080e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9453d3e1093d4be4f870560c9993edc6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -281,6 +270,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114878419070330776
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114544318149060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f181070a2a34b34ac3438f8e68e4e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222001807063458000
 CanvasRenderer:
   m_ObjectHideFlags: 1

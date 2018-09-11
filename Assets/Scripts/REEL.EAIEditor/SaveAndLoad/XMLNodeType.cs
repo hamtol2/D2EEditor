@@ -4,10 +4,8 @@ using System.Xml.Serialization;
 using UnityEngine;
 using System;
 
-namespace RonnieJ.Test
+namespace REEL.EAIEditor
 {
-    using REEL.EAIEditor;
-
     [XmlRoot("node"), 
         XmlInclude(typeof(XMLStartNode)), 
         XmlInclude(typeof(XMLSTTNode)), 
@@ -19,15 +17,14 @@ namespace RonnieJ.Test
         XmlInclude(typeof(XMLFacialNode)),
         XmlInclude(typeof(XMLMotionNode)),
         XmlInclude(typeof(XMLVariableNode)),
-        XmlInclude(typeof(XMLTTSNode)),
-        XmlInclude(typeof(XMLSpeechRecognitionNode))]
+        XmlInclude(typeof(XMLTTSNode))]
     [Serializable]
     public class XMLNodeBase
     {
         [XmlAttribute("type")] public NodeType type = NodeType.START;
-        [XmlAttribute("id")] public string id = "7";
-        [XmlElement("title")] public string title = "Start";
-        [XmlElement("next")] public int nextNodeID = 123;
+        [XmlAttribute("id")] public string id = "0";
+        [XmlElement("title")] public string title = string.Empty;
+        [XmlElement("next")] public int nextNodeID = -1;
 
         public XMLNodeBase() { }
         public XMLNodeBase(string id, string title, int nextNodeID)
@@ -147,7 +144,7 @@ namespace RonnieJ.Test
         public XMLSayNode(string id, string title, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            type = NodeType.SAY;
             this.nodeValue = nodeValue;
         }
 
@@ -167,7 +164,7 @@ namespace RonnieJ.Test
         public XMLIFNode(string id, string title, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            type = NodeType.IF;
             this.nodeValue = nodeValue;
         }
 
@@ -187,7 +184,7 @@ namespace RonnieJ.Test
         public XMLFacialNode(string id, string title, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            type = NodeType.FACIAL;
             this.nodeValue = nodeValue;
         }
 
@@ -207,7 +204,7 @@ namespace RonnieJ.Test
         public XMLMotionNode(string id, string title, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            type = NodeType.MOTION;
             this.nodeValue = nodeValue;
         }
 
@@ -221,13 +218,16 @@ namespace RonnieJ.Test
     [Serializable]
     public class XMLVariableNode : XMLNodeBase
     {
+        public enum OperatorType { get, set }
+        [XmlElement("operator")] public string operatorType;
         [XmlElement("value")] public string nodeValue;
 
         public XMLVariableNode() { }
-        public XMLVariableNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLVariableNode(string id, string title, OperatorType opType, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            operatorType = opType.ToString();
+            type = NodeType.VARIABLE;
             this.nodeValue = nodeValue;
         }
 
@@ -247,7 +247,7 @@ namespace RonnieJ.Test
         public XMLTTSNode(string id, string title, string nodeValue, int nextNodeID)
             : base(id, title, nextNodeID)
         {
-            type = NodeType.HEARING;
+            type = NodeType.TTS;
             this.nodeValue = nodeValue;
         }
 
@@ -257,27 +257,6 @@ namespace RonnieJ.Test
             this.nodeValue = nodeValue;
         }
     }
-
-    [Serializable]
-    public class XMLSpeechRecognitionNode : XMLNodeBase
-    {
-        [XmlElement("value")] public string nodeValue;
-
-        public XMLSpeechRecognitionNode() { }
-        public XMLSpeechRecognitionNode(string id, string title, string nodeValue, int nextNodeID)
-            : base(id, title, nextNodeID)
-        {
-            type = NodeType.HEARING;
-            this.nodeValue = nodeValue;
-        }
-
-        public XMLSpeechRecognitionNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
-            : base(type, id, title, nextNodeID)
-        {
-            this.nodeValue = nodeValue;
-        }
-    }
-
 
     [Serializable]
     public class XMLSwitchNode : XMLNodeBase

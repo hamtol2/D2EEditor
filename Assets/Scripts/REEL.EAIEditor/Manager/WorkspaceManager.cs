@@ -11,7 +11,9 @@ namespace REEL.EAIEditor
     public class WorkspaceManager : Singleton<WorkspaceManager>
     {
         [SerializeField] private TabManager tabManager;
-        [SerializeField] private int blockId = 1;
+        [SerializeField] private int blockId = 0;
+
+        [SerializeField] private GameObject entryNodePrefab;
 
         // Block and Line List.
         [SerializeField] private List<GraphItem> locatedItemList = new List<GraphItem>();
@@ -31,6 +33,28 @@ namespace REEL.EAIEditor
         private void Start()
         {
 
+        }
+
+        public void AddEntryNode()
+        {
+            GameObject paneObj = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
+            GraphPane pane = paneObj.GetComponent<GraphPane>();
+
+            Vector3 position = new Vector3(-5f, 3f, 0f);
+            position = Camera.main.WorldToScreenPoint(position);
+            pane.AddNodeItem(entryNodePrefab,  position, NodeType.START);
+
+            //// Create Block on to block pane.
+            //GameObject newObj = Instantiate(itemPrefab);
+            //RectTransform rectTransform = newObj.GetComponent<RectTransform>();
+            //rectTransform.SetParent(blockPane);
+            //rectTransform.position = itemPosition;
+            //rectTransform.localScale = Vector3.one;
+            //GraphItem graphItem = newObj.GetComponent<GraphItem>();
+            //graphItem.BlockID = nodeID;
+
+            //// Add Block Information to Block Diagram Manager.
+            //WorkspaceManager.Instance.AddBlock(graphItem);
         }
 
         public int AddBlock(GraphItem graphItem)
@@ -249,6 +273,28 @@ namespace REEL.EAIEditor
             //Debug.Log("1: " + locatedLineList.Count + ", 2: " + project.lineArray.Length);
 
             return project;
+        }
+
+        public void CompileToXML()
+        {
+            XMLProject project = new XMLProject();
+
+            GraphItem entryItem = GetGraphItemWithType(NodeType.START);
+            ExecutePoint rightPoint = entryItem.transform.GetComponentInChildren<ExecutePoint>();
+            //XMLStartNode start = new XMLStartNode(entryItem.BlockID.ToString(), NodeType.START.ToString(), string.Empty);
+        }
+
+        private GraphItem GetGraphItemWithType(NodeType nodeType)
+        {
+            if (locatedItemList.Count == 0) return null;
+
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                if (locatedItemList[ix].GetNodeType.Equals(nodeType))
+                    return locatedItemList[ix];
+            }
+
+            return null;
         }
 
         public void SetAllSelected()
