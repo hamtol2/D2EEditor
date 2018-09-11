@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XMLProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <xml>
-    <node xsi:type="XMLStart" type="START" id="0">
+    <node xsi:type="XMLStartNode" type="START" id="0">
       <title>Start</title>
       <next>1</next>
       <value />
-      <position>
-        <x>3.14</x>
-        <y>0.56</y>
-      </position>
     </node>
-    <node xsi:type="XMLSTT" type="STT" id="1">
+    <node xsi:type="XMLSTTNode" type="STT" id="1">
       <title>영화 추천 요청</title>
       <next>2</next>
       <value>오늘 영화 뭐 볼까?</value>
+    </node>
+    <node xsi:type="XMLSwitchNode" type="SWITCH" id="6">
+      <title>Genre</title>
+      <switch type="STT" name="">
+        <switch>
+          <case value="액션" next="7" />
+          <case value="멜로" next="8" />
+          <case value="판타지" next="9" />
+          <case value="코미디" next="10" />
+          <default next="11" />
+        </switch>
+      </switch>
     </node>
   </xml>
 </XMLProject>

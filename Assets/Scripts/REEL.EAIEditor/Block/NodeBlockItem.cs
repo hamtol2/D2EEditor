@@ -9,7 +9,7 @@ namespace REEL.EAIEditor
 {
     public enum NodeType
     {
-        Start, Event, Hearing, Say, If, Switch, STT, Facial, Motion, Variable, TTS, SpeechRecognition, Length
+        START, EVENT, HEARING, SAY, IF, SWITCH, STT, FACIAL, MOTION, VARIABLE, TTS, SPEECHRECOGNITION, Length
     }
 
     public class NodeBlockItem : DragItem

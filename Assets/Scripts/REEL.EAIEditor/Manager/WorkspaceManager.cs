@@ -28,9 +28,14 @@ namespace REEL.EAIEditor
             
         }
 
+        private void Start()
+        {
+
+        }
+
         public int AddBlock(GraphItem graphItem)
         {
-            graphItem.BlockID = graphItem.BlockID == 0 ? blockId++ : graphItem.BlockID;
+            graphItem.BlockID = graphItem.BlockID == -1 ? blockId++ : graphItem.BlockID;
             locatedItemList.Add(graphItem);
 
             return graphItem.BlockID;
@@ -70,11 +75,6 @@ namespace REEL.EAIEditor
             }
 
             if (locatedItemList.Count == 0) blockId = 0;
-        }
-
-        private void Start()
-        {
-
         }
 
         public void SetDragOffset(Vector3 pointerPosition)

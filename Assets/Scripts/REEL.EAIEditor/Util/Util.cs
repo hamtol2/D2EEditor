@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using UnityEngine;
 
 namespace REEL.EAIEditor
@@ -71,6 +73,23 @@ namespace REEL.EAIEditor
         public static float Cross(this Vector2 myVector, Vector2 otherVector)
         {
             return myVector.x * otherVector.y - myVector.y * otherVector.x;
+        }
+
+        public static void XMLSerialize<T>(T node, string filePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            StreamWriter writer = new StreamWriter(filePath);
+            serializer.Serialize(writer, node);
+            writer.Close();
+        }
+
+        public static T XMLDeserialize<T>(string path)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            StreamReader reader = new StreamReader(path);
+            T xmlObject = (T)serializer.Deserialize(reader.BaseStream);
+            reader.Close();
+            return xmlObject;
         }
     }
 }

@@ -851,7 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9212a8c64c8c94c43975ee9576dd7333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 4
+  nodeType: 5
   targetMenuType: 5
   blockID: -1
   selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
