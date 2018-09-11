@@ -275,13 +275,50 @@ namespace REEL.EAIEditor
             return project;
         }
 
-        public void CompileToXML()
+        Dictionary<LineExecutePoint, LineExecutePoint> nodeConnectionInfo = new Dictionary<LineExecutePoint, LineExecutePoint>();
+        Dictionary<int, NodeType> nodeIDAndTypeInfo = new Dictionary<int, NodeType>();
+        public void CompileToXML(ProjectFormat projectFormat)
         {
             XMLProject project = new XMLProject();
 
-            GraphItem entryItem = GetGraphItemWithType(NodeType.START);
-            ExecutePoint rightPoint = entryItem.transform.GetComponentInChildren<ExecutePoint>();
+            for (int ix = 0; ix < projectFormat.lineArray.Length; ++ix)
+            {
+                LineBlock line = projectFormat.lineArray[ix];
+                nodeConnectionInfo.Add(line.left, line.right);
+            }
+
+            for (int ix = 0; ix < projectFormat.blockArray.Length; ++ix)
+            {
+                NodeBlock node = projectFormat.blockArray[ix];
+                nodeIDAndTypeInfo.Add(node.id, node.nodeType);
+
+                XMLNodeBase xmlNode = GetXMLNode(node);
+                //xmlNode.nextNodeID = nodeConnectionInfo[]
+                project.AddNode(xmlNode);
+            }
+
+            //GraphItem entryItem = GetGraphItemWithType(NodeType.START);
+            //ExecutePoint rightPoint = entryItem.transform.GetComponentInChildren<ExecutePoint>();
             //XMLStartNode start = new XMLStartNode(entryItem.BlockID.ToString(), NodeType.START.ToString(), string.Empty);
+        }
+
+        private XMLNodeBase GetXMLNode(NodeBlock nodeBlock)
+        {
+            switch (nodeBlock.nodeType)
+            {
+                case NodeType.EVENT: return new XMLEventNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.FACIAL: return new XMLFacialNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.HEARING: return new XMLHearingNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.IF: return new XMLIFNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.MOTION: return new XMLMotionNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.SAY: return new XMLSayNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.START: return new XMLStartNode(nodeBlock.id.ToString(), nodeBlock.nodeType.ToString(), "");
+                case NodeType.STT: return new XMLSTTNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.SWITCH: return new XMLSwitchNode(nodeBlock.id.ToString(), nodeBlock.nodeType.ToString());
+                case NodeType.TTS: return new XMLTTSNode(nodeBlock.id.ToString(), "", "");
+                case NodeType.VARIABLE: return new XMLVariableNode(nodeBlock.id.ToString(), "", XMLVariableNode.OperatorType.get, "");
+                default: return null;
+            }
         }
 
         private GraphItem GetGraphItemWithType(NodeType nodeType)

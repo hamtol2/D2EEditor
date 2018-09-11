@@ -27,14 +27,14 @@ namespace REEL.EAIEditor
         [XmlElement("next")] public int nextNodeID = -1;
 
         public XMLNodeBase() { }
-        public XMLNodeBase(string id, string title, int nextNodeID)
+        public XMLNodeBase(string id, string title, int nextNodeID = -1)
         {
             this.id = id;
             this.title = title;
             this.nextNodeID = nextNodeID;
         }
 
-        public XMLNodeBase(NodeType type, string id, string title, int nextNodeID)
+        public XMLNodeBase(NodeType type, string id, string title, int nextNodeID = -1)
         {
             this.type = type;
             this.id = id;
@@ -49,13 +49,13 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue = "";
 
         public XMLStartNode() { }
-        public XMLStartNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLStartNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             this.type = NodeType.START;
             this.nodeValue = nodeValue;
         }
-        public XMLStartNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLStartNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -68,14 +68,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLSTTNode() { }
-        public XMLSTTNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLSTTNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             this.type = NodeType.STT;
             this.nodeValue = nodeValue;
         }
 
-        public XMLSTTNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLSTTNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -101,14 +101,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLEventNode() { }
-        public XMLEventNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLEventNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.EVENT;
             this.nodeValue = nodeValue;
         }
 
-        public XMLEventNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLEventNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -121,14 +121,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLHearingNode() { }
-        public XMLHearingNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLHearingNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.HEARING;
             this.nodeValue = nodeValue;
         }
 
-        public XMLHearingNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLHearingNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -141,14 +141,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLSayNode() { }
-        public XMLSayNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLSayNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.SAY;
             this.nodeValue = nodeValue;
         }
 
-        public XMLSayNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLSayNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -161,14 +161,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLIFNode() { }
-        public XMLIFNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLIFNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.IF;
             this.nodeValue = nodeValue;
         }
 
-        public XMLIFNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLIFNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -181,14 +181,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLFacialNode() { }
-        public XMLFacialNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLFacialNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.FACIAL;
             this.nodeValue = nodeValue;
         }
 
-        public XMLFacialNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLFacialNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -201,14 +201,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLMotionNode() { }
-        public XMLMotionNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLMotionNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.MOTION;
             this.nodeValue = nodeValue;
         }
 
-        public XMLMotionNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLMotionNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -223,7 +223,7 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLVariableNode() { }
-        public XMLVariableNode(string id, string title, OperatorType opType, string nodeValue, int nextNodeID)
+        public XMLVariableNode(string id, string title, OperatorType opType, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             operatorType = opType.ToString();
@@ -231,7 +231,7 @@ namespace REEL.EAIEditor
             this.nodeValue = nodeValue;
         }
 
-        public XMLVariableNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLVariableNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -244,14 +244,14 @@ namespace REEL.EAIEditor
         [XmlElement("value")] public string nodeValue;
 
         public XMLTTSNode() { }
-        public XMLTTSNode(string id, string title, string nodeValue, int nextNodeID)
+        public XMLTTSNode(string id, string title, string nodeValue, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.TTS;
             this.nodeValue = nodeValue;
         }
 
-        public XMLTTSNode(NodeType type, string id, string title, string nodeValue, int nextNodeID)
+        public XMLTTSNode(NodeType type, string id, string title, string nodeValue, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
             this.nodeValue = nodeValue;
@@ -265,13 +265,13 @@ namespace REEL.EAIEditor
         [XmlAttribute("next"), XmlIgnore] public string nextNodeID;
 
         public XMLSwitchNode() { }
-        public XMLSwitchNode(string id, string title, int nextNodeID)
+        public XMLSwitchNode(string id, string title, int nextNodeID = -1)
             : base(id, title, nextNodeID)
         {
             type = NodeType.SWITCH;
         }
 
-        public XMLSwitchNode(NodeType type, string id, string title, int nextNodeID)
+        public XMLSwitchNode(NodeType type, string id, string title, int nextNodeID = -1)
             : base(type, id, title, nextNodeID)
         {
 
