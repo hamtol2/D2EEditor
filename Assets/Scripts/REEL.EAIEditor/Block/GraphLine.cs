@@ -24,6 +24,7 @@ namespace REEL.EAIEditor
             }
         }
 
+        [System.Serializable]
         public struct ExecutePointInfo
         {
             public int blockID;
@@ -39,8 +40,8 @@ namespace REEL.EAIEditor
         private ExecutePoint left;
         private ExecutePoint right;
 
-        private ExecutePointInfo leftExecutePointInfo;
-        private ExecutePointInfo rightExecutePointInfo;
+        [SerializeField] private ExecutePointInfo leftExecutePointInfo;
+        [SerializeField] private ExecutePointInfo rightExecutePointInfo;
 
         private LinePoint linePoint;
         private Image lineImage;

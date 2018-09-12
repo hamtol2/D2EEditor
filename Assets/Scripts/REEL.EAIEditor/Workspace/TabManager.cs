@@ -88,6 +88,8 @@ namespace REEL.EAIEditor
             projectName = string.IsNullOrEmpty(projectName) ? currentTabs[selectedTabIndex].GetTabUI.GetTabName : projectName;
             ProjectFormat projectSaveFormatData = WorkspaceManager.Instance.GetSaveFormat(projectName);
             currentTabs[selectedTabIndex].GetTabData.SaveProject(projectSaveFormatData);
+
+            WorkspaceManager.Instance.CompileToXML(projectSaveFormatData);
         }
 
         private void UpdateCurrentProject(string projectName)

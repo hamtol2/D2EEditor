@@ -7,9 +7,14 @@ using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 
 namespace REEL.EAIEditor
 {
+    //public enum NodeType
+    //{
+    //    START, EVENT, HEARING, SAY, IF, SWITCH, STT, FACIAL, MOTION, VARIABLE, TTS, Length
+    //}
+
     public enum NodeType
     {
-        START, EVENT, HEARING, SAY, IF, SWITCH, STT, FACIAL, MOTION, VARIABLE, TTS, Length
+        START, SWITCH, STT, TTS, FACIAL, MOTION, VARIABLE, Length
     }
 
     public class NodeBlockItem : DragItem

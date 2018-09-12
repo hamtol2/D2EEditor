@@ -8,7 +8,7 @@ using EPaneType = REEL.EAIEditor.EditorManager.EPaneType;
 namespace REEL.EAIEditor
 {
     // 현재 배치된 블록 및 라인 관리. (로직 관리)
-    public class WorkspaceManager : Singleton<WorkspaceManager>
+    public class WorkspaceManager : Singleton<WorkspaceManager>, IComparer<GraphItem>
     {
         [SerializeField] private TabManager tabManager;
         [SerializeField] private int blockId = 0;
@@ -279,47 +279,112 @@ namespace REEL.EAIEditor
         Dictionary<int, NodeType> nodeIDAndTypeInfo = new Dictionary<int, NodeType>();
         public void CompileToXML(ProjectFormat projectFormat)
         {
+            Debug.Log("CompileToXML");
+
+            locatedItemList.Sort(this);
+
             XMLProject project = new XMLProject();
 
-            for (int ix = 0; ix < projectFormat.lineArray.Length; ++ix)
+            foreach (GraphItem node in locatedItemList)
             {
-                LineBlock line = projectFormat.lineArray[ix];
-                nodeConnectionInfo.Add(line.left, line.right);
+                if (node.GetNodeType == NodeType.SWITCH)
+                {
+                    XMLSwitchNode switchNode = new XMLSwitchNode();
+                    switchNode.nodeID = node.BlockID;
+                    switchNode.nodeType = node.GetNodeType;
+                    switchNode.nodeTitle = node.GetBlockName;
+                    switchNode.xmlSwitch = new XMLSwitch();
+                    switchNode.xmlSwitch.comparerType = NodeType.STT;
+                    switchNode.xmlSwitch.name = "";
+
+                    switchNode.xmlSwitch.switchCase = new List<XMLSwitchCase>();
+
+                    foreach (ExecuteSwitchPoint point in node.executePoints)
+                    {
+                        if (point.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Left) continue;
+
+                        if (point.GetHasLineState)
+                        {
+                            if (point.GetSwitchPointType == ExecuteSwitchPoint.SwitchPointType.Case)
+                            {
+                                XMLCase caseItem = new XMLCase();
+                                caseItem.caseValue = "블랙펜서";
+                                caseItem.nextID = point.GetLineData.GetRightExecutePointInfo.blockID;
+
+                                switchNode.xmlSwitch.switchCase.Add(caseItem);
+                            }
+                            else if (point.GetSwitchPointType == ExecuteSwitchPoint.SwitchPointType.Default)
+                            {
+                                XMLDefault defaultItem = new XMLDefault();
+                                defaultItem.nextID = point.GetLineData.GetRightExecutePointInfo.blockID;
+                                switchNode.xmlSwitch.switchCase.Add(defaultItem);
+                            }
+                        }
+                    }
+
+                    project.AddNode(switchNode);
+                }
+                else if (node.GetNodeType == NodeType.VARIABLE)
+                {
+                    XMLVariableNode varNode = new XMLVariableNode();
+                    varNode.nodeID = node.BlockID;
+                    varNode.nodeTitle = node.GetBlockName;
+                    varNode.nodeName = node.name;
+                    varNode.nodeType = node.GetNodeType;
+                    varNode.nodeValue = node.GetItemData() == null ? "" : node.GetItemData().ToString();
+                    varNode.operatorType = XMLVariableOperatorType.set;
+
+                    if (node.executePoints != null || node.executePoints.Length > 0)
+                    {
+                        foreach (ExecutePoint executePoint in node.executePoints)
+                        {
+                            if (executePoint.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right)
+                                if (executePoint.GetLineData)
+                                    varNode.nextID = executePoint.GetLineData.GetRightExecutePointInfo.blockID;
+                        }
+                    }
+
+                    project.AddNode(varNode);
+                }
+                else
+                {
+                    XMLNode xmlNode = new XMLNode();
+                    xmlNode.nodeType = node.GetNodeType;
+                    xmlNode.nodeID = node.BlockID;
+                    xmlNode.nodeValue = node.GetItemData() == null ? "" : node.GetItemData().ToString();
+                    xmlNode.nodeTitle = node.GetBlockName;
+                    xmlNode.nextID = -1;
+
+                    if (node.executePoints != null || node.executePoints.Length > 0)
+                    {
+                        foreach (ExecutePoint executePoint in node.executePoints)
+                        {
+                            if (executePoint.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right)
+                            {
+                                if (executePoint.GetLineData)
+                                {
+                                    xmlNode.nextID = executePoint.GetLineData.GetRightExecutePointInfo.blockID;
+                                }   
+                            }   
+                        }
+                    }
+
+                    project.AddNode(xmlNode);
+                }
             }
 
-            for (int ix = 0; ix < projectFormat.blockArray.Length; ++ix)
-            {
-                NodeBlock node = projectFormat.blockArray[ix];
-                nodeIDAndTypeInfo.Add(node.id, node.nodeType);
-
-                XMLNodeBase xmlNode = GetXMLNode(node);
-                //xmlNode.nextNodeID = nodeConnectionInfo[]
-                project.AddNode(xmlNode);
-            }
-
-            //GraphItem entryItem = GetGraphItemWithType(NodeType.START);
-            //ExecutePoint rightPoint = entryItem.transform.GetComponentInChildren<ExecutePoint>();
-            //XMLStartNode start = new XMLStartNode(entryItem.BlockID.ToString(), NodeType.START.ToString(), string.Empty);
+            Util.XMLSerialize<XMLProject>(project, Application.dataPath + "/TestProject.xml");
         }
 
-        private XMLNodeBase GetXMLNode(NodeBlock nodeBlock)
+        public int Compare(GraphItem x, GraphItem y)
         {
-            switch (nodeBlock.nodeType)
-            {
-                case NodeType.EVENT: return new XMLEventNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.FACIAL: return new XMLFacialNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.HEARING: return new XMLHearingNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.IF: return new XMLIFNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.MOTION: return new XMLMotionNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.SAY: return new XMLSayNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.START: return new XMLStartNode(nodeBlock.id.ToString(), nodeBlock.nodeType.ToString(), "");
-                case NodeType.STT: return new XMLSTTNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.SWITCH: return new XMLSwitchNode(nodeBlock.id.ToString(), nodeBlock.nodeType.ToString());
-                case NodeType.TTS: return new XMLTTSNode(nodeBlock.id.ToString(), "", "");
-                case NodeType.VARIABLE: return new XMLVariableNode(nodeBlock.id.ToString(), "", XMLVariableNode.OperatorType.get, "");
-                default: return null;
-            }
+            return x.BlockID.CompareTo(y.BlockID);
         }
+
+        //private XMLNodeBase GetXMLNode(NodeBlock nodeBlock)
+        //{
+
+        //}
 
         private GraphItem GetGraphItemWithType(NodeType nodeType)
         {

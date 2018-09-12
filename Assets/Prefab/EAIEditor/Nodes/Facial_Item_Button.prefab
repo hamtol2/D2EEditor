@@ -285,10 +285,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c77a8ebdb33b4a4dbe351934ba421fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 7
+  nodeType: 4
   targetMenuType: 3
   blockID: -1
   selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
+  executePoints:
+  - {fileID: 114444538503690454}
+  - {fileID: 114624774752437938}
 --- !u!114 &114782647975606686
 MonoBehaviour:
   m_ObjectHideFlags: 1

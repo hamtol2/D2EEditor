@@ -270,6 +270,10 @@ MonoBehaviour:
   targetMenuType: 4
   blockID: -1
   selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
+  executePoints:
+  - {fileID: 114990736799969754}
+  - {fileID: 114574951823033656}
+  - {fileID: 114846811183080518}
   ifBranchData:
     lParamType: 3
     rParamType: 3

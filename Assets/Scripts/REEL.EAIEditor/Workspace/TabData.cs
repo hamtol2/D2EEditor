@@ -32,7 +32,10 @@ namespace REEL.EAIEditor
                 return;
             }
 
-            GetProjectData.UpdateProjectState(WorkspaceManager.Instance.GetSaveFormat(GetProjectData.GetProjectFormat.projectName));
+            ProjectFormat format = WorkspaceManager.Instance.GetSaveFormat(GetProjectData.GetProjectFormat.projectName);
+
+            //GetProjectData.UpdateProjectState(WorkspaceManager.Instance.GetSaveFormat(GetProjectData.GetProjectFormat.projectName));
+            GetProjectData.UpdateProjectState(format);
         }
 
         public void ChangeState(bool isSelected)

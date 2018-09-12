@@ -8,7 +8,7 @@ namespace REEL.EAIEditor
 {
     public class GraphItem : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
     {
-        [SerializeField] private NodeType nodeType = NodeType.EVENT;
+        [SerializeField] private NodeType nodeType = NodeType.START;
 
         [SerializeField] private EditorManager.ETargetMenuType targetMenuType = EditorManager.ETargetMenuType.Event;
 
@@ -23,9 +23,13 @@ namespace REEL.EAIEditor
         // block placed id.
         [SerializeField] private int blockID = -1;
 
+        [SerializeField] private string blockName;
+
         private Image image;
         private Color normalColor;
         [SerializeField] private Color selectedColor = Color.yellow;
+
+        public ExecutePoint[] executePoints;
 
         protected void Awake()
         {
@@ -110,6 +114,13 @@ namespace REEL.EAIEditor
         {
             return this.data;
         }
+
+        public void SetBlockName(string name)
+        {
+            blockName = name;
+        }
+
+        public string GetBlockName {  get { return blockName; } }
 
         bool IfMoved { get { return refRectTransform.position != originPosition; } }
         public Rect GetRect { get { return refRectTransform.rect; } }

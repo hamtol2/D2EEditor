@@ -6,7 +6,7 @@ namespace REEL.EAIEditor
     [Serializable]
     public class NodeBlock
     {
-        public NodeType nodeType = NodeType.EVENT;
+        public NodeType nodeType = NodeType.START;
         public int id = -1;
         public string name;
         public Vector2 position;

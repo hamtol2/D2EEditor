@@ -47,7 +47,10 @@ namespace REEL.EAIEditor
             }
 
             if (!hasLine && graphLine)
+            {
                 Destroy(graphLine.gameObject);
+                graphLine = null;
+            }
         }
 
         public GraphLine SetLineData(ExecutePoint rightExecutePoint)
@@ -124,6 +127,15 @@ namespace REEL.EAIEditor
 
         public PointPosition GetPointPosition { get { return pointPosition; } }
         public int GetExecutePointID { get { return executePointID; } }
+
+        public GraphLine GetLineData
+        {
+            get
+            {
+                if (hasLine && graphLine) return graphLine;
+                else return null;
+            }
+        }
 
         public DragItem GetTargetDragItem()
         {

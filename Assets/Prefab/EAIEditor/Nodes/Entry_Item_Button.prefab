@@ -172,6 +172,8 @@ MonoBehaviour:
   targetMenuType: 0
   blockID: -1
   selectedColor: {r: 0.06274509, g: 0.8039216, b: 0.18196124, a: 1}
+  executePoints:
+  - {fileID: 114444538503690454}
 --- !u!114 &114444538503690454
 MonoBehaviour:
   m_ObjectHideFlags: 1
