@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace REEL.EAIEditor
 {
-	public class SwitchNodeWindow : MonoBehaviour
+	public class SwitchNodeWindow : MonoBehaviour, IShowProperty
 	{
-		
-	}
+		public void ShowProperty(GraphItem node)
+        {
+            gameObject.SetActive(true);
+        }
+    }
 }

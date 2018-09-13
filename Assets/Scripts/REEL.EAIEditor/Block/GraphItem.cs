@@ -73,6 +73,9 @@ namespace REEL.EAIEditor
                 && WorkspaceManager.Instance.GetCurrentSelectedBlockCount > 0)
             {
                 WorkspaceManager.Instance.SetOneSelected(this);
+
+                // Test.
+                PropertyWindowManager.Instance.ShowProperty(this);
             }
 
             if (!KeyInputManager.Instance.shouldMultiSelect 
@@ -158,6 +161,20 @@ namespace REEL.EAIEditor
             }
 
             return null;
+        }
+
+        public int GetNextBlockID
+        {
+            get
+            {
+                foreach (ExecutePoint point in executePoints)
+                {
+                    if (point.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right && point.GetHasLineState)
+                        return point.GetLineData.GetRightExecutePointInfo.blockID;
+                }
+
+                return -1;
+            }
         }
     }
 }
