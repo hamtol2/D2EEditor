@@ -23,7 +23,8 @@ namespace REEL.EAIEditor
         // block placed id.
         [SerializeField] private int blockID = -1;
 
-        [SerializeField] private string blockName;
+        [SerializeField] private string blockTitle;
+        
 
         private Image image;
         private Color normalColor;
@@ -118,12 +119,38 @@ namespace REEL.EAIEditor
             return this.data;
         }
 
-        public void SetBlockName(string name)
+        public XMLNode GetXMLNormalData()
         {
-            blockName = name;
+            XMLNode xmlNode = new XMLNode();
+            xmlNode.nodeType = GetNodeType;
+            xmlNode.nodeID = BlockID;
+            xmlNode.nodeValue = GetItemData() == null ? "" : GetItemData().ToString();
+            xmlNode.nodeTitle = GetBlockTitle;
+            xmlNode.nextID = -1;
+
+            if (executePoints != null || executePoints.Length > 0)
+            {
+                foreach (ExecutePoint executePoint in executePoints)
+                {
+                    if (executePoint.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right)
+                    {
+                        if (executePoint.GetLineData)
+                        {
+                            xmlNode.nextID = executePoint.GetLineData.GetRightExecutePointInfo.blockID;
+                        }
+                    }
+                }
+            }
+
+            return xmlNode;
         }
 
-        public string GetBlockName {  get { return blockName; } }
+        public void SetBlockTitle(string title)
+        {
+            blockTitle = title;
+        }
+
+        public string GetBlockTitle { get { return blockTitle; } }
 
         bool IfMoved { get { return refRectTransform.position != originPosition; } }
         public Rect GetRect { get { return refRectTransform.rect; } }

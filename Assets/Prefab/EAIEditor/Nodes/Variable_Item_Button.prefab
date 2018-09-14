@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114584346474635964}
   - component: {fileID: 114031565297565680}
   - component: {fileID: 114231529116557680}
-  - component: {fileID: 114190133795698928}
+  - component: {fileID: 114657464715107822}
   m_Layer: 5
   m_Name: Variable_Item_Button
   m_TagString: Untagged
@@ -142,24 +142,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114190133795698928
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114544318149060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c77a8ebdb33b4a4dbe351934ba421fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeType: 6
-  targetMenuType: 2
-  blockID: -1
-  selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
-  executePoints:
-  - {fileID: 114444538503690454}
-  - {fileID: 114903460872361062}
 --- !u!114 &114231529116557680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,6 +230,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114657464715107822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114544318149060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5689b28512535641b0429a2498f37af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeType: 6
+  targetMenuType: 2
+  blockID: -1
+  blockName: 
+  selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
+  executePoints:
+  - {fileID: 114444538503690454}
+  - {fileID: 114903460872361062}
 --- !u!114 &114701009787093874
 MonoBehaviour:
   m_ObjectHideFlags: 1

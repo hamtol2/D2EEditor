@@ -149,13 +149,27 @@ namespace REEL.EAIEditor
             for (int ix = 0; ix < blockData.Length; ++ix)
             {
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blockData[ix].nodeType);
-                pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType, blockData[ix].id);
+                //pane.AddNodeItem(prefab.gameObject, blockData[ix].position, blockData[ix].nodeType, blockData[ix].id);
+                pane.AddNodeItem(prefab.gameObject, blockData[ix]);
 
                 if (blockData[ix].id >= maxID) maxID = blockData[ix].id + 1;
             }
 
             blockId = maxID;
         }
+
+        class SwitchCount
+        {
+            public int nodeID;
+            public int count;
+
+            public override string ToString()
+            {
+                return "nodeID: " + nodeID.ToString() + ", count: " + count.ToString();
+            }
+        }
+
+        List<SwitchCount> switchCounts = new List<SwitchCount>();
 
         private void CreateLines(LineBlockArray lineData)
         {
@@ -165,6 +179,36 @@ namespace REEL.EAIEditor
             {
                 GraphItem leftItem = GetGraphItem(lineData[ix].left.blockID);
                 GraphItem rightItem = GetGraphItem(lineData[ix].right.blockID);
+
+                if (leftItem.GetNodeType == NodeType.SWITCH)
+                {
+                    if (switchCounts.Count == 0)
+                    {
+                        switchCounts.Add(new SwitchCount() { nodeID = leftItem.BlockID, count = 1 });
+                    }
+
+                    else if (switchCounts.Count == 1 && !switchCounts[0].nodeID.Equals(leftItem.BlockID))
+                    {
+                        switchCounts.Add(new SwitchCount() { nodeID = leftItem.BlockID, count = 1 });
+                    }
+
+                    else
+                    {
+                        bool isProcessed = false;
+                        foreach (SwitchCount item in switchCounts)
+                        {
+                            if (item.nodeID.Equals(leftItem.BlockID))
+                            {
+                                item.count++;
+                                isProcessed = true;
+                                break;
+                            }
+                        }
+
+                        if (!isProcessed)
+                            switchCounts.Add(new SwitchCount() { nodeID = leftItem.BlockID, count = 1 });
+                    }
+                }
 
                 ExecutePoint leftPoint = null;
                 ExecutePoint rightPoint = null;
@@ -176,6 +220,13 @@ namespace REEL.EAIEditor
                 {
                     GraphLine newLine = leftPoint.SetLineData(rightPoint);
                 }
+            }
+
+            foreach (SwitchCount item in switchCounts)
+            {
+                GraphItem node = GetGraphItem(item.nodeID);
+                SwitchBranchItem switchNode = node as SwitchBranchItem;
+                switchNode.SetBlockCount(item.count - 1);
             }
         }
 
@@ -196,7 +247,8 @@ namespace REEL.EAIEditor
                 GraphItem prefab = EditorManager.Instance.GetNodePrefab(blocks[ix].GetNodeType);
                 Vector3 blockPos = blocks[ix].GetComponent<RectTransform>().position;
                 blockPos += new Vector3(25f, -25f, 0f);
-                pane.AddNodeItem(prefab.gameObject, blockPos, blocks[ix].GetNodeType, blockId++);
+                //pane.AddNodeItem(prefab.gameObject, blockPos, blocks[ix].GetNodeType, blockId++);
+                pane.AddNodeItem(prefab.gameObject, blocks[ix], blockPos, blockId++);
 
                 // 추가된 블록 선택.
                 SetSelectedGraphItem(locatedItemList[locatedItemList.Count - 1]);
@@ -249,12 +301,30 @@ namespace REEL.EAIEditor
             project.blockArray = new NodeBlockArray();
             for (int ix = 0; ix < locatedItemList.Count; ++ix)
             {
-                NodeBlock block = new NodeBlock()
+                NodeBlock block = new NodeBlock();
+                block.nodeType = locatedItemList[ix].GetNodeType;
+                block.id = locatedItemList[ix].BlockID;
+                block.title = locatedItemList[ix].GetBlockTitle;
+                block.value = locatedItemList[ix].GetItemData() as string;
+                block.position = locatedItemList[ix].GetComponent<RectTransform>().position;
+
+                if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
                 {
-                    id = locatedItemList[ix].BlockID,
-                    nodeType = locatedItemList[ix].GetNodeType,
-                    position = locatedItemList[ix].GetComponent<RectTransform>().position
-                };
+                    SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
+                    block.switchBlockCount = switchNode.GetBlockCount;
+                    block.switchType = switchNode.GetSwitchType;
+                    for (int jx = 0; jx < switchNode.GetBlockCount; ++jx)
+                    {
+                        ExecuteCasePoint casePoint = switchNode.executePoints[jx + 1] as ExecuteCasePoint;
+                        block.switchBlockValues.Add(casePoint.CaseValue);
+                    }
+                }
+
+                else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
+                {
+                    VariableItem variableNode = locatedItemList[ix] as VariableItem;
+                    block.variableOperator = variableNode.GetOperatorType.ToString();
+                }
 
                 project.BlockAdd(block);
             }
@@ -275,11 +345,9 @@ namespace REEL.EAIEditor
             return project;
         }
 
-        Dictionary<LineExecutePoint, LineExecutePoint> nodeConnectionInfo = new Dictionary<LineExecutePoint, LineExecutePoint>();
-        Dictionary<int, NodeType> nodeIDAndTypeInfo = new Dictionary<int, NodeType>();
         public void CompileToXML(ProjectFormat projectFormat)
         {
-            Debug.Log("CompileToXML");
+            //Debug.Log("CompileToXML");
 
             locatedItemList.Sort(this);
 
@@ -289,87 +357,17 @@ namespace REEL.EAIEditor
             {
                 if (node.GetNodeType == NodeType.SWITCH)
                 {
-                    XMLSwitchNode switchNode = new XMLSwitchNode();
-                    switchNode.nodeID = node.BlockID;
-                    switchNode.nodeType = node.GetNodeType;
-                    switchNode.nodeTitle = node.GetBlockName;
-                    switchNode.xmlSwitch = new XMLSwitch();
-                    switchNode.xmlSwitch.comparerType = NodeType.STT;
-                    switchNode.xmlSwitch.name = "";
-
-                    switchNode.xmlSwitch.switchCase = new List<XMLSwitchCase>();
-
-                    foreach (ExecuteSwitchPoint point in node.executePoints)
-                    {
-                        if (point.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Left) continue;
-
-                        if (point.GetHasLineState)
-                        {
-                            if (point.GetSwitchPointType == ExecuteSwitchPoint.SwitchPointType.Case)
-                            {
-                                XMLCase caseItem = new XMLCase();
-                                caseItem.caseValue = "블랙펜서";
-                                caseItem.nextID = point.GetLineData.GetRightExecutePointInfo.blockID;
-
-                                switchNode.xmlSwitch.switchCase.Add(caseItem);
-                            }
-                            else if (point.GetSwitchPointType == ExecuteSwitchPoint.SwitchPointType.Default)
-                            {
-                                XMLDefault defaultItem = new XMLDefault();
-                                defaultItem.nextID = point.GetLineData.GetRightExecutePointInfo.blockID;
-                                switchNode.xmlSwitch.switchCase.Add(defaultItem);
-                            }
-                        }
-                    }
-
-                    project.AddNode(switchNode);
+                    SwitchBranchItem switchNode = node as SwitchBranchItem;
+                    project.AddNode(switchNode.GetXMLSwitchData());
                 }
                 else if (node.GetNodeType == NodeType.VARIABLE)
                 {
-                    XMLVariableNode varNode = new XMLVariableNode();
-                    varNode.nodeID = node.BlockID;
-                    varNode.nodeTitle = node.GetBlockName;
-                    varNode.nodeName = node.name;
-                    varNode.nodeType = node.GetNodeType;
-                    varNode.nodeValue = node.GetItemData() == null ? "" : node.GetItemData().ToString();
-                    varNode.operatorType = XMLVariableOperatorType.set;
-
-                    if (node.executePoints != null || node.executePoints.Length > 0)
-                    {
-                        foreach (ExecutePoint executePoint in node.executePoints)
-                        {
-                            if (executePoint.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right)
-                                if (executePoint.GetLineData)
-                                    varNode.nextID = executePoint.GetLineData.GetRightExecutePointInfo.blockID;
-                        }
-                    }
-
-                    project.AddNode(varNode);
+                    VariableItem variableNode = node as VariableItem;
+                    project.AddNode(variableNode.GetXMLVariableData());
                 }
                 else
                 {
-                    XMLNode xmlNode = new XMLNode();
-                    xmlNode.nodeType = node.GetNodeType;
-                    xmlNode.nodeID = node.BlockID;
-                    xmlNode.nodeValue = node.GetItemData() == null ? "" : node.GetItemData().ToString();
-                    xmlNode.nodeTitle = node.GetBlockName;
-                    xmlNode.nextID = -1;
-
-                    if (node.executePoints != null || node.executePoints.Length > 0)
-                    {
-                        foreach (ExecutePoint executePoint in node.executePoints)
-                        {
-                            if (executePoint.GetPointPosition == ExecutePoint.PointPosition.ExecutePoint_Right)
-                            {
-                                if (executePoint.GetLineData)
-                                {
-                                    xmlNode.nextID = executePoint.GetLineData.GetRightExecutePointInfo.blockID;
-                                }   
-                            }   
-                        }
-                    }
-
-                    project.AddNode(xmlNode);
+                    project.AddNode(node.GetXMLNormalData());
                 }
             }
 
@@ -380,11 +378,6 @@ namespace REEL.EAIEditor
         {
             return x.BlockID.CompareTo(y.BlockID);
         }
-
-        //private XMLNodeBase GetXMLNode(NodeBlock nodeBlock)
-        //{
-
-        //}
 
         private GraphItem GetGraphItemWithType(NodeType nodeType)
         {
@@ -435,6 +428,9 @@ namespace REEL.EAIEditor
             }
 
             curSelectedLineList = new List<GraphLine>();
+
+            // Test.
+            PropertyWindowManager.Instance.TurnOffAll();
         }
 
         public int SetBlockUnSelected(GraphItem graphItem)

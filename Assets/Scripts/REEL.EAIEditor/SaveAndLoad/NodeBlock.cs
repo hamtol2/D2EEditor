@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace REEL.EAIEditor
 {
@@ -8,12 +9,56 @@ namespace REEL.EAIEditor
     {
         public NodeType nodeType = NodeType.START;
         public int id = -1;
+        public string title;
         public string name;
+        public string value;
+        public string variableOperator;
         public Vector2 position;
+        public NodeType switchType = NodeType.STT;
+        public int switchBlockCount = 0;
+        public SwitchBlockValueArray switchBlockValues = new SwitchBlockValueArray();
 
         public void SetName(string name)
         {
             this.name = name;
+        }
+    }
+
+    [Serializable]
+    public class SwitchBlockValueArray
+    {
+        [SerializeField] private string[] blockValues;
+
+        public int Lengh { get { return blockValues == null ? -1 : blockValues.Length; } }
+
+        public string this[int index]
+        {
+            get { return blockValues[index]; }
+            set { blockValues[index] = value; }
+        }
+
+        public void Add(string value)
+        {
+            if (blockValues == null)
+            {
+                blockValues = new string[1];
+                blockValues[0] = value;
+                return;
+            }
+
+            string[] tempArray = new string[blockValues.Length];
+            for (int ix = 0; ix < tempArray.Length; ++ix)
+            {
+                tempArray[ix] = blockValues[ix];
+            }
+
+            blockValues = new string[tempArray.Length + 1];
+            for (int ix = 0; ix < tempArray.Length; ++ix)
+            {
+                blockValues[ix] = tempArray[ix];
+            }
+
+            blockValues[blockValues.Length - 1] = value;
         }
     }
 

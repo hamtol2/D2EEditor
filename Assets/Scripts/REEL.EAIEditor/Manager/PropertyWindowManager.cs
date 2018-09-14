@@ -21,8 +21,6 @@ namespace REEL.EAIEditor
 
         public void ShowProperty(GraphItem node)
         {
-            //Debug.Log("ShowProperty: " + node);
-
             TurnOffAll();
 
             switch (node.GetNodeType)
