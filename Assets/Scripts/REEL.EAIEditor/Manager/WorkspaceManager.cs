@@ -25,6 +25,8 @@ namespace REEL.EAIEditor
         // 블록 복제할 때 복제 전 블록 ID - 복제 후 블록 ID 쌍 저장용 딕셔너리.
         private Dictionary<int, int> changedIDTable;
 
+        public TabManager GetTabManager { get { return tabManager; } }
+
         private void Awake()
         {
             

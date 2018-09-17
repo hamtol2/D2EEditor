@@ -190,5 +190,6 @@ namespace REEL.EAIEditor
         }
         public string GetCurrentProjectName { get { return GetCurrentTab.GetTabData.GetProjectData.GetProjectFormat.projectName; } }
         public bool CanAddTab { get { return currentTabs.Count < maxTabCount; } }
+        public int CurrentTabCount { get { return currentTabs.Count; } }
     }
 }

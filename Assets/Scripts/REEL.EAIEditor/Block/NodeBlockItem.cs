@@ -43,6 +43,12 @@ namespace REEL.EAIEditor
         {
             base.OnEndDrag(eventData);
 
+            if (WorkspaceManager.Instance.GetTabManager.CurrentTabCount == 0)
+            {
+                SetToOrigin();
+                return;
+            }   
+
             List<RaycastResult> result = new List<RaycastResult>();
             EditorManager.Instance.UIRaycaster.Raycast(eventData, result);
 
