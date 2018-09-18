@@ -34,7 +34,6 @@ namespace REEL.Test
             }
 
             rectTransform = GetComponent<RectTransform>();
-            //Debug.Log(rectTransform + " : " + rectTransform.rect + " : " + rectTransform.anchoredPosition);
         }
 
         void UpdateHeight(Vector2 position)
