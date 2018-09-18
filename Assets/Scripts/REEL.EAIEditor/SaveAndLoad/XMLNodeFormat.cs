@@ -20,7 +20,7 @@ namespace REEL.EAIEditor
     }
 
     [Serializable]
-    [XmlInclude(typeof(XMLNode)), XmlInclude(typeof(XMLSwitchNode)), XmlInclude(typeof(XMLVariableNode))]
+    [XmlInclude(typeof(XMLNode)), XmlInclude(typeof(XMLSwitchNode)), XmlInclude(typeof(XMLVariableNode)), XmlInclude(typeof(XMLIFNode))]
     public class XMLNodeBase { }
 
     // for START, STT, TTS, FACIAL, MOTION.
@@ -107,5 +107,45 @@ namespace REEL.EAIEditor
         [XmlElement("operator")] public XMLVariableOperatorType operatorType;
         [XmlElement("value")] public string nodeValue;
         [XmlElement("next")] public int nextID;
+    }
+
+    [Serializable]
+    public class XMLIFNode : XMLNodeBase
+    {
+        [XmlAttribute("type")] public NodeType nodeType = NodeType.IF;
+        [XmlAttribute("id")] public int nodeID;
+        [XmlElement("title")] public string nodeTitle;
+        [XmlElement("if")] public IFProperty ifProperty;
+    }
+
+    public enum IfOperatorType
+    {
+        Equality, Inequality, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual
+    }
+
+    //Dictionary<IfOperatorType, string> operatorValueTranslator = new Dictionary<IfOperatorType, string>()
+
+    [Serializable]
+    public class IFProperty
+    {
+        [XmlAttribute("type")] public NodeType ifType = NodeType.VARIABLE;
+        [XmlAttribute("name")] public string name;
+        [XmlIgnore] public IfOperatorType operatorType = IfOperatorType.Equality;
+        [XmlAttribute("operator")] public string operatorValue;
+        [XmlAttribute("value")] public string compareValue;
+        [XmlElement("true")] public IFTrue trueValue;
+        [XmlElement("false")] public IFFalse falseValue;
+    }
+
+    [Serializable]
+    public class IFTrue
+    {
+        [XmlAttribute("next")] public int nextID;
+    }
+
+    [Serializable]
+    public class IFFalse
+    {
+        [XmlAttribute("next")] public int nextID;
     }
 }

@@ -107,11 +107,14 @@ namespace REEL.EAIEditor
                 block.value = locatedItemList[ix].GetItemData() as string;
                 block.position = locatedItemList[ix].GetComponent<RectTransform>().position;
 
-                if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
+                NodeType nodeType = locatedItemList[ix].GetNodeType;
+
+                //if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
+                if (nodeType == NodeType.SWITCH)
                 {
                     SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
                     block.switchBlockCount = switchNode.GetBlockCount;
-                    block.switchType = switchNode.GetSwitchType;
+                    block.branchType = switchNode.GetSwitchType;
                     for (int jx = 0; jx < switchNode.GetBlockCount; ++jx)
                     {
                         ExecuteCasePoint casePoint = switchNode.executePoints[jx + 1] as ExecuteCasePoint;
@@ -119,10 +122,18 @@ namespace REEL.EAIEditor
                     }
                 }
 
-                else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
+                //else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
+                else if (nodeType == NodeType.VARIABLE)
                 {
                     VariableItem variableNode = locatedItemList[ix] as VariableItem;
                     block.variableOperator = variableNode.GetOperatorType.ToString();
+                }
+
+                else if (nodeType == NodeType.IF)
+                {
+                    IFBranchItem ifNode = locatedItemList[ix] as IFBranchItem;
+                    block.branchType = NodeType.VARIABLE;
+                    //block.variableOperator = ifNode.GetIFBranchData().opParameter
                 }
 
                 project.BlockAdd(block);
@@ -159,6 +170,11 @@ namespace REEL.EAIEditor
                 {
                     VariableItem variableNode = node as VariableItem;
                     project.AddNode(variableNode.GetXMLVariableData());
+                }
+                else if (node.GetNodeType == NodeType.IF)
+                {
+                    IFBranchItem ifNode = node as IFBranchItem;
+                    project.AddNode(ifNode.GetXMLIFData());
                 }
                 else
                 {

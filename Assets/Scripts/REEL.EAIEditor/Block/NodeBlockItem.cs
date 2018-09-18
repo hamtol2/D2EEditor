@@ -14,7 +14,7 @@ namespace REEL.EAIEditor
 
     public enum NodeType
     {
-        START, SWITCH, STT, TTS, FACIAL, MOTION, VARIABLE, Length
+        START, SWITCH, STT, TTS, FACIAL, MOTION, VARIABLE, IF, Length
     }
 
     public class NodeBlockItem : DragItem
