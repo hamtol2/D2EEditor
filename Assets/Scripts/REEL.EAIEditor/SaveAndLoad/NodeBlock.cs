@@ -14,7 +14,7 @@ namespace REEL.EAIEditor
         public string value;
         public string variableOperator;
         public Vector2 position;
-        public NodeType switchType = NodeType.STT;
+        public NodeType switchType = NodeType.START;
         public int switchBlockCount = 0;
         public SwitchBlockValueArray switchBlockValues = new SwitchBlockValueArray();
 

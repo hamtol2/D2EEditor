@@ -91,5 +91,82 @@ namespace REEL.EAIEditor
             reader.Close();
             return xmlObject;
         }
+
+        public static ProjectFormat GetSaveFormat(List<GraphItem> locatedItemList, List<GraphLine> locatedLineList, string projectName = "")
+        {
+            ProjectFormat project = new ProjectFormat();
+            project.projectName = projectName;
+
+            project.blockArray = new NodeBlockArray();
+            for (int ix = 0; ix < locatedItemList.Count; ++ix)
+            {
+                NodeBlock block = new NodeBlock();
+                block.nodeType = locatedItemList[ix].GetNodeType;
+                block.id = locatedItemList[ix].BlockID;
+                block.title = locatedItemList[ix].GetBlockTitle;
+                block.value = locatedItemList[ix].GetItemData() as string;
+                block.position = locatedItemList[ix].GetComponent<RectTransform>().position;
+
+                if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
+                {
+                    SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
+                    block.switchBlockCount = switchNode.GetBlockCount;
+                    block.switchType = switchNode.GetSwitchType;
+                    for (int jx = 0; jx < switchNode.GetBlockCount; ++jx)
+                    {
+                        ExecuteCasePoint casePoint = switchNode.executePoints[jx + 1] as ExecuteCasePoint;
+                        block.switchBlockValues.Add(casePoint.CaseValue);
+                    }
+                }
+
+                else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
+                {
+                    VariableItem variableNode = locatedItemList[ix] as VariableItem;
+                    block.variableOperator = variableNode.GetOperatorType.ToString();
+                }
+
+                project.BlockAdd(block);
+            }
+
+            project.lineArray = new LineBlockArray();
+            for (int ix = 0; ix < locatedLineList.Count; ++ix)
+            {
+                int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
+                int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
+                int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
+
+                LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
+                project.LineAdd(line);
+            }
+
+            return project;
+        }
+
+        public static void CompileToXML(ProjectFormat projectFormat, List<GraphItem> locatedItemList, IComparer<GraphItem> comparer)
+        {
+            locatedItemList.Sort(comparer);
+
+            XMLProject project = new XMLProject();
+
+            foreach (GraphItem node in locatedItemList)
+            {
+                if (node.GetNodeType == NodeType.SWITCH)
+                {
+                    SwitchBranchItem switchNode = node as SwitchBranchItem;
+                    project.AddNode(switchNode.GetXMLSwitchData());
+                }
+                else if (node.GetNodeType == NodeType.VARIABLE)
+                {
+                    VariableItem variableNode = node as VariableItem;
+                    project.AddNode(variableNode.GetXMLVariableData());
+                }
+                else
+                {
+                    project.AddNode(node.GetXMLNormalData());
+                }
+            }
+
+            Util.XMLSerialize<XMLProject>(project, Application.dataPath + "/Data/TestProject.xml");
+        }
     }
 }

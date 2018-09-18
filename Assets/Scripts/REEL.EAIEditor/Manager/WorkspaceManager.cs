@@ -27,16 +27,6 @@ namespace REEL.EAIEditor
 
         public TabManager GetTabManager { get { return tabManager; } }
 
-        private void Awake()
-        {
-            
-        }
-
-        private void Start()
-        {
-
-        }
-
         public void AddEntryNode()
         {
             GameObject paneObj = EditorManager.Instance.GetPaneObject(EPaneType.Graph_Pane);
@@ -45,18 +35,6 @@ namespace REEL.EAIEditor
             Vector3 position = new Vector3(-5f, 3f, 0f);
             position = Camera.main.WorldToScreenPoint(position);
             pane.AddNodeItem(entryNodePrefab,  position, NodeType.START);
-
-            //// Create Block on to block pane.
-            //GameObject newObj = Instantiate(itemPrefab);
-            //RectTransform rectTransform = newObj.GetComponent<RectTransform>();
-            //rectTransform.SetParent(blockPane);
-            //rectTransform.position = itemPosition;
-            //rectTransform.localScale = Vector3.one;
-            //GraphItem graphItem = newObj.GetComponent<GraphItem>();
-            //graphItem.BlockID = nodeID;
-
-            //// Add Block Information to Block Diagram Manager.
-            //WorkspaceManager.Instance.AddBlock(graphItem);
         }
 
         public int AddBlock(GraphItem graphItem)
@@ -224,6 +202,8 @@ namespace REEL.EAIEditor
                 }
             }
 
+            //Debug.Log("switchCount: " + switchCounts.Count);
+
             foreach (SwitchCount item in switchCounts)
             {
                 GraphItem node = GetGraphItem(item.nodeID);
@@ -297,83 +277,12 @@ namespace REEL.EAIEditor
 
         public ProjectFormat GetSaveFormat(string projectName = "")
         {
-            ProjectFormat project = new ProjectFormat();
-            project.projectName = projectName;
-
-            project.blockArray = new NodeBlockArray();
-            for (int ix = 0; ix < locatedItemList.Count; ++ix)
-            {
-                NodeBlock block = new NodeBlock();
-                block.nodeType = locatedItemList[ix].GetNodeType;
-                block.id = locatedItemList[ix].BlockID;
-                block.title = locatedItemList[ix].GetBlockTitle;
-                block.value = locatedItemList[ix].GetItemData() as string;
-                block.position = locatedItemList[ix].GetComponent<RectTransform>().position;
-
-                if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
-                {
-                    SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
-                    block.switchBlockCount = switchNode.GetBlockCount;
-                    block.switchType = switchNode.GetSwitchType;
-                    for (int jx = 0; jx < switchNode.GetBlockCount; ++jx)
-                    {
-                        ExecuteCasePoint casePoint = switchNode.executePoints[jx + 1] as ExecuteCasePoint;
-                        block.switchBlockValues.Add(casePoint.CaseValue);
-                    }
-                }
-
-                else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
-                {
-                    VariableItem variableNode = locatedItemList[ix] as VariableItem;
-                    block.variableOperator = variableNode.GetOperatorType.ToString();
-                }
-
-                project.BlockAdd(block);
-            }
-
-            project.lineArray = new LineBlockArray();
-            for (int ix = 0; ix < locatedLineList.Count; ++ix)
-            {
-                int leftBlockID = locatedLineList[ix].GetLeftExecutePointInfo.blockID;
-                int leftExecutePointID = locatedLineList[ix].GetLeftExecutePointInfo.executePointID;
-                int rightBlockID = locatedLineList[ix].GetRightExecutePointInfo.blockID;
-
-                LineBlock line = new LineBlock(leftBlockID, leftExecutePointID, rightBlockID);
-                project.LineAdd(line);
-            }
-
-            //Debug.Log("1: " + locatedLineList.Count + ", 2: " + project.lineArray.Length);
-
-            return project;
+            return Util.GetSaveFormat(locatedItemList, locatedLineList, projectName);
         }
 
         public void CompileToXML(ProjectFormat projectFormat)
         {
-            //Debug.Log("CompileToXML");
-
-            locatedItemList.Sort(this);
-
-            XMLProject project = new XMLProject();
-
-            foreach (GraphItem node in locatedItemList)
-            {
-                if (node.GetNodeType == NodeType.SWITCH)
-                {
-                    SwitchBranchItem switchNode = node as SwitchBranchItem;
-                    project.AddNode(switchNode.GetXMLSwitchData());
-                }
-                else if (node.GetNodeType == NodeType.VARIABLE)
-                {
-                    VariableItem variableNode = node as VariableItem;
-                    project.AddNode(variableNode.GetXMLVariableData());
-                }
-                else
-                {
-                    project.AddNode(node.GetXMLNormalData());
-                }
-            }
-
-            Util.XMLSerialize<XMLProject>(project, Application.dataPath + "/TestProject.xml");
+            Util.CompileToXML(projectFormat, locatedItemList, this);
         }
 
         public int Compare(GraphItem x, GraphItem y)
@@ -572,6 +481,18 @@ namespace REEL.EAIEditor
         {
             DeleteAllLoactedBlocks();
             DeleteAllLocatedLines();
+            ReleaseAllSelectedItems();
+            ReleaseAllSelectedLines();
+        }
+
+        private void ReleaseAllSelectedItems()
+        {
+            curSelectedItemList = new List<GraphItem>();
+        }
+
+        private void ReleaseAllSelectedLines()
+        {
+            curSelectedLineList = new List<GraphLine>();
         }
 
         private void DeleteAllLoactedBlocks()
