@@ -23,7 +23,7 @@ namespace REEL.Test
 
         private void LateUpdate()
         {
-            SetVerts();
+            //SetVerts();
         }
 
         void SetVerts()
@@ -58,7 +58,7 @@ namespace REEL.Test
             mesh.colors = new Color[] { Color.red, Color.red, Color.blue, Color.blue };
 
             Material pMat = new Material(material);
-            pMat.color = Color.blue;
+            pMat.color = Color.white;
             //canvasRenderer.Clear();
             canvasRenderer.SetMaterial(pMat, null);
             canvasRenderer.SetMesh(mesh);
