@@ -3960,7 +3960,10 @@ MonoBehaviour:
   eventSystem: {fileID: 295403367}
   raycaster: {fileID: 1711948201}
   isSelected: 0
-  selectedSplitBar: {fileID: 0}
+  resizeHIcon: {fileID: 2800000, guid: bc61aa9a70f12f5468694b639e084e09, type: 3}
+  resizeVIcon: {fileID: 2800000, guid: 07c50be62ef345743a802c05a8a72013, type: 3}
+  cursorMode: 1
+  hotSpot: {x: 0, y: 0}
 --- !u!1 &1401012851
 GameObject:
   m_ObjectHideFlags: 0

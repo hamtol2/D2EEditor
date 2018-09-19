@@ -1,20 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using REEL.EAIEditor;
 
 namespace REEL.Test
 {
-	public class SplitController : MonoBehaviour
-	{
+    public class SplitController : MonoBehaviour
+    {
         public UISplitBar verticalSplitBar;
         public UISplitBar horizontalSplitBar;
         public EventSystem eventSystem;
         public GraphicRaycaster raycaster;
-        PointerEventData data;
         public bool isSelected = false;
-        public UISplitBar selectedSplitBar;
+
+        public Texture2D resizeHIcon;
+        public Texture2D resizeVIcon;
+        public CursorMode cursorMode = CursorMode.Auto;
+        public Vector2 hotSpot = Vector2.zero;
 
         RectTransform rectTransform;
         private float offset = 0f;
@@ -25,30 +27,53 @@ namespace REEL.Test
 
         private void Awake()
         {
-            data = new PointerEventData(eventSystem);
             rectTransform = GetComponent<RectTransform>();
             rectX = rectTransform.position.x;
             rectY = rectTransform.position.y;
             halfWidth = rectTransform.rect.width * 0.5f;
             halfHeight = rectTransform.rect.height * 0.5f;
-            //Debug.Log(GetComponent<RectTransform>().rect);
         }
 
         private void Update()
         {
+            ChangeMouseCursor();
+            ProcessMouseInput();
+        }
+
+        void ChangeMouseCursor()
+        {
+            if (isSelected) return;
+
+            RaycastResult result;
+            if (Util.GetRaycastResult(raycaster, eventSystem, Input.mousePosition, out result))
+            {
+                if (result.gameObject.CompareTag("Player"))
+                {
+                    Cursor.SetCursor(resizeHIcon, new Vector2(23f, 10f), cursorMode);
+                }
+                else if (result.gameObject.CompareTag("Finish"))
+                {
+                    Cursor.SetCursor(resizeVIcon, new Vector2(10f, 23f), cursorMode);
+                }
+                else
+                {
+                    Cursor.SetCursor(null, Vector2.zero, cursorMode);
+                }
+            }
+        }
+
+        void ProcessMouseInput()
+        {
             if (Input.GetMouseButtonDown(0))
             {
-                data.position = Input.mousePosition;
-                List<RaycastResult> results = new List<RaycastResult>();
-                raycaster.Raycast(data, results);
-                foreach (RaycastResult result in results)
+                RaycastResult result;
+                if (Util.GetRaycastResult(raycaster, eventSystem, Input.mousePosition, out result))
                 {
                     if (result.gameObject.CompareTag("Player"))
                     {
                         verticalSplitBar = result.gameObject.GetComponent<UISplitBar>();
                         isSelected = true;
                         offset = verticalSplitBar.GetComponent<RectTransform>().sizeDelta.x * 0.5f;
-                        //offset = selectedSplitBar.sizeDelta.x * 0.5f;
                     }
                     else if (result.gameObject.CompareTag("Finish"))
                     {
@@ -73,15 +98,11 @@ namespace REEL.Test
                     yPos = Mathf.Clamp(yPos, rectY - halfHeight + offset, rectY + halfHeight - offset);
                     horizontalSplitBar.PositionUpdate(new Vector2(horizontalSplitBar.GetComponent<RectTransform>().position.x, yPos));
                 }
-                
-                //Debug.Log((-halfWidth + offset) + " : " + (halfWidth - offset) + ", " + xPos);
-                //selectedTransform.position = new Vector2(xPos, selectedTransform.position.y);
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 isSelected = false;
-                selectedSplitBar = null;
                 verticalSplitBar = horizontalSplitBar = null;
             }
         }

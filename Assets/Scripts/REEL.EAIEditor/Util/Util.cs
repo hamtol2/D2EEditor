@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace REEL.EAIEditor
 {
@@ -75,6 +76,24 @@ namespace REEL.EAIEditor
             return myVector.x * otherVector.y - myVector.y * otherVector.x;
         }
 
+        // UI RayCaster.
+        public static bool GetRaycastResult(BaseRaycaster raycaster, EventSystem eventSystem, Vector2 mousePosition, out RaycastResult result)
+        {
+            result = new RaycastResult();
+            PointerEventData data = new PointerEventData(eventSystem);
+            data.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            raycaster.Raycast(data, results);
+
+            if (results.Count > 0)
+            {
+                result = results[0];
+                return true;
+            }
+
+            else return false;
+        }
+
         public static void XMLSerialize<T>(T node, string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
@@ -109,7 +128,6 @@ namespace REEL.EAIEditor
 
                 NodeType nodeType = locatedItemList[ix].GetNodeType;
 
-                //if (locatedItemList[ix].GetNodeType == NodeType.SWITCH)
                 if (nodeType == NodeType.SWITCH)
                 {
                     SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
@@ -123,7 +141,6 @@ namespace REEL.EAIEditor
                     }
                 }
 
-                //else if (locatedItemList[ix].GetNodeType == NodeType.VARIABLE)
                 else if (nodeType == NodeType.VARIABLE)
                 {
                     VariableItem variableNode = locatedItemList[ix] as VariableItem;
@@ -187,7 +204,7 @@ namespace REEL.EAIEditor
                 }
             }
 
-            Util.XMLSerialize<XMLProject>(project, Application.dataPath + "/Data/TestProject.xml");
+            XMLSerialize<XMLProject>(project, Application.dataPath + "/Data/TestProject.xml");
         }
     }
 }

@@ -320,7 +320,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 21d067474a57c1a4bae4b16b36a1a747, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e4257f7cf714e904a9373456476ed116, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -342,6 +342,7 @@ MonoBehaviour:
   nodeType: 3
   targetMenuType: 2
   blockID: -1
+  blockTitle: 
   selectedColor: {r: 0.8349056, g: 0.922956, b: 1, a: 1}
   executePoints:
   - {fileID: 114444538503690454}
