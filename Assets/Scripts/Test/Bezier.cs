@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -19,6 +20,7 @@ public class Bezier : MonoBehaviour
 
         lineRenderer.sortingLayerID = layerOrder;
         lineRenderer.positionCount = SEGMENT_COUNT + 1;
+        Canvas canvas = new Canvas();
     }
 
     void Update()
