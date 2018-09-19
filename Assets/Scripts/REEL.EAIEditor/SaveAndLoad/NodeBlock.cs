@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 namespace REEL.EAIEditor
 {
+    using IFBranchParamType = BranchCondition.IFBranchParamType;
+
     [Serializable]
     public class NodeBlock
     {
@@ -14,7 +16,8 @@ namespace REEL.EAIEditor
         public string value;
         public string variableOperator;
         public Vector2 position;
-        public NodeType branchType = NodeType.START;
+        public NodeType switchBranchType = NodeType.START;
+        public IFBranchParamType ifBranchType = IFBranchParamType.Variable;
         public int switchBlockCount = 0;
         public SwitchBlockValueArray switchBlockValues = new SwitchBlockValueArray();
         public int trueNextID;

@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace REEL.EAIEditor
 {
+    using IFBranchParamType = BranchCondition.IFBranchParamType;
+    using IFBranchOpParamType = BranchCondition.IFBranchOpParamType;
+
     [Serializable]
     [XmlRoot("xml")]
     public class XMLProject
@@ -118,19 +121,12 @@ namespace REEL.EAIEditor
         [XmlElement("if")] public IFProperty ifProperty;
     }
 
-    public enum IfOperatorType
-    {
-        Equality, Inequality, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual
-    }
-
-    //Dictionary<IfOperatorType, string> operatorValueTranslator = new Dictionary<IfOperatorType, string>()
-
     [Serializable]
     public class IFProperty
     {
-        [XmlAttribute("type")] public NodeType ifType = NodeType.VARIABLE;
+        [XmlAttribute("type")] public IFBranchParamType ifType = IFBranchParamType.Variable;
         [XmlAttribute("name")] public string name;
-        [XmlIgnore] public IfOperatorType operatorType = IfOperatorType.Equality;
+        [XmlIgnore] public IFBranchOpParamType operatorType = IFBranchOpParamType.Equal;
         [XmlAttribute("operator")] public string operatorValue;
         [XmlAttribute("value")] public string compareValue;
         [XmlElement("true")] public IFTrue trueValue;

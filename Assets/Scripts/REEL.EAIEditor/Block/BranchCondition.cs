@@ -23,10 +23,11 @@ namespace REEL.EAIEditor
         public string lParameter = string.Empty;
         public IFBranchOpParamType opParameter;
         public string rParameter = string.Empty;
+        public string nameField = string.Empty;
 
-        public BranchCondition(int lType, int rType, string lParam, int opParam, string rParam)
+        public BranchCondition(string name, int lType, int rType, string lParam, int opParam, string rParam)
         {
-            SetValues(lType, rType, lParam, opParam, rParam);
+            SetValues(name, lType, rType, lParam, opParam, rParam);
         }
 
         public BranchCondition(BranchCondition branchCondition)
@@ -34,8 +35,9 @@ namespace REEL.EAIEditor
             SetValues(branchCondition);
         }
 
-        public void SetValues(int lType, int rType, string lParam, int opParam, string rParam)
+        public void SetValues(string name, int lType, int rType, string lParam, int opParam, string rParam)
         {
+            nameField = name;
             lParamType = (IFBranchParamType)lType;
             rParamType = (IFBranchParamType)rType;
             lParameter = lParam;
@@ -45,6 +47,7 @@ namespace REEL.EAIEditor
 
         public void SetValues(BranchCondition branchCondition)
         {
+            nameField = branchCondition.nameField;
             lParamType = branchCondition.lParamType;
             rParamType = branchCondition.rParamType;
             lParameter = branchCondition.lParameter;

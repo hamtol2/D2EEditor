@@ -9,6 +9,7 @@ namespace REEL.EAIEditor
         [SerializeField] private GeneralNodeWindow generalNodeWindow;
         [SerializeField] private SwitchNodeWindow switchNodeWindow;
         [SerializeField] private VariableNodeWindow variableNodeWindow;
+        [SerializeField] private IfNodeWindow ifNodeWindow;
 
         private List<GameObject> windows = new List<GameObject>();
 
@@ -17,6 +18,7 @@ namespace REEL.EAIEditor
             windows.Add(generalNodeWindow.gameObject);
             windows.Add(switchNodeWindow.gameObject);
             windows.Add(variableNodeWindow.gameObject);
+            windows.Add(ifNodeWindow.gameObject);
         }
 
         public void ShowProperty(GraphItem node)
@@ -27,6 +29,7 @@ namespace REEL.EAIEditor
             {
                 case NodeType.SWITCH: switchNodeWindow.ShowProperty(node); break;
                 case NodeType.VARIABLE: variableNodeWindow.ShowProperty(node); break;
+                case NodeType.IF: ifNodeWindow.ShowProperty(node); break;
                 default: generalNodeWindow.ShowProperty(node); break;
             }
         }

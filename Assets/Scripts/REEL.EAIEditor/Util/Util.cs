@@ -114,7 +114,8 @@ namespace REEL.EAIEditor
                 {
                     SwitchBranchItem switchNode = locatedItemList[ix] as SwitchBranchItem;
                     block.switchBlockCount = switchNode.GetBlockCount;
-                    block.branchType = switchNode.GetSwitchType;
+                    block.switchBranchType = switchNode.GetSwitchType;
+                    block.name = switchNode.GetSwitchName;
                     for (int jx = 0; jx < switchNode.GetBlockCount; ++jx)
                     {
                         ExecuteCasePoint casePoint = switchNode.executePoints[jx + 1] as ExecuteCasePoint;
@@ -127,13 +128,17 @@ namespace REEL.EAIEditor
                 {
                     VariableItem variableNode = locatedItemList[ix] as VariableItem;
                     block.variableOperator = variableNode.GetOperatorType.ToString();
+                    block.name = variableNode.GetBlockName;
                 }
 
                 else if (nodeType == NodeType.IF)
                 {
                     IFBranchItem ifNode = locatedItemList[ix] as IFBranchItem;
-                    block.branchType = NodeType.VARIABLE;
-                    //block.variableOperator = ifNode.GetIFBranchData().opParameter
+                    BranchCondition data = ifNode.GetIFBranchData();
+                    block.name = data.nameField;
+                    block.value = data.rParameter;
+                    block.ifBranchType = data.lParamType;
+                    block.variableOperator = ifNode.GetStringFromOpType(data.opParameter);
                 }
 
                 project.BlockAdd(block);

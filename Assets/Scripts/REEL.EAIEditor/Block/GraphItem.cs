@@ -32,12 +32,12 @@ namespace REEL.EAIEditor
 
         public ExecutePoint[] executePoints;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             Init();
         }
 
-        private void Init()
+        protected virtual void Init()
         {
             refRectTransform = GetComponent<RectTransform>();
             image = GetComponent<Image>();

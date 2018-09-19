@@ -5,17 +5,13 @@ namespace REEL.EAIEditor
 {
     public class BranchConditionComponent : MonoBehaviour
     {
-        [SerializeField]
-        private Dropdown lParamDropdown = null;
-        [SerializeField]
-        private Dropdown rParamDropdown = null;
+        [SerializeField] private InputField nameInputField;
+        [SerializeField] private Dropdown lParamDropdown;
+        [SerializeField] private Dropdown rParamDropdown;
 
-        [SerializeField]
-        public InputField leftInputField;
-        [SerializeField]
-        public InputField rightInputField;
-        [SerializeField]
-        public Dropdown operatorDropdown;
+        [SerializeField] public InputField leftInputField;
+        [SerializeField] public InputField rightInputField;
+        [SerializeField] public Dropdown operatorDropdown;
 
         // Init values.
         private int lDropdownInitValue = 0;
@@ -41,6 +37,7 @@ namespace REEL.EAIEditor
         public BranchCondition GetBranchCondition()
         {
             return new BranchCondition(
+                nameInputField.text,
                 lParamDropdown.value,
                 rParamDropdown.value,
                 leftInputField.text,
@@ -50,6 +47,7 @@ namespace REEL.EAIEditor
 
         public void SetDataToComponent(BranchCondition condition)
         {
+            nameInputField.text = condition.nameField;
             lParamDropdown.value = (int)condition.lParamType;
             rParamDropdown.value = (int)condition.rParamType;
             leftInputField.text = condition.lParameter;

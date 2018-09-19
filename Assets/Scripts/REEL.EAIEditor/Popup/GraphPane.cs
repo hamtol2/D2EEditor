@@ -67,6 +67,7 @@ namespace REEL.EAIEditor
             if (nodeData.nodeType == NodeType.SWITCH)
             {
                 SwitchBranchItem switchNode = graphItem as SwitchBranchItem;
+                switchNode.SetSwitchName(nodeData.name);
                 switchNode.SetBlockCount(nodeData.switchBlockCount);
 
                 for (int ix = 1; ix < nodeData.switchBlockCount + 1; ++ix)
@@ -83,7 +84,17 @@ namespace REEL.EAIEditor
             {
                 VariableItem variableNode = graphItem as VariableItem;
                 variableNode.SetBlockName(nodeData.name);
+                variableNode.SetBlockName(nodeData.name);
                 variableNode.SetOperatorType(nodeData.variableOperator);
+            }
+
+            else if (nodeData.nodeType == NodeType.IF)
+            {
+                IFBranchItem ifNode = graphItem as IFBranchItem;
+                ifNode.SetBlockName(nodeData.name);
+                ifNode.SetOpParamType((int)ifNode.GetOpTypeFromString(nodeData.variableOperator));
+                ifNode.SetRParamValue(nodeData.value);
+                ifNode.SetLParamType((int)nodeData.ifBranchType);
             }
 
             // Add Block Information to Block Diagram Manager.
